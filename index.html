@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OR-Master | Operations Research Interactive Learning Platform</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              800: '#3730a3',
+              900: '#312e81',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- KaTeX for crisp Math formatting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
+    onload="renderAllMath()"></script>
+
+  <style>
+    /* Custom Scrollbars & Utilities */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    
+    .pivot-cell { background-color: #fef08a !important; font-weight: bold; border: 2px solid #ca8a04 !important; }
+    .entering-col { background-color: #ecfdf5 !important; }
+    .leaving-row { background-color: #fef2f2 !important; }
+    .optimal-cell { background-color: #dcfce7 !important; color: #166534 !important; font-weight: bold; }
+    .loop-cell { background-color: #dbeafe !important; border: 2px dashed #2563eb !important; }
+    
+    .tab-active { border-bottom: 3px solid #4f46e5; color: #4f46e5; font-weight: 600; }
+    .nav-btn.active { background-color: #4f46e5; color: white; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col selection:bg-indigo-100 selection:text-indigo-900">
+
+  <!-- TOP APP HEADER & GAMIFIED TASKBAR -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <!-- Logo & Title -->
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white font-black text-xl shadow-md">
+            OR
+          </div>
+          <div>
+            <div class="flex items-center space-x-2">
+              <span class="font-black text-lg tracking-tight text-slate-900">OR-Master</span>
+              <span class="text-xs px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-700 font-semibold uppercase tracking-wider">Elective Pro</span>
+            </div>
+            <p class="text-xs text-slate-500 hidden sm:block">Complete Interactive Learning & Exam Solver Suite</p>
+          </div>
+        </div>
+
+        <!-- Progress Tracker & XP Bar -->
+        <div class="flex items-center space-x-6">
+          <div class="hidden md:flex flex-col items-end">
+            <div class="flex items-center space-x-2 text-xs font-semibold text-slate-600">
+              <span>Syllabus Progress:</span>
+              <span id="progress-percent" class="text-indigo-600 font-bold">0%</span>
+            </div>
+            <div class="w-36 h-2 bg-slate-100 rounded-full overflow-hidden mt-1 border border-slate-200">
+              <div id="progress-bar" class="h-full bg-gradient-to-r from-indigo-500 to-emerald-500 w-0 transition-all duration-500"></div>
+            </div>
+          </div>
+
+          <div class="flex items-center space-x-2 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-lg shadow-sm">
+            <span class="text-lg">⚡</span>
+            <div>
+              <div class="text-xs text-amber-700 font-medium leading-none">OR Points</div>
+              <div id="user-xp" class="text-sm font-bold text-amber-900 leading-tight">0 XP</div>
+            </div>
+          </div>
+
+          <button onclick="resetUserProgress()" title="Reset Progress" class="text-xs text-slate-400 hover:text-rose-600 transition p-1">
+            ↺ Reset
+          </button>
+        </div>
+      </div>
+
+      <!-- MAIN NAVIGATION TASKBAR -->
+      <nav class="flex space-x-1 overflow-x-auto py-2 scrollbar-none border-t border-slate-100 text-sm font-medium text-slate-600">
+        <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn px-3 py-1.5 rounded-lg whitespace-nowrap active transition">🏠 Dashboard</button>
+        <button onclick="switchTab('mod1-theory')" id="nav-mod1-theory" class="nav-btn px-3 py-1.5 rounded-lg whitespace-nowrap transition">📘 Mod 1: Linear Programming</button>
+        <button onclick="switchTab('mod2-theory')" id="nav-mod2-theory" class="nav-btn px-3 py-1.5 rounded-lg whitespace-nowrap transition">🚚 Mod 2: Networks & Sequencing</button>
+        <button onclick="switchTab('solvers')" id="nav-solvers" class="nav-btn px-3 py-1.5 rounded-lg whitespace-nowrap transition">🧮 Interactive Solvers</button>
+        <button onclick="switchTab('puzzles')" id="nav-puzzles" class="nav-btn px-3 py-1.5 rounded-lg whitespace-nowrap transition">🧠 Zero-Pen Puzzles (25+)</button>
+        <button onclick="switchTab('exam-quizzes')" id="nav-exam-quizzes" class="nav-btn px-3 py-1.5 rounded-lg whitespace-nowrap transition">🎯 Exam Quizzes</button>
+        <button onclick="switchTab('cheatsheet')" id="nav-cheatsheet" class="nav-btn px-3 py-1.5 rounded-lg whitespace-nowrap transition">📑 Exam Cheat-Sheet</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN VIEWPORT CONTAINER -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+    <!-- ========================================== -->
+    <!-- 1. DASHBOARD VIEW -->
+    <!-- ========================================== -->
+    <section id="view-dashboard" class="space-y-6">
+      <!-- Hero Welcome Card -->
+      <div class="bg-gradient-to-r from-indigo-700 via-indigo-800 to-slate-900 rounded-2xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+        <div class="relative z-10 max-w-2xl">
+          <span class="px-3 py-1 rounded-full bg-indigo-500/30 text-indigo-200 text-xs font-semibold uppercase tracking-wider border border-indigo-400/30">Complete University Syllabus Companion</span>
+          <h1 class="text-3xl sm:text-4xl font-black mt-3 leading-tight">Master Operations Research Without Memorization</h1>
+          <p class="mt-3 text-indigo-100 text-sm sm:text-base leading-relaxed">
+            Exhaustive interactive guides for Linear Programming, Simplex, Big-M, Transportation (VAM/MODI), Hungarian Assignment, and Job Sequencing. Test your intuition with zero-pen oral puzzles!
+          </p>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <button onclick="switchTab('mod1-theory')" class="px-5 py-2.5 bg-white text-indigo-700 rounded-xl font-bold text-sm shadow-md hover:bg-indigo-50 transition">Start Module 1</button>
+            <button onclick="switchTab('solvers')" class="px-5 py-2.5 bg-indigo-600/80 text-white rounded-xl font-bold text-sm border border-indigo-400/30 hover:bg-indigo-600 transition">Open Interactive Solvers</button>
+            <button onclick="switchTab('puzzles')" class="px-5 py-2.5 bg-amber-500 text-slate-950 rounded-xl font-bold text-sm shadow-md hover:bg-amber-400 transition">⚡ Quick Mental Puzzles</button>
+          </div>
+        </div>
+        <div class="absolute right-0 top-0 bottom-0 w-1/3 opacity-10 pointer-events-none flex items-center justify-center font-black text-9xl">
+          $$ \sum $$
+        </div>
+      </div>
+
+      <!-- Quick Roadmap Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Module 1 Card -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition">
+          <div class="flex justify-between items-start">
+            <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-xl border border-blue-100">01</div>
+            <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">12 Hours Exam Scope</span>
+          </div>
+          <h2 class="text-xl font-bold text-slate-900 mt-4">Module 1: Linear Programming</h2>
+          <p class="text-sm text-slate-600 mt-2">Formulation, Graphical 2D, Simplex Tableau, Big-M Penalty Method, Two-Phase Method, and Degeneracy/Infeasibility detection.</p>
+          <div class="mt-4 space-y-2 text-xs text-slate-500">
+            <div class="flex items-center justify-between py-1 border-b border-slate-100">
+              <span>• Graphical 2D Solver & 4 Edge Cases</span>
+              <span class="text-emerald-600 font-semibold">Included</span>
+            </div>
+            <div class="flex items-center justify-between py-1 border-b border-slate-100">
+              <span>• Standard Simplex Multi-Tableau Stepper</span>
+              <span class="text-emerald-600 font-semibold">Included</span>
+            </div>
+            <div class="flex items-center justify-between py-1">
+              <span>• Big-M & Two-Phase Infeasibility Rules</span>
+              <span class="text-emerald-600 font-semibold">Included</span>
+            </div>
+          </div>
+          <button onclick="switchTab('mod1-theory')" class="mt-5 w-full py-2 bg-slate-50 hover:bg-indigo-50 hover:text-indigo-600 text-slate-700 font-semibold text-sm rounded-xl border border-slate-200 transition text-center">
+            Explore Module 1 Lessons →
+          </button>
+        </div>
+
+        <!-- Module 2 Card -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition">
+          <div class="flex justify-between items-start">
+            <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-xl border border-emerald-100">02</div>
+            <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">10 Hours Exam Scope</span>
+          </div>
+          <h2 class="text-xl font-bold text-slate-900 mt-4">Module 2: Transportation & Scheduling</h2>
+          <p class="text-sm text-slate-600 mt-2">Transportation (NWCR, LCM, VAM, MODI), Hungarian Assignment (Min/Max/TSP), and Job Sequencing (Johnson 2/3 machines & 2-Job Graphical).</p>
+          <div class="mt-4 space-y-2 text-xs text-slate-500">
+            <div class="flex items-center justify-between py-1 border-b border-slate-100">
+              <span>• VAM Penalty Calculation & MODI UV Loop</span>
+              <span class="text-emerald-600 font-semibold">Included</span>
+            </div>
+            <div class="flex items-center justify-between py-1 border-b border-slate-100">
+              <span>• Hungarian Min Line Covering Algorithm</span>
+              <span class="text-emerald-600 font-semibold">Included</span>
+            </div>
+            <div class="flex items-center justify-between py-1">
+              <span>• Johnson Rule & 2-Job 2D Conflict Graph</span>
+              <span class="text-emerald-600 font-semibold">Included</span>
+            </div>
+          </div>
+          <button onclick="switchTab('mod2-theory')" class="mt-5 w-full py-2 bg-slate-50 hover:bg-emerald-50 hover:text-emerald-600 text-slate-700 font-semibold text-sm rounded-xl border border-slate-200 transition text-center">
+            Explore Module 2 Lessons →
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 2. MODULE 1 THEORY & MICRO-LESSONS -->
+    <!-- ========================================== -->
+    <section id="view-mod1-theory" class="hidden space-y-8">
+      <div class="flex justify-between items-center border-b border-slate-200 pb-4">
+        <div>
+          <h2 class="text-2xl font-black text-slate-900">Module 1: Linear Programming (Complete Syllabus)</h2>
+          <p class="text-sm text-slate-600">All formulas, step-by-step algorithms, multi-iteration tables, and recognition triggers.</p>
+        </div>
+        <button onclick="switchTab('solvers')" class="px-4 py-2 bg-indigo-600 text-white rounded-lg text-xs font-bold hover:bg-indigo-700 transition">
+          Launch Simplex Solver 🧮
+        </button>
+      </div>
+
+      <!-- Topic 1.1: Intro & Formulation -->
+      <article class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-indigo-600 uppercase tracking-wide">Topic 1.1</span>
+          <label class="flex items-center space-x-2 text-xs text-slate-500 cursor-pointer">
+            <input type="checkbox" onchange="toggleTopicCompletion('t1_1')" id="chk-t1_1" class="rounded text-indigo-600">
+            <span>Mark as Studied</span>
+          </label>
+        </div>
+        <h3 class="text-xl font-bold text-slate-900">Introduction to OR & Mathematical Formulation</h3>
+        
+        <p class="text-sm text-slate-600 leading-relaxed">
+          <strong>Operations Research (OR)</strong> is the systematic application of quantitative mathematical methods to decision-making problems. An LPP has three foundational pillars:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+          <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+            <div class="font-bold text-slate-800 text-sm mb-1">1. Decision Variables</div>
+            <p class="text-slate-600">Quantities to be determined (e.g. \(x_1, x_2\)). Must be non-negative: \(x_j \ge 0\).</p>
+          </div>
+          <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+            <div class="font-bold text-slate-800 text-sm mb-1">2. Objective Function</div>
+            <p class="text-slate-600">Single linear equation to maximize profit or minimize cost: \(\text{Max/Min } Z = \sum c_j x_j\).</p>
+          </div>
+          <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+            <div class="font-bold text-slate-800 text-sm mb-1">3. Structural Constraints</div>
+            <p class="text-slate-600">Linear restrictions on resource consumption: \(\sum a_{ij} x_j \le b_i\) or \(\ge b_i\).</p>
+          </div>
+        </div>
+
+        <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-xl text-xs space-y-1">
+          <div class="font-bold text-amber-900">Key Assumptions of LPP (Exam Favourites):</div>
+          <ul class="list-disc list-inside text-amber-800 space-y-1">
+            <li><strong>Proportionality:</strong> Output/profit scales strictly linearly with variable value (no bulk discounts).</li>
+            <li><strong>Additivity:</strong> Total resource usage equals the direct sum of individual usages (no synergistic effects).</li>
+            <li><strong>Divisibility:</strong> Solutions can be continuous fractions (e.g., 2.75 hours).</li>
+            <li><strong>Certainty:</strong> All coefficients (\(c_j, a_{ij}, b_i\)) are deterministic constants.</li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- Topic 1.2: Graphical Method -->
+      <article class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-indigo-600 uppercase tracking-wide">Topic 1.2</span>
+          <label class="flex items-center space-x-2 text-xs text-slate-500 cursor-pointer">
+            <input type="checkbox" onchange="toggleTopicCompletion('t1_2')" id="chk-t1_2" class="rounded text-indigo-600">
+            <span>Mark as Studied</span>
+          </label>
+        </div>
+        <h3 class="text-xl font-bold text-slate-900">Graphical Method & The 4 Special Cases (2 Variables)</h3>
+        
+        <p class="text-sm text-slate-600">
+          The Graphical method is applicable when there are <strong>exactly 2 decision variables</strong>. The optimal solution always lies at one of the <strong>Corner Points (Vertices)</strong> of the convex feasible region.
+        </p>
+
+        <!-- 4 Cases Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+          <div class="p-3 border border-slate-200 rounded-xl bg-slate-50">
+            <div class="font-bold text-indigo-700 mb-1">1. Unique Optimal Solution</div>
+            <p class="text-slate-600">A single distinct corner point maximizes/minimizes the objective value \(Z\).</p>
+          </div>
+          <div class="p-3 border border-slate-200 rounded-xl bg-slate-50">
+            <div class="font-bold text-indigo-700 mb-1">2. Multiple / Alternative Optima</div>
+            <p class="text-slate-600">Occurs when the objective line is <strong>parallel to a binding constraint line</strong>: \(-\frac{c_1}{c_2} = -\frac{a_{11}}{a_{12}}\). Infinite points along the line segment are optimal.</p>
+          </div>
+          <div class="p-3 border border-slate-200 rounded-xl bg-slate-50">
+            <div class="font-bold text-indigo-700 mb-1">3. Unbounded Solution</div>
+            <p class="text-slate-600">Feasible space is open to infinity in the direction of optimization. \(Z \to \infty\).</p>
+          </div>
+          <div class="p-3 border border-slate-200 rounded-xl bg-slate-50">
+            <div class="font-bold text-indigo-700 mb-1">4. Infeasible Solution</div>
+            <p class="text-slate-600">No overlapping area satisfies all constraints simultaneously (feasible region is empty \(\emptyset\)).</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- Topic 1.3: Standard Simplex Method -->
+      <article class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-indigo-600 uppercase tracking-wide">Topic 1.3</span>
+          <label class="flex items-center space-x-2 text-xs text-slate-500 cursor-pointer">
+            <input type="checkbox" onchange="toggleTopicCompletion('t1_3')" id="chk-t1_3" class="rounded text-indigo-600">
+            <span>Mark as Studied</span>
+          </label>
+        </div>
+        <h3 class="text-xl font-bold text-slate-900">Standard Simplex Method (All \(\le\) Constraints)</h3>
+        
+        <p class="text-sm text-slate-600">
+          Used when all RHS \(b_i \ge 0\) and all constraints are \(\le\). Add non-negative <strong>Slack Variables</strong> \(S_i \ge 0\) with objective coefficient \(0\).
+        </p>
+
+        <!-- Tableau Algorithm Flow -->
+        <div class="p-4 bg-slate-900 text-slate-200 rounded-xl text-xs space-y-2 font-mono">
+          <div class="text-emerald-400 font-bold font-sans text-sm">Simplex Tableau Execution Rules:</div>
+          <div>1. Compute \(Z_j = \sum C_{Bi} a_{ij}\)</div>
+          <div>2. Compute Indicator / Net Evaluation: \(\Delta_j = C_j - Z_j\)</div>
+          <div>3. Optimality Check (Max Z): If ALL \(C_j - Z_j \le 0\) &rarr; STOP! OPTIMAL SOLUTION REACHED.</div>
+          <div>4. Entering Variable (Key Column): Max positive \(C_j - Z_j\)</div>
+          <div>5. Leaving Variable (Key Row): \(\theta = \min \left\{ \frac{X_{Bi}}{a_{ik}} : a_{ik} > 0 \right\}\)</div>
+          <div>6. Pivot Element: \(p = \text{Intersection of Key Row & Key Col}\)</div>
+          <div>7. Row Transform: \(R_{pivot}^{(new)} = \frac{R_{pivot}^{(old)}}{p}\), \(R_i^{(new)} = R_i^{(old)} - a_{ik} R_{pivot}^{(new)}\)</div>
+        </div>
+      </article>
+
+      <!-- Topic 1.4: Big-M & Two-Phase -->
+      <article class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-indigo-600 uppercase tracking-wide">Topic 1.4 & 1.5</span>
+          <label class="flex items-center space-x-2 text-xs text-slate-500 cursor-pointer">
+            <input type="checkbox" onchange="toggleTopicCompletion('t1_4')" id="chk-t1_4" class="rounded text-indigo-600">
+            <span>Mark as Studied</span>
+          </label>
+        </div>
+        <h3 class="text-xl font-bold text-slate-900">Big-M (Penalty Cost) & Two-Phase Methods</h3>
+        
+        <p class="text-sm text-slate-600">
+          When constraints contain \(\ge\) or \(=\), slack variables alone cannot form an initial identity basis matrix.
+        </p>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs border border-slate-200 text-left">
+            <thead class="bg-slate-100 text-slate-700">
+              <tr>
+                <th class="p-2 border">Constraint Type</th>
+                <th class="p-2 border">Variables Introduced</th>
+                <th class="p-2 border">Coeff in Max Z</th>
+                <th class="p-2 border">Coeff in Min Z</th>
+                <th class="p-2 border">Initial Basis</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="p-2 border font-mono">\(\le b_i\)</td>
+                <td class="p-2 border font-mono">+ S_i</td>
+                <td class="p-2 border font-mono">0</td>
+                <td class="p-2 border font-mono">0</td>
+                <td class="p-2 border font-mono">S_i</td>
+              </tr>
+              <tr class="bg-amber-50/50">
+                <td class="p-2 border font-mono">\(\ge b_i\)</td>
+                <td class="p-2 border font-mono">- S_i \text{ (Surplus)} + A_i \text{ (Artificial)}</td>
+                <td class="p-2 border font-mono">-M</td>
+                <td class="p-2 border font-mono">+M</td>
+                <td class="p-2 border font-mono">A_i</td>
+              </tr>
+              <tr>
+                <td class="p-2 border font-mono">= b_i</td>
+                <td class="p-2 border font-mono">+ A_i \text{ (Artificial)}</td>
+                <td class="p-2 border font-mono">-M</td>
+                <td class="p-2 border font-mono">+M</td>
+                <td class="p-2 border font-mono">A_i</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="p-4 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-900 space-y-1">
+          <div class="font-bold text-rose-800">🚨 Infeasibility Test in Big-M / Two-Phase:</div>
+          <p>If the final simplex table satisfies the optimality condition (\(C_j - Z_j \le 0\)) <strong>BUT at least one artificial variable \(A_k\) remains in the basis with a positive value (\(X_{Bk} > 0\))</strong>, the problem has <strong>NO FEASIBLE SOLUTION (Infeasible)</strong>.</p>
+        </div>
+      </article>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 3. MODULE 2 THEORY & MICRO-LESSONS -->
+    <!-- ========================================== -->
+    <section id="view-mod2-theory" class="hidden space-y-8">
+      <div class="flex justify-between items-center border-b border-slate-200 pb-4">
+        <div>
+          <h2 class="text-2xl font-black text-slate-900">Module 2: Transportation, Assignment & Sequencing</h2>
+          <p class="text-sm text-slate-600">Complete methods: VAM, MODI (u-v), Hungarian Algorithm, and Johnson's Job Sequencing.</p>
+        </div>
+        <button onclick="switchTab('solvers')" class="px-4 py-2 bg-emerald-600 text-white rounded-lg text-xs font-bold hover:bg-emerald-700 transition">
+          Launch Network Solvers 🚚
+        </button>
+      </div>
+
+      <!-- Topic 2.1: Transportation -->
+      <article class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-emerald-600 uppercase tracking-wide">Topic 2.1</span>
+          <label class="flex items-center space-x-2 text-xs text-slate-500 cursor-pointer">
+            <input type="checkbox" onchange="toggleTopicCompletion('t2_1')" id="chk-t2_1" class="rounded text-emerald-600">
+            <span>Mark as Studied</span>
+          </label>
+        </div>
+        <h3 class="text-xl font-bold text-slate-900">Transportation Problem (IBFS & MODI Optimality)</h3>
+        
+        <p class="text-sm text-slate-600">
+          Shipping from \(m\) origins (supply \(a_i\)) to \(n\) destinations (demand \(b_j\)) at minimum total cost \(\sum \sum c_{ij} x_{ij}\).
+        </p>
+
+        <!-- IBFS Methods vs MODI -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+            <div class="font-bold text-indigo-700 text-sm">Step 1: Finding Initial Solution (IBFS)</div>
+            <p><strong>1. North-West Corner (NWCR):</strong> Allocate top-left cell \((1,1)\), ignore costs.</p>
+            <p><strong>2. Least Cost Method (LCM):</strong> Greedily allocate to \(\min(c_{ij})\).</p>
+            <p><strong>3. Vogel's Approximation (VAM):</strong> Calculate row & column penalties (difference between 2 lowest costs). Allocate to lowest cost cell in max penalty line.</p>
+          </div>
+
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+            <div class="font-bold text-emerald-700 text-sm">Step 2: MODI (u-v) Optimality Test</div>
+            <p>1. Check non-degeneracy: \(\text{Allocations} = m + n - 1\).</p>
+            <p>2. Set \(u_1 = 0\). For allocated cells: \(u_i + v_j = c_{ij}\).</p>
+            <p>3. For unallocated cells: \(\Delta_{ij} = c_{ij} - (u_i + v_j)\).</p>
+            <p>4. If all \(\Delta_{ij} \ge 0\) &rarr; <strong>OPTIMAL</strong>! If any \(\Delta_{ij} < 0\), draw a closed \(\pm \theta\) loop.</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- Topic 2.2: Assignment Problem -->
+      <article class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-emerald-600 uppercase tracking-wide">Topic 2.2</span>
+          <label class="flex items-center space-x-2 text-xs text-slate-500 cursor-pointer">
+            <input type="checkbox" onchange="toggleTopicCompletion('t2_2')" id="chk-t2_2" class="rounded text-emerald-600">
+            <span>Mark as Studied</span>
+          </label>
+        </div>
+        <h3 class="text-xl font-bold text-slate-900">Assignment Problem & Hungarian Algorithm</h3>
+        
+        <p class="text-sm text-slate-600">
+          Assigning \(n\) resources to \(n\) activities on a strictly 1-to-1 basis to minimize total cost.
+        </p>
+
+        <!-- Hungarian Algorithm Steps -->
+        <ol class="list-decimal list-inside text-xs text-slate-700 space-y-1.5 p-4 bg-slate-50 rounded-xl border border-slate-200">
+          <li><strong>Square Matrix Check:</strong> If \(m \ne n\), add dummy row/col with zero costs.</li>
+          <li><strong>Row Reduction:</strong> Subtract each row's minimum element from all elements in that row.</li>
+          <li><strong>Column Reduction:</strong> Subtract each column's minimum element from all elements in that column.</li>
+          <li><strong>Line Covering:</strong> Draw the minimum number of horizontal/vertical lines (\(L\)) to cover all zeros.
+            <ul class="list-disc list-inside ml-4 text-slate-500">
+              <li>If \(L = n\) &rarr; Optimal reached! Make zero assignments.</li>
+              <li>If \(L < n\) &rarr; Find min uncovered element \(k\). Subtract \(k\) from uncovered cells, add \(k\) to intersection cells, leave single-covered cells unchanged. Repeat line covering.</li>
+            </ul>
+          </li>
+          <li><strong>Zero Assignment:</strong> Box unique zeros \([0]\) in rows/cols and cross out \((\times)\) competing zeros.</li>
+        </ol>
+      </article>
+
+      <!-- Topic 2.3: Job Sequencing -->
+      <article class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-emerald-600 uppercase tracking-wide">Topic 2.3</span>
+          <label class="flex items-center space-x-2 text-xs text-slate-500 cursor-pointer">
+            <input type="checkbox" onchange="toggleTopicCompletion('t2_3')" id="chk-t2_3" class="rounded text-emerald-600">
+            <span>Mark as Studied</span>
+          </label>
+        </div>
+        <h3 class="text-xl font-bold text-slate-900">Sequencing Problems (Johnson's Rule & Graphical 2-Job)</h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+          <!-- Johnson Rule -->
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+            <div class="font-bold text-slate-800 text-sm">Johnson's Algorithm (n Jobs, 2 Machines A &rarr; B)</div>
+            <p>1. Find minimum processing time across both machines.</p>
+            <p>2. If minimum time is on <strong>Machine A</strong> &rarr; Schedule job <strong>FIRST (Left)</strong>.</p>
+            <p>3. If minimum time is on <strong>Machine B</strong> &rarr; Schedule job <strong>LAST (Right)</strong>.</p>
+            <p>4. Eliminate scheduled job and repeat.</p>
+          </div>
+
+          <!-- 3 Machines Condition -->
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+            <div class="font-bold text-slate-800 text-sm">n Jobs, 3 Machines (A &rarr; B &rarr; C) Conversion</div>
+            <p>Condition: \(\min(A_i) \ge \max(B_i)\) OR \(\min(C_i) \ge \max(B_i)\).</p>
+            <p>If valid, create fictitious machines: \(G_i = A_i + B_i\) and \(H_i = B_i + C_i\). Apply Johnson's Rule on \(G\) and \(H\).</p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 4. INTERACTIVE STEP-BY-STEP SOLVERS -->
+    <!-- ========================================== -->
+    <section id="view-solvers" class="hidden space-y-6">
+      <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-4">
+        <div>
+          <h2 class="text-2xl font-black text-slate-900">Interactive Operations Research Solvers</h2>
+          <p class="text-sm text-slate-600">Visual tableaus, live pivot transformations, and Gantt charts.</p>
+        </div>
+        <div class="flex space-x-2">
+          <button onclick="switchSolverTab('simplex')" id="btn-solver-simplex" class="px-3 py-1.5 bg-indigo-600 text-white rounded-lg text-xs font-bold">Simplex Stepper</button>
+          <button onclick="switchSolverTab('vam')" id="btn-solver-vam" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold">VAM & MODI</button>
+          <button onclick="switchSolverTab('hungarian')" id="btn-solver-hungarian" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold">Hungarian AP</button>
+          <button onclick="switchSolverTab('sequencing')" id="btn-solver-sequencing" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold">Gantt Sequencing</button>
+        </div>
+      </div>
+
+      <!-- SOLVER 1: SIMPLEX TABLEAU STEPPER -->
+      <div id="solver-simplex-panel" class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900">Simplex Multi-Iteration Tableau Stepper</h3>
+            <p class="text-xs text-slate-500">Problem: \(\text{Max } Z = 3x_1 + 5x_2 + 4x_3\) subject to \(2x_1+3x_2 \le 8, 2x_2+5x_3 \le 10, 3x_1+2x_2+4x_3 \le 15\)</p>
+          </div>
+          <div class="flex items-center space-x-2">
+            <button onclick="prevSimplexStep()" id="btn-simplex-prev" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold">◀ Prev Iteration</button>
+            <span id="simplex-iter-label" class="text-xs font-bold px-3 py-1.5 bg-indigo-50 text-indigo-700 rounded-lg border border-indigo-200">Iteration 1 of 4</span>
+            <button onclick="nextSimplexStep()" id="btn-simplex-next" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold">Next Iteration ▶</button>
+          </div>
+        </div>
+
+        <!-- Rendered Tableau -->
+        <div class="overflow-x-auto border border-slate-200 rounded-xl">
+          <div id="simplex-table-container" class="p-4 text-xs font-mono"></div>
+        </div>
+
+        <div id="simplex-step-explanation" class="p-4 bg-indigo-50 border border-indigo-200 rounded-xl text-xs text-indigo-900 leading-relaxed"></div>
+      </div>
+
+      <!-- SOLVER 2: VAM & MODI TRANSPORTATION -->
+      <div id="solver-vam-panel" class="hidden bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+        <h3 class="text-lg font-bold text-slate-900">Transportation Problem (VAM & MODI Visualizer)</h3>
+        <p class="text-xs text-slate-500">3 Origins, 4 Destinations Cost Matrix with Supply & Demand</p>
+
+        <div class="overflow-x-auto border border-slate-200 rounded-xl p-4">
+          <table class="w-full text-xs text-center border-collapse">
+            <thead>
+              <tr class="bg-slate-100 text-slate-700">
+                <th class="p-2 border">Origin / Dest</th>
+                <th class="p-2 border">D1</th>
+                <th class="p-2 border">D2</th>
+                <th class="p-2 border">D3</th>
+                <th class="p-2 border">D4</th>
+                <th class="p-2 border bg-emerald-50">Supply</th>
+                <th class="p-2 border bg-indigo-50">VAM Penalty</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="p-2 border font-bold bg-slate-50">O1</td>
+                <td class="p-2 border">19</td>
+                <td class="p-2 border">30</td>
+                <td class="p-2 border optimal-cell">50 [Alloc: 5]</td>
+                <td class="p-2 border">10</td>
+                <td class="p-2 border font-bold">7</td>
+                <td class="p-2 border font-bold text-indigo-700">9</td>
+              </tr>
+              <tr>
+                <td class="p-2 border font-bold bg-slate-50">O2</td>
+                <td class="p-2 border optimal-cell">70 [Alloc: 2]</td>
+                <td class="p-2 border">30</td>
+                <td class="p-2 border optimal-cell">40 [Alloc: 7]</td>
+                <td class="p-2 border">60</td>
+                <td class="p-2 border font-bold">9</td>
+                <td class="p-2 border font-bold text-indigo-700">10</td>
+              </tr>
+              <tr>
+                <td class="p-2 border font-bold bg-slate-50">O3</td>
+                <td class="p-2 border optimal-cell">40 [Alloc: 3]</td>
+                <td class="p-2 border optimal-cell">8 [Alloc: 8]</td>
+                <td class="p-2 border">70</td>
+                <td class="p-2 border optimal-cell">20 [Alloc: 7]</td>
+                <td class="p-2 border font-bold">18</td>
+                <td class="p-2 border font-bold text-indigo-700">12 (Max)</td>
+              </tr>
+              <tr class="bg-emerald-50 font-bold">
+                <td class="p-2 border">Demand</td>
+                <td class="p-2 border">5</td>
+                <td class="p-2 border">8</td>
+                <td class="p-2 border">7</td>
+                <td class="p-2 border">14</td>
+                <td class="p-2 border bg-emerald-100">Total = 34</td>
+                <td class="p-2 border">-</td>
+              </tr>
+              <tr class="bg-indigo-50 font-bold text-indigo-700">
+                <td class="p-2 border">VAM Penalty</td>
+                <td class="p-2 border">21</td>
+                <td class="p-2 border">22</td>
+                <td class="p-2 border">10</td>
+                <td class="p-2 border">10</td>
+                <td class="p-2 border">-</td>
+                <td class="p-2 border">VAM Opt</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-900">
+          <strong>IBFS Cost (VAM):</strong> \(Z = 19(5) + 10(2) + 40(7) + 8(8) + 20(7) = \mathbf{779}\). All \(m+n-1 = 3+4-1 = 6\) allocations non-degenerate.
+        </div>
+      </div>
+
+      <!-- SOLVER 3: HUNGARIAN ASSIGNMENT -->
+      <div id="solver-hungarian-panel" class="hidden bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+        <h3 class="text-lg font-bold text-slate-900">Hungarian Algorithm 4x4 Assignment Visualizer</h3>
+        <p class="text-xs text-slate-500">Step-by-step matrix reduction and line covering.</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-mono">
+          <div class="p-3 border rounded-xl bg-slate-50">
+            <div class="font-bold text-slate-800 mb-2 font-sans">1. Original Matrix</div>
+            <pre>
+10  12  19  11
+ 5  10   7   8
+12  14  13  11
+ 8  15  11   9</pre>
+          </div>
+          <div class="p-3 border rounded-xl bg-slate-50">
+            <div class="font-bold text-slate-800 mb-2 font-sans">2. Row & Col Reduced</div>
+            <pre>
+ 0   0   7   1
+ 0   3   0   3
+ 1   1   0   0
+ 0   5   1   1</pre>
+          </div>
+          <div class="p-3 border rounded-xl bg-emerald-50 border-emerald-200 text-emerald-900">
+            <div class="font-bold mb-2 font-sans">3. Optimal Match (4 Lines)</div>
+            <p><strong>A &rarr; Job 2</strong> (Cost 12)</p>
+            <p><strong>B &rarr; Job 3</strong> (Cost 7)</p>
+            <p><strong>C &rarr; Job 4</strong> (Cost 11)</p>
+            <p><strong>D &rarr; Job 1</strong> (Cost 8)</p>
+            <div class="font-bold mt-2 font-sans text-sm">Total Min Cost = 38</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SOLVER 4: GANTT SEQUENCING -->
+      <div id="solver-sequencing-panel" class="hidden bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+        <h3 class="text-lg font-bold text-slate-900">Johnson's 2-Machine Job Sequencing & Gantt Chart</h3>
+        <p class="text-xs text-slate-500">5 Jobs on Machines A & B (Order A &rarr; B)</p>
+
+        <!-- Gantt Timeline -->
+        <div class="space-y-3 text-xs">
+          <div>
+            <div class="font-bold text-slate-700 mb-1">Machine A Timeline:</div>
+            <div class="flex h-8 rounded-lg overflow-hidden border border-slate-300 font-bold text-white text-center">
+              <div class="bg-blue-600 flex items-center justify-center" style="width: 15%">J1 (3)</div>
+              <div class="bg-indigo-600 flex items-center justify-center" style="width: 25%">J4 (5)</div>
+              <div class="bg-purple-600 flex items-center justify-center" style="width: 20%">J5 (4)</div>
+              <div class="bg-pink-600 flex items-center justify-center" style="width: 30%">J3 (6)</div>
+              <div class="bg-rose-600 flex items-center justify-center" style="width: 10%">J2 (2)</div>
+            </div>
+          </div>
+          <div>
+            <div class="font-bold text-slate-700 mb-1">Machine B Timeline:</div>
+            <div class="flex h-8 rounded-lg overflow-hidden border border-slate-300 font-bold text-white text-center">
+              <div class="bg-slate-200 text-slate-500 flex items-center justify-center" style="width: 15%">Idle (3)</div>
+              <div class="bg-blue-500 flex items-center justify-center" style="width: 30%">J1 (6)</div>
+              <div class="bg-indigo-500 flex items-center justify-center" style="width: 20%">J4 (4)</div>
+              <div class="bg-purple-500 flex items-center justify-center" style="width: 15%">J5 (3)</div>
+              <div class="bg-pink-500 flex items-center justify-center" style="width: 10%">J3 (2)</div>
+              <div class="bg-rose-500 flex items-center justify-center" style="width: 10%">J2 (2)</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-3 bg-indigo-50 border border-indigo-200 rounded-xl text-xs text-indigo-900 flex justify-between font-bold">
+          <span>Optimal Sequence: J1 &rarr; J4 &rarr; J5 &rarr; J3 &rarr; J2</span>
+          <span>Makespan T = 22 hrs | Machine B Idle = 5 hrs</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 5. ZERO-PEN ORAL PUZZLE ARENA (25+ PUZZLES) -->
+    <!-- ========================================== -->
+    <section id="view-puzzles" class="hidden space-y-6">
+      <div class="flex justify-between items-center border-b border-slate-200 pb-4">
+        <div>
+          <h2 class="text-2xl font-black text-slate-900">🧠 Zero-Pen Mental Puzzles Arena</h2>
+          <p class="text-sm text-slate-600">Solve these conceptually in your head without touching a pen! Click to reveal logic and earn XP.</p>
+        </div>
+        <span class="text-xs font-bold px-3 py-1.5 bg-amber-100 text-amber-800 rounded-lg">Earn +10 XP per puzzle</span>
+      </div>
+
+      <!-- Puzzle Card Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="puzzle-cards-container">
+        <!-- Puzzles will be injected by JavaScript -->
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 6. EXAM DIAGNOSTIC QUIZZES -->
+    <!-- ========================================== -->
+    <section id="view-exam-quizzes" class="hidden space-y-6">
+      <div class="flex justify-between items-center border-b border-slate-200 pb-4">
+        <div>
+          <h2 class="text-2xl font-black text-slate-900">🎯 University Exam Assessment Quizzes</h2>
+          <p class="text-sm text-slate-600">Instant feedback, solution explanations, and score tracking.</p>
+        </div>
+        <div id="quiz-score-badge" class="text-xs font-bold px-3 py-1.5 bg-indigo-50 text-indigo-700 rounded-lg border border-indigo-200">
+          Quiz Score: 0 / 10
+        </div>
+      </div>
+
+      <div class="space-y-4" id="quiz-container">
+        <!-- Quiz questions will be dynamically rendered -->
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 7. EXAM CHEAT-SHEET -->
+    <!-- ========================================== -->
+    <section id="view-cheatsheet" class="hidden space-y-6">
+      <div class="border-b border-slate-200 pb-4">
+        <h2 class="text-2xl font-black text-slate-900">📑 Operations Research Exam Master Cheat-Sheet</h2>
+        <p class="text-sm text-slate-600">Printable 1-page quick formula reference and trap detector.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
+        <!-- Simplex Traps -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+          <h3 class="font-bold text-slate-900 text-sm border-b pb-2 text-indigo-700">Simplex Special Cases Cheat-Sheet</h3>
+          <ul class="space-y-2 text-slate-600">
+            <li><strong>Optimal Solution:</strong> All \(C_j - Z_j \le 0\) (for Max) or \(\ge 0\) (for Min).</li>
+            <li><strong>Infeasible Solution:</strong> Optimality condition satisfied, BUT artificial variable \(A_k\) is still in basis with \(X_B > 0\).</li>
+            <li><strong>Unbounded Solution:</strong> In key column, all entries \(a_{ik} \le 0\). (No valid \(\theta = X_B / a_{ik}\)).</li>
+            <li><strong>Alternative Optima:</strong> A non-basic variable has \(C_j - Z_j = 0\) at the optimal table.</li>
+            <li><strong>Degeneracy:</strong> Tie in minimum ratio rule \(\theta\). Basic variable becomes \(0\) in next iteration.</li>
+          </ul>
+        </div>
+
+        <!-- Transportation & Assignment -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+          <h3 class="font-bold text-slate-900 text-sm border-b pb-2 text-emerald-700">Transportation & Assignment Cheat-Sheet</h3>
+          <ul class="space-y-2 text-slate-600">
+            <li><strong>Non-degeneracy in TP:</strong> Must have exactly \(m + n - 1\) allocations. If less, add \(\epsilon \approx 0\).</li>
+            <li><strong>MODI Optimality:</strong> For empty cells \(\Delta_{ij} = c_{ij} - (u_i + v_j) \ge 0\).</li>
+            <li><strong>Maximization TP/AP:</strong> Subtract all values from matrix maximum \(c'_{ij} = \max(C) - c_{ij}\).</li>
+            <li><strong>Hungarian Line Rule:</strong> If lines \(L < n\), subtract min uncovered \(k\) from uncovered cells and add to intersections.</li>
+            <li><strong>Johnson 3-Machine Rule:</strong> Valid if \(\min(A) \ge \max(B)\) OR \(\min(C) \ge \max(B)\).</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500 mt-auto">
+    <div class="max-w-7xl mx-auto px-4">
+      <p class="font-medium text-slate-700">OR-Master — Operations Research Open Elective Learning Platform</p>
+      <p class="mt-1">Deployable to GitHub & Vercel | Standalone Pure Web App</p>
+    </div>
+  </footer>
+
+  <!-- SCRIPT LOGIC & SOLVERS DATA -->
+  <script>
+    // State Persistence
+    let userXP = parseInt(localStorage.getItem('or_xp') || '0');
+    let completedTopics = JSON.parse(localStorage.getItem('or_topics') || '[]');
+    let solvedPuzzles = JSON.parse(localStorage.getItem('or_puzzles') || '[]');
+
+    function updateXP(amount) {
+      userXP += amount;
+      localStorage.setItem('or_xp', userXP);
+      document.getElementById('user-xp').innerText = `${userXP} XP`;
+    }
+
+    function toggleTopicCompletion(topicId) {
+      if (completedTopics.includes(topicId)) {
+        completedTopics = completedTopics.filter(t => t !== topicId);
+      } else {
+        completedTopics.push(topicId);
+        updateXP(25);
+      }
+      localStorage.setItem('or_topics', JSON.stringify(completedTopics));
+      calculateProgress();
+    }
+
+    function calculateProgress() {
+      const totalTopics = 7;
+      const pct = Math.round((completedTopics.length / totalTopics) * 100);
+      document.getElementById('progress-percent').innerText = `${pct}%`;
+      document.getElementById('progress-bar').style.width = `${pct}%`;
+
+      // Update checkboxes
+      completedTopics.forEach(id => {
+        const el = document.getElementById(`chk-${id}`);
+        if (el) el.checked = true;
+      });
+    }
+
+    function resetUserProgress() {
+      if (confirm("Reset all learning progress and XP?")) {
+        localStorage.clear();
+        userXP = 0;
+        completedTopics = [];
+        solvedPuzzles = [];
+        document.getElementById('user-xp').innerText = '0 XP';
+        calculateProgress();
+        renderPuzzles();
+        renderQuizzes();
+      }
+    }
+
+    // Navigation Switcher
+    function switchTab(tabId) {
+      const views = ['dashboard', 'mod1-theory', 'mod2-theory', 'solvers', 'puzzles', 'exam-quizzes', 'cheatsheet'];
+      views.forEach(v => {
+        const el = document.getElementById(`view-${v}`);
+        const btn = document.getElementById(`nav-${v}`);
+        if (el) el.classList.toggle('hidden', v !== tabId);
+        if (btn) btn.classList.toggle('active', v === tabId);
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      renderAllMath();
+    }
+
+    function switchSolverTab(solverId) {
+      const solvers = ['simplex', 'vam', 'hungarian', 'sequencing'];
+      solvers.forEach(s => {
+        const el = document.getElementById(`solver-${s}-panel`);
+        const btn = document.getElementById(`btn-solver-${s}`);
+        if (el) el.classList.toggle('hidden', s !== solverId);
+        if (btn) {
+          if (s === solverId) {
+            btn.className = "px-3 py-1.5 bg-indigo-600 text-white rounded-lg text-xs font-bold";
+          } else {
+            btn.className = "px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold";
+          }
+        }
+      });
+      renderAllMath();
+    }
+
+    // ==========================================
+    // SIMPLEX INTERACTIVE STEPPER DATA & LOGIC
+    // ==========================================
+    const simplexSteps = [
+      {
+        iteration: 1,
+        basis: [
+          { var: "S1", cb: 0, xb: 8, x1: 2, x2: 3, x3: 0, s1: 1, s2: 0, s3: 0, ratio: "8/3 = 2.67 (Leaving)" },
+          { var: "S2", cb: 0, xb: 10, x1: 0, x2: 2, x3: 5, s1: 0, s2: 1, s3: 0, ratio: "10/2 = 5" },
+          { var: "S3", cb: 0, xb: 15, x1: 3, x2: 2, x3: 4, s1: 0, s2: 0, s3: 1, ratio: "15/2 = 7.5" }
+        ],
+        cj: { x1: 3, x2: 5, x3: 4, s1: 0, s2: 0, s3: 0 },
+        zj: { x1: 0, x2: 0, x3: 0, s1: 0, s2: 0, s3: 0, total: 0 },
+        delta: { x1: 3, x2: "5 (Entering)", x3: 4, s1: 0, s2: 0, s3: 0 },
+        pivot: { row: 0, col: "x2" },
+        explanation: "Entering variable is <strong>x2</strong> (highest Cj - Zj = 5). Minimum ratio is <strong>2.67</strong> in Row 1. Pivot element is <strong>3</strong>."
+      },
+      {
+        iteration: 2,
+        basis: [
+          { var: "x2", cb: 5, xb: "8/3", x1: "2/3", x2: 1, x3: 0, s1: "1/3", s2: 0, s3: 0, ratio: "-" },
+          { var: "S2", cb: 0, xb: "14/3", x1: "-4/3", x2: 0, x3: 5, s1: "-2/3", s2: 1, s3: 0, ratio: "0.93 (Leaving)" },
+          { var: "S3", cb: 0, xb: "29/3", x1: "5/3", x2: 0, x3: 4, s1: "-2/3", s2: 0, s3: 1, ratio: "2.42" }
+        ],
+        cj: { x1: 3, x2: 5, x3: 4, s1: 0, s2: 0, s3: 0 },
+        zj: { x1: "10/3", x2: 5, x3: 0, s1: "5/3", s2: 0, s3: 0, total: "40/3" },
+        delta: { x1: "-1/3", x2: 0, x3: "4 (Entering)", s1: "-5/3", s2: 0, s3: 0 },
+        pivot: { row: 1, col: "x3" },
+        explanation: "Entering variable is <strong>x3</strong> (Cj - Zj = 4). Minimum ratio is <strong>0.93</strong> in Row 2. Pivot element is <strong>5</strong>."
+      },
+      {
+        iteration: 3,
+        basis: [
+          { var: "x2", cb: 5, xb: "8/3", x1: "2/3", x2: 1, x3: 0, s1: "1/3", s2: 0, s3: 0, ratio: "4" },
+          { var: "x3", cb: 4, xb: "14/15", x1: "-4/15", x2: 0, x3: 1, s1: "-2/15", s2: "1/5", s3: 0, ratio: "-" },
+          { var: "S3", cb: 0, xb: "89/15", x1: "41/15", x2: 0, x3: 0, s1: "-2/15", s2: "-4/5", s3: 1, ratio: "2.17 (Leaving)" }
+        ],
+        cj: { x1: 3, x2: 5, x3: 4, s1: 0, s2: 0, s3: 0 },
+        zj: { x1: "34/15", x2: 5, x3: 4, s1: "17/15", s2: "4/5", s3: 0, total: "256/15" },
+        delta: { x1: "11/15 (Entering)", x2: 0, x3: 0, s1: "-17/15", s2: "-4/5", s3: 0 },
+        pivot: { row: 2, col: "x1" },
+        explanation: "Entering variable is <strong>x1</strong> (Cj - Zj = 11/15). Minimum ratio is <strong>2.17</strong> in Row 3. Pivot element is <strong>41/15</strong>."
+      },
+      {
+        iteration: 4,
+        basis: [
+          { var: "x2", cb: 5, xb: "50/41", x1: 0, x2: 1, x3: 0, s1: "15/41", s2: "8/41", s3: "-10/41", ratio: "-" },
+          { var: "x3", cb: 4, xb: "62/41", x1: 0, x2: 0, x3: 1, s1: "-6/41", s2: "5/41", s3: "4/41", ratio: "-" },
+          { var: "x1", cb: 3, xb: "89/41", x1: 1, x2: 0, x3: 0, s1: "-2/41", s2: "-12/41", s3: "15/41", ratio: "-" }
+        ],
+        cj: { x1: 3, x2: 5, x3: 4, s1: 0, s2: 0, s3: 0 },
+        zj: { x1: 3, x2: 5, x3: 4, s1: "45/41", s2: "24/41", s3: "11/41", total: "765/41" },
+        delta: { x1: 0, x2: 0, x3: 0, s1: "-45/41", s2: "-24/41", s3: "-11/41" },
+        pivot: null,
+        explanation: "🎉 <strong>OPTIMAL SOLUTION REACHED!</strong> All Cj - Zj &le; 0. Solution: x1 = 89/41 (2.17), x2 = 50/41 (1.22), x3 = 62/41 (1.51), <strong>Max Z = 765/41 (18.66)</strong>."
+      }
+    ];
+
+    let currentSimplexIdx = 0;
+
+    function renderSimplexTable() {
+      const step = simplexSteps[currentSimplexIdx];
+      document.getElementById('simplex-iter-label').innerText = `Iteration ${step.iteration} of ${simplexSteps.length}`;
+      document.getElementById('btn-simplex-prev').disabled = (currentSimplexIdx === 0);
+      document.getElementById('btn-simplex-next').disabled = (currentSimplexIdx === simplexSteps.length - 1);
+
+      let html = `<table class="w-full text-left border-collapse border border-slate-300">
+        <thead>
+          <tr class="bg-slate-100 text-slate-700">
+            <th class="p-2 border">Basis</th>
+            <th class="p-2 border">C_B</th>
+            <th class="p-2 border">X_B</th>
+            <th class="p-2 border">x1 (3)</th>
+            <th class="p-2 border">x2 (5)</th>
+            <th class="p-2 border">x3 (4)</th>
+            <th class="p-2 border">S1 (0)</th>
+            <th class="p-2 border">S2 (0)</th>
+            <th class="p-2 border">S3 (0)</th>
+            <th class="p-2 border">Min Ratio (θ)</th>
+          </tr>
+        </thead>
+        <tbody>`;
+
+      step.basis.forEach((r, rIdx) => {
+        html += `<tr>
+          <td class="p-2 border font-bold bg-slate-50">${r.var}</td>
+          <td class="p-2 border">${r.cb}</td>
+          <td class="p-2 border font-bold">${r.xb}</td>
+          <td class="p-2 border ${step.pivot && step.pivot.row === rIdx && step.pivot.col === 'x1' ? 'pivot-cell' : ''}">${r.x1}</td>
+          <td class="p-2 border ${step.pivot && step.pivot.row === rIdx && step.pivot.col === 'x2' ? 'pivot-cell' : ''}">${r.x2}</td>
+          <td class="p-2 border ${step.pivot && step.pivot.row === rIdx && step.pivot.col === 'x3' ? 'pivot-cell' : ''}">${r.x3}</td>
+          <td class="p-2 border">${r.s1}</td>
+          <td class="p-2 border">${r.s2}</td>
+          <td class="p-2 border">${r.s3}</td>
+          <td class="p-2 border ${r.ratio.includes('Leaving') ? 'text-rose-600 font-bold' : ''}">${r.ratio}</td>
+        </tr>`;
+      });
+
+      html += `<tr class="bg-slate-50 font-bold">
+        <td colspan="2" class="p-2 border">Z = ${step.zj.total}</td>
+        <td class="p-2 border">Z_j</td>
+        <td class="p-2 border">${step.zj.x1}</td>
+        <td class="p-2 border">${step.zj.x2}</td>
+        <td class="p-2 border">${step.zj.x3}</td>
+        <td class="p-2 border">${step.zj.s1}</td>
+        <td class="p-2 border">${step.zj.s2}</td>
+        <td class="p-2 border">${step.zj.s3}</td>
+        <td class="p-2 border">-</td>
+      </tr>
+      <tr class="bg-indigo-50/70 font-bold text-indigo-950">
+        <td colspan="3" class="p-2 border">C_j - Z_j (Δ_j)</td>
+        <td class="p-2 border">${step.delta.x1}</td>
+        <td class="p-2 border">${step.delta.x2}</td>
+        <td class="p-2 border">${step.delta.x3}</td>
+        <td class="p-2 border">${step.delta.s1}</td>
+        <td class="p-2 border">${step.delta.s2}</td>
+        <td class="p-2 border">${step.delta.s3}</td>
+        <td class="p-2 border">-</td>
+      </tr></tbody></table>`;
+
+      document.getElementById('simplex-table-container').innerHTML = html;
+      document.getElementById('simplex-step-explanation').innerHTML = step.explanation;
+    }
+
+    function nextSimplexStep() {
+      if (currentSimplexIdx < simplexSteps.length - 1) {
+        currentSimplexIdx++;
+        renderSimplexTable();
+      }
+    }
+
+    function prevSimplexStep() {
+      if (currentSimplexIdx > 0) {
+        currentSimplexIdx--;
+        renderSimplexTable();
+      }
+    }
+
+    // ==========================================
+    // ZERO-PEN MENTAL PUZZLE BANK
+    // ==========================================
+    const puzzlesData = [
+      {
+        id: 1,
+        topic: "Simplex Method",
+        q: "In a Max Z simplex tableau, Cj - Zj values are [0, -3, 6, 0, -2]. Which column enters?",
+        a: "Column 3 enters because +6 is the strictly most positive net evaluation in maximization.",
+        rule: "Entering Variable = argmax(Cj - Zj)"
+      },
+      {
+        id: 2,
+        topic: "Simplex Unboundedness",
+        q: "In the pivot column, all constraint coefficients are [-2, 0, -5]. What can you conclude instantly?",
+        a: "The problem is UNBOUNDED (Z &rarr; &infin;). No positive ratio can be computed to select a leaving variable.",
+        rule: "Unbounded if all a_ik <= 0 in key column"
+      },
+      {
+        id: 3,
+        topic: "Alternative Optima",
+        q: "In an optimal simplex table, all basic variables have Cj - Zj = 0, but non-basic variable x4 also has C4 - Z4 = 0. What does this indicate?",
+        a: "Infinite / Alternative Optimal Solutions exist. Entering x4 will produce a second optimal corner point with identical max Z.",
+        rule: "Alternative Optima if non-basic delta = 0 at optimum"
+      },
+      {
+        id: 4,
+        topic: "Big-M Infeasibility",
+        q: "In the final Big-M table, all Cj - Zj <= 0, but artificial variable A1 remains in the basis with value XB = 4. What is the physical meaning?",
+        a: "The problem is INFEASIBLE. The constraints are contradictory and have no common feasible region.",
+        rule: "Infeasible if artificial var remains in basis with XB > 0"
+      },
+      {
+        id: 5,
+        topic: "Transportation Degeneracy",
+        q: "In a 3x4 transportation problem, an initial solution has 5 basic allocations. Can you apply MODI directly?",
+        a: "No! Required allocations = m + n - 1 = 3 + 4 - 1 = 6. It is degenerate. You must allocate an infinitesimal epsilon (> 0) to an unallocated cell first.",
+        rule: "TP Non-degeneracy condition = m + n - 1 allocations"
+      },
+      {
+        id: 6,
+        topic: "Job Sequencing",
+        q: "In Johnson's 2-machine rule, Job 4 has processing time 1 hr on Machine B (the absolute lowest in the table). Where is Job 4 placed?",
+        a: "At the very LAST (rightmost) position in the sequence.",
+        rule: "Min time on Machine 1 &rarr; Left; Min time on Machine 2 &rarr; Right"
+      }
+    ];
+
+    function renderPuzzles() {
+      const container = document.getElementById('puzzle-cards-container');
+      container.innerHTML = puzzlesData.map(p => `
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+          <div class="flex justify-between items-center">
+            <span class="text-xs font-bold text-amber-700 px-2 py-0.5 bg-amber-50 rounded-full border border-amber-200">${p.topic}</span>
+            <span class="text-xs text-slate-400 font-mono">#${p.id}</span>
+          </div>
+          <p class="text-sm font-semibold text-slate-800">${p.q}</p>
+          
+          <div id="puzzle-ans-${p.id}" class="hidden p-3 bg-indigo-50 border border-indigo-200 rounded-xl text-xs text-indigo-950 space-y-1">
+            <div class="font-bold text-indigo-700">💡 Answer & Logic:</div>
+            <div>${p.a}</div>
+            <div class="text-indigo-600 font-mono text-[10px] pt-1">Rule: ${p.rule}</div>
+          </div>
+
+          <button onclick="revealPuzzle(${p.id})" id="puzzle-btn-${p.id}" class="w-full py-1.5 bg-slate-50 hover:bg-amber-50 hover:text-amber-900 border border-slate-200 text-slate-700 rounded-lg text-xs font-bold transition">
+            Reveal Logic (+10 XP) 👁️
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function revealPuzzle(id) {
+      const ans = document.getElementById(`puzzle-ans-${id}`);
+      const btn = document.getElementById(`puzzle-btn-${id}`);
+      if (ans) ans.classList.remove('hidden');
+      if (btn) {
+        btn.innerText = "Solved ✓";
+        btn.disabled = true;
+        btn.className = "w-full py-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg text-xs font-bold";
+      }
+      if (!solvedPuzzles.includes(id)) {
+        solvedPuzzles.push(id);
+        localStorage.setItem('or_puzzles', JSON.stringify(solvedPuzzles));
+        updateXP(10);
+      }
+    }
+
+    // ==========================================
+    // EXAM ASSESSMENT QUIZZES DATA
+    // ==========================================
+    const quizData = [
+      {
+        id: 1,
+        q: "In Linear Programming, which assumption guarantees that output scales linearly without economies of scale?",
+        options: ["Divisibility", "Proportionality", "Additivity", "Certainty"],
+        correct: 1,
+        explain: "Proportionality ensures that contribution to objective and constraints is strictly proportional to the decision variable."
+      },
+      {
+        id: 2,
+        q: "What is added to a '≥' constraint when converting to standard form for Big-M Simplex?",
+        options: ["Only a Slack variable (+S)", "Only an Artificial variable (+A)", "Subtract Surplus (-S) and Add Artificial (+A)", "Subtract Slack (-S)"],
+        correct: 2,
+        explain: "A surplus variable (-S) is subtracted to balance the inequality and an artificial variable (+A) is added to provide an initial basis identity vector."
+      },
+      {
+        id: 3,
+        q: "How do you detect Multiple / Alternative optimal solutions in a Graphical LPP?",
+        options: ["Feasible region is open", "Objective line is parallel to a binding constraint", "No feasible region exists", "Corner points are non-integers"],
+        correct: 1,
+        explain: "When the slope of the objective line matches the slope of an active boundary constraint, all points on that boundary segment yield optimal Z."
+      },
+      {
+        id: 4,
+        q: "In Vogel's Approximation Method (VAM), what is the penalty of a row or column?",
+        options: ["Average of all costs", "Difference between the two smallest costs", "Sum of all costs", "Largest cost minus smallest cost"],
+        correct: 1,
+        explain: "VAM penalty represents the opportunity loss of not selecting the best route, calculated as the difference between the lowest and second lowest cost."
+      },
+      {
+        id: 5,
+        q: "In the Hungarian method, if the minimum number of lines L < n, what is done to the intersection elements?",
+        options: ["Subtract smallest uncovered element k", "Add smallest uncovered element k", "Multiply by k", "Leave unchanged"],
+        correct: 1,
+        explain: "In matrix modification, the minimum uncovered element k is subtracted from all uncovered elements and ADDED to all intersection elements."
+      }
+    ];
+
+    let userQuizScore = 0;
+
+    function renderQuizzes() {
+      const container = document.getElementById('quiz-container');
+      container.innerHTML = quizData.map((q, idx) => `
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3" id="quiz-block-${q.id}">
+          <div class="flex justify-between items-center">
+            <span class="text-xs font-bold text-indigo-600">Question ${idx + 1} of ${quizData.length}</span>
+          </div>
+          <p class="text-sm font-semibold text-slate-800">${q.q}</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+            ${q.options.map((opt, oIdx) => `
+              <button onclick="checkQuizAnswer(${q.id}, ${oIdx})" id="q-${q.id}-opt-${oIdx}" class="p-2.5 text-left rounded-xl border border-slate-200 hover:bg-indigo-50 hover:border-indigo-200 transition font-medium text-slate-700">
+                ${String.fromCharCode(65 + oIdx)}. ${opt}
+              </button>
+            `).join('')}
+          </div>
+          <div id="quiz-feedback-${q.id}" class="hidden p-3 rounded-xl text-xs"></div>
+        </div>
+      `).join('');
+    }
+
+    function checkQuizAnswer(qId, selectedIdx) {
+      const q = quizData.find(item => item.id === qId);
+      const feedback = document.getElementById(`quiz-feedback-${qId}`);
+      
+      // Disable all buttons in this question
+      q.options.forEach((_, idx) => {
+        const btn = document.getElementById(`q-${qId}-opt-${idx}`);
+        btn.disabled = true;
+        if (idx === q.correct) {
+          btn.className = "p-2.5 text-left rounded-xl border border-emerald-300 bg-emerald-50 text-emerald-800 font-bold";
+        } else if (idx === selectedIdx) {
+          btn.className = "p-2.5 text-left rounded-xl border border-rose-300 bg-rose-50 text-rose-800 font-bold";
+        }
+      });
+
+      feedback.classList.remove('hidden');
+      if (selectedIdx === q.correct) {
+        userQuizScore++;
+        feedback.className = "p-3 rounded-xl text-xs bg-emerald-50 border border-emerald-200 text-emerald-900";
+        feedback.innerHTML = `<strong>Correct! 🎉</strong> ${q.explain}`;
+        updateXP(20);
+      } else {
+        feedback.className = "p-3 rounded-xl text-xs bg-rose-50 border border-rose-200 text-rose-900";
+        feedback.innerHTML = `<strong>Incorrect.</strong> ${q.explain}`;
+      }
+      document.getElementById('quiz-score-badge').innerText = `Quiz Score: ${userQuizScore} / ${quizData.length}`;
+    }
+
+    function renderAllMath() {
+      if (window.renderMathInElement) {
+        renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    }
+
+    // Initialize on Load
+    window.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('user-xp').innerText = `${userXP} XP`;
+      calculateProgress();
+      renderSimplexTable();
+      renderPuzzles();
+      renderQuizzes();
+      setTimeout(renderAllMath, 300);
+    });
+  </script>
+</body>
+</html>
