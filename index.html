@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OR-Master | Complete Operations Research Learning Platform & Solvers</title>
+  <title>OR-Master | Operations Research Visual Flowcharts & Solvers</title>
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -51,6 +51,16 @@
     .assigned-zero { background-color: #dcfce7 !important; border: 2px solid #16a34a !important; font-weight: 900; color: #15803d !important; }
     
     .nav-btn.active { background-color: #4f46e5; color: white; }
+
+    /* Flowchart Node Styling */
+    .flow-node {
+      background: white;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 0.75rem;
+      padding: 0.6rem 0.8rem;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+      position: relative;
+    }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col selection:bg-indigo-100 selection:text-indigo-900">
@@ -67,9 +77,9 @@
           <div>
             <div class="flex items-center space-x-2">
               <span class="font-black text-lg tracking-tight text-slate-900">OR-Master</span>
-              <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-semibold uppercase tracking-wider">Step-by-Step Explained</span>
+              <span class="text-xs px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800 font-semibold uppercase tracking-wider">Flowcharts + Tables</span>
             </div>
-            <p class="text-xs text-slate-500 hidden sm:block">Exhaustive Practical Solved Examples • 1-Click Explanation Toggles</p>
+            <p class="text-xs text-slate-500 hidden sm:block">Step-by-Step Flowcharts • Visual Tables • Explanations</p>
           </div>
         </div>
 
@@ -102,8 +112,8 @@
       <!-- MAIN NAVIGATION TASKBAR -->
       <nav class="flex space-x-1 overflow-x-auto py-2 scrollbar-none border-t border-slate-100 text-xs sm:text-sm font-medium text-slate-600">
         <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn px-3 py-1.5 rounded-lg whitespace-nowrap active transition">🏠 Overview</button>
-        <button onclick="switchTab('mod1-examples')" id="nav-mod1-examples" class="nav-btn px-3 py-1.5 rounded-lg whitespace-nowrap transition">📘 Mod 1: Simplex & Big-M (Full Tables & Explanations)</button>
-        <button onclick="switchTab('mod2-examples')" id="nav-mod2-examples" class="nav-btn px-3 py-1.5 rounded-lg whitespace-nowrap transition">🚚 Mod 2: Transportation & Hungarian (Full Tables)</button>
+        <button onclick="switchTab('mod1-examples')" id="nav-mod1-examples" class="nav-btn px-3 py-1.5 rounded-lg whitespace-nowrap transition">📘 Mod 1: Simplex & Big-M (Flowcharts + Tables)</button>
+        <button onclick="switchTab('mod2-examples')" id="nav-mod2-examples" class="nav-btn px-3 py-1.5 rounded-lg whitespace-nowrap transition">🚚 Mod 2: Transportation & Hungarian (Flowcharts + Tables)</button>
         <button onclick="switchTab('puzzles')" id="nav-puzzles" class="nav-btn px-3 py-1.5 rounded-lg whitespace-nowrap transition">🧠 Zero-Pen Puzzles (25+)</button>
         <button onclick="switchTab('exam-quizzes')" id="nav-exam-quizzes" class="nav-btn px-3 py-1.5 rounded-lg whitespace-nowrap transition">🎯 Exam Assessment</button>
         <button onclick="switchTab('cheatsheet')" id="nav-cheatsheet" class="nav-btn px-3 py-1.5 rounded-lg whitespace-nowrap transition">📑 Formula Cheat-Sheet</button>
@@ -120,14 +130,14 @@
     <section id="view-dashboard" class="space-y-6">
       <div class="bg-gradient-to-r from-indigo-700 via-indigo-800 to-slate-900 rounded-2xl p-6 sm:p-8 text-white shadow-xl">
         <div class="max-w-3xl">
-          <span class="px-3 py-1 rounded-full bg-indigo-500/30 text-indigo-200 text-xs font-semibold uppercase tracking-wider border border-indigo-400/30">Practical Problem-Solving Engine</span>
-          <h1 class="text-2xl sm:text-4xl font-black mt-3 leading-tight">Every Table. Every Shift. Interactive Explanations on Demand.</h1>
+          <span class="px-3 py-1 rounded-full bg-indigo-500/30 text-indigo-200 text-xs font-semibold uppercase tracking-wider border border-indigo-400/30">Complete Visual Engineering Guide</span>
+          <h1 class="text-2xl sm:text-4xl font-black mt-3 leading-tight">Visual Flowcharts. Decision Roadmaps. 100% Solved Tables.</h1>
           <p class="mt-3 text-indigo-100 text-sm sm:text-base leading-relaxed">
-            Operations Research made 100% intuitive. Each problem is broken down into complete individual iteration tables with concise theoretical callouts and interactive <strong>"💡 Explain What's Happening"</strong> buttons so you understand exactly <em>why</em> variables enter, leave, and how row formulas work!
+            Before jumping into math, know exactly <strong>what we are doing</strong>, <strong>how the algorithm flows</strong>, and <strong>what exam traps to watch out for</strong>. Every topic includes its dedicated step-by-step visual roadmap!
           </p>
           <div class="mt-6 flex flex-wrap gap-3">
-            <button onclick="switchTab('mod1-examples')" class="px-5 py-2.5 bg-white text-indigo-700 rounded-xl font-bold text-sm shadow-md hover:bg-indigo-50 transition">Explore Mod 1 Simplex Tables →</button>
-            <button onclick="switchTab('mod2-examples')" class="px-5 py-2.5 bg-emerald-500 text-slate-950 rounded-xl font-bold text-sm shadow-md hover:bg-emerald-400 transition">Explore Mod 2 Network Tables →</button>
+            <button onclick="switchTab('mod1-examples')" class="px-5 py-2.5 bg-white text-indigo-700 rounded-xl font-bold text-sm shadow-md hover:bg-indigo-50 transition">Explore Mod 1 Simplex Roadmap →</button>
+            <button onclick="switchTab('mod2-examples')" class="px-5 py-2.5 bg-emerald-500 text-slate-950 rounded-xl font-bold text-sm shadow-md hover:bg-emerald-400 transition">Explore Mod 2 Network Roadmap →</button>
             <button onclick="switchTab('puzzles')" class="px-5 py-2.5 bg-amber-500 text-slate-950 rounded-xl font-bold text-sm shadow-md hover:bg-amber-400 transition">⚡ Zero-Pen Oral Puzzles</button>
           </div>
         </div>
@@ -140,56 +150,42 @@
           <div class="flex items-center justify-between">
             <h3 class="font-bold text-slate-900 text-base flex items-center gap-2">
               <span class="w-7 h-7 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-black">01</span>
-              Module 1 Solved Table Sets
+              Module 1 Visual Roadmaps & Tables
             </h3>
             <span class="text-xs px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 font-semibold">6 Master Sets</span>
           </div>
           <ul class="text-xs text-slate-600 space-y-2">
             <li class="p-2.5 bg-slate-50 rounded-lg flex justify-between items-center border border-slate-100">
               <div>
-                <strong>Set 1.1:</strong> Standard Simplex 3-Var Maximization
-                <div class="text-[11px] text-slate-500 mt-0.5">Slack variables only, all \(\le\) constraints, 4 full tableaus</div>
+                <strong>Set 1.1:</strong> Standard Simplex Flowchart & 4-Table Stepper
+                <div class="text-[11px] text-slate-500 mt-0.5">Algorithm flow: Standard Form &rarr; Optimality &rarr; Key Col &rarr; Key Row &rarr; Gauss Pivot</div>
               </div>
-              <span class="text-indigo-600 font-bold whitespace-nowrap ml-2">4 Tables</span>
+              <span class="text-indigo-600 font-bold whitespace-nowrap ml-2">Roadmap + Tables</span>
             </li>
             <li class="p-2.5 bg-slate-50 rounded-lg flex justify-between items-center border border-slate-100">
               <div>
                 <strong>Set 1.2:</strong> Big-M Minimization (\(\ge\) constraints)
-                <div class="text-[11px] text-slate-500 mt-0.5">Surplus & artificial variables with \(+MA_i\) penalty</div>
+                <div class="text-[11px] text-slate-500 mt-0.5">Flow: Surplus/Artificial intro &rarr; \(+MA_i\) penalty &rarr; Most negative \(\Delta_j\)</div>
               </div>
-              <span class="text-indigo-600 font-bold whitespace-nowrap ml-2">4 Tables</span>
+              <span class="text-indigo-600 font-bold whitespace-nowrap ml-2">Roadmap + Tables</span>
             </li>
             <li class="p-2.5 bg-slate-50 rounded-lg flex justify-between items-center border border-slate-100">
               <div>
                 <strong>Set 1.3:</strong> Big-M Infeasible Solution Proof
-                <div class="text-[11px] text-slate-500 mt-0.5">Proves why \(A_1 > 0\) at optimum means no physical solution</div>
+                <div class="text-[11px] text-slate-500 mt-0.5">Decision tree: \(\Delta_j \le 0\) AND \(A_k > 0\) &rarr; INFEASIBLE</div>
               </div>
-              <span class="text-rose-600 font-bold whitespace-nowrap ml-2">2 Tables</span>
+              <span class="text-rose-600 font-bold whitespace-nowrap ml-2">Trap Detector</span>
             </li>
             <li class="p-2.5 bg-slate-50 rounded-lg flex justify-between items-center border border-slate-100">
               <div>
                 <strong>Set 1.4:</strong> Big-M Multiple / Alternative Optima
-                <div class="text-[11px] text-slate-500 mt-0.5">Non-basic variable has \(C_j - Z_j = 0\) &rarr; alternate vertex</div>
+                <div class="text-[11px] text-slate-500 mt-0.5">Decision tree: Non-basic \(\Delta_j = 0\) &rarr; Alternate Vertex Pivot</div>
               </div>
-              <span class="text-amber-600 font-bold whitespace-nowrap ml-2">4 Tables</span>
-            </li>
-            <li class="p-2.5 bg-slate-50 rounded-lg flex justify-between items-center border border-slate-100">
-              <div>
-                <strong>Set 1.5:</strong> Big-M Degeneracy (Tie in Leaving Variable)
-                <div class="text-[11px] text-slate-500 mt-0.5">Rule: Artificial variable is always prioritized to leave first</div>
-              </div>
-              <span class="text-purple-600 font-bold whitespace-nowrap ml-2">4 Tables</span>
-            </li>
-            <li class="p-2.5 bg-slate-50 rounded-lg flex justify-between items-center border border-slate-100">
-              <div>
-                <strong>Set 1.6:</strong> Two-Phase Simplex Method
-                <div class="text-[11px] text-slate-500 mt-0.5">Phase I (\(\min W = \sum A_i\)) &rarr; Phase II (Original \(Z\))</div>
-              </div>
-              <span class="text-indigo-600 font-bold whitespace-nowrap ml-2">5 Tables</span>
+              <span class="text-amber-600 font-bold whitespace-nowrap ml-2">Alternate Pivot</span>
             </li>
           </ul>
           <button onclick="switchTab('mod1-examples')" class="w-full py-2 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 font-bold text-xs rounded-xl transition">
-            View All Module 1 Tables & Explanations →
+            View All Module 1 Flowcharts & Tables →
           </button>
         </div>
 
@@ -198,92 +194,119 @@
           <div class="flex items-center justify-between">
             <h3 class="font-bold text-slate-900 text-base flex items-center gap-2">
               <span class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-black">02</span>
-              Module 2 Solved Table Sets
+              Module 2 Visual Roadmaps & Tables
             </h3>
             <span class="text-xs px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-semibold">7 Master Sets</span>
           </div>
           <ul class="text-xs text-slate-600 space-y-2">
             <li class="p-2.5 bg-slate-50 rounded-lg flex justify-between items-center border border-slate-100">
               <div>
-                <strong>Set 2.1:</strong> Vogel's Approximation Method (VAM)
-                <div class="text-[11px] text-slate-500 mt-0.5">Penalty differences for all rows and columns per iteration</div>
+                <strong>Set 2.1:</strong> Vogel's Approximation (VAM) Flowchart
+                <div class="text-[11px] text-slate-500 mt-0.5">Penalties &rarr; Max Penalty Line &rarr; Min Cost Allocation &rarr; Cross-out</div>
               </div>
-              <span class="text-emerald-700 font-bold whitespace-nowrap ml-2">Penalty Matrix</span>
+              <span class="text-emerald-700 font-bold whitespace-nowrap ml-2">Roadmap + Matrix</span>
             </li>
             <li class="p-2.5 bg-slate-50 rounded-lg flex justify-between items-center border border-slate-100">
               <div>
-                <strong>Set 2.2:</strong> MODI (u-v) Optimality & Closed Loop Loop
-                <div class="text-[11px] text-slate-500 mt-0.5">Opportunity cost \(\Delta_{ij}\), closed \(\pm \theta\) loop, revised table</div>
+                <strong>Set 2.2:</strong> MODI (u-v) Optimality & Loop Flowchart
+                <div class="text-[11px] text-slate-500 mt-0.5">\(m+n-1\) check &rarr; \(u_i+v_j=c_{ij}\) &rarr; \(\Delta_{ij}\) &rarr; Closed \(\pm \theta\) loop</div>
               </div>
-              <span class="text-emerald-700 font-bold whitespace-nowrap ml-2">3 UV Tables</span>
+              <span class="text-emerald-700 font-bold whitespace-nowrap ml-2">UV & Loop Tree</span>
             </li>
             <li class="p-2.5 bg-slate-50 rounded-lg flex justify-between items-center border border-slate-100">
               <div>
-                <strong>Set 2.3:</strong> Hungarian 4x4 Assignment Algorithm
-                <div class="text-[11px] text-slate-500 mt-0.5">Row min, col min, min lines \(L < n\), modification with \(k\)</div>
+                <strong>Set 2.3:</strong> Hungarian 5-Step Algorithm Flowchart
+                <div class="text-[11px] text-slate-500 mt-0.5">Row Min &rarr; Col Min &rarr; Line Covering &rarr; Matrix Modify &rarr; Box Zeros</div>
               </div>
-              <span class="text-emerald-700 font-bold whitespace-nowrap ml-2">5 Reduction Tables</span>
+              <span class="text-emerald-700 font-bold whitespace-nowrap ml-2">5-Step Tree</span>
             </li>
             <li class="p-2.5 bg-slate-50 rounded-lg flex justify-between items-center border border-slate-100">
               <div>
-                <strong>Set 2.4:</strong> Maximization & Prohibited Assignment
-                <div class="text-[11px] text-slate-500 mt-0.5">Relative loss matrix conversion & \(\infty\) route protection</div>
+                <strong>Set 2.4:</strong> Johnson's 2-Machine Sequencing Flowchart
+                <div class="text-[11px] text-slate-500 mt-0.5">Find min time &rarr; Machine 1 (Front) / Machine 2 (Back) &rarr; Timeline</div>
               </div>
-              <span class="text-emerald-700 font-bold whitespace-nowrap ml-2">Full Reduction</span>
-            </li>
-            <li class="p-2.5 bg-slate-50 rounded-lg flex justify-between items-center border border-slate-100">
-              <div>
-                <strong>Set 2.5:</strong> Travelling Salesperson Problem (TSP)
-                <div class="text-[11px] text-slate-500 mt-0.5">Sub-tour identification and penalty-based cycle branching</div>
-              </div>
-              <span class="text-emerald-700 font-bold whitespace-nowrap ml-2">Sub-tour Break</span>
-            </li>
-            <li class="p-2.5 bg-slate-50 rounded-lg flex justify-between items-center border border-slate-100">
-              <div>
-                <strong>Set 2.6:</strong> Johnson's 2-Machine Job Sequencing
-                <div class="text-[11px] text-slate-500 mt-0.5">Front/back placement logic, In-Out timeline, machine idle times</div>
-              </div>
-              <span class="text-emerald-700 font-bold whitespace-nowrap ml-2">In-Out Timeline</span>
-            </li>
-            <li class="p-2.5 bg-slate-50 rounded-lg flex justify-between items-center border border-slate-100">
-              <div>
-                <strong>Set 2.7:</strong> Johnson's 3-Machine Extension
-                <div class="text-[11px] text-slate-500 mt-0.5">Condition check &rarr; Reduction to pseudo-machines \(G, H\)</div>
-              </div>
-              <span class="text-emerald-700 font-bold whitespace-nowrap ml-2">Full Schedule</span>
+              <span class="text-emerald-700 font-bold whitespace-nowrap ml-2">Gantt Flow</span>
             </li>
           </ul>
           <button onclick="switchTab('mod2-examples')" class="w-full py-2 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-bold text-xs rounded-xl transition">
-            View All Module 2 Tables & Explanations →
+            View All Module 2 Flowcharts & Tables →
           </button>
         </div>
       </div>
     </section>
 
     <!-- ========================================== -->
-    <!-- 2. MODULE 1 FULL ITERATION TABLES -->
+    <!-- 2. MODULE 1 FULL FLOWCHARTS & ITERATION TABLES -->
     <!-- ========================================== -->
     <section id="view-mod1-examples" class="hidden space-y-8">
       <div class="border-b border-slate-200 pb-4">
-        <h2 class="text-2xl font-black text-slate-900">Module 1: Linear Programming — Full Iteration Tables</h2>
-        <p class="text-sm text-slate-600">Every single iteration tableau with pivot highlights, exact Gaussian row formulas, and 1-click explanation breakdowns.</p>
+        <h2 class="text-2xl font-black text-slate-900">Module 1: Linear Programming — Visual Flowcharts & Tables</h2>
+        <p class="text-sm text-slate-600">Decision roadmaps, what we are doing, what to keep in mind, and complete multi-iteration tables.</p>
       </div>
 
       <!-- EXAMPLE 1.1: STANDARD SIMPLEX MAXIMIZATION -->
-      <article class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-5">
+      <article class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-6">
         <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-100 pb-3">
           <div>
-            <span class="text-xs font-bold px-2 py-0.5 bg-indigo-100 text-indigo-800 rounded">Example Set 1.1</span>
-            <h3 class="text-lg font-bold text-slate-900 mt-1">Standard Simplex Maximization (All \(\le\) Constraints)</h3>
+            <span class="text-xs font-bold px-2 py-0.5 bg-indigo-100 text-indigo-800 rounded">Topic 1.3 Guide</span>
+            <h3 class="text-xl font-bold text-slate-900 mt-1">Standard Simplex Method (Maximization, All \(\le\))</h3>
           </div>
-          <span class="text-xs font-mono bg-slate-100 px-2.5 py-1 rounded text-slate-600">4 Full Iteration Tables</span>
+          <span class="text-xs font-mono bg-slate-100 px-2.5 py-1 rounded text-slate-600">Decision Roadmap + 4 Full Tables</span>
         </div>
 
-        <div class="p-3.5 bg-indigo-50/60 rounded-xl border border-indigo-100 text-xs text-indigo-950 space-y-1">
-          <div class="font-bold text-indigo-900">💡 Concept in Brief:</div>
-          <p>
-            When all constraints are \(\le\) and RHS \(b_i \ge 0\), we introduce non-negative Slack Variables (\(S_1, S_2, S_3\)) with cost \(0\). The initial basis consists purely of these slacks, representing the origin point \((0,0,0)\) with initial profit \(Z = 0\). We iteratively climb towards vertices of higher profit.
-          </p>
+        <!-- 1. WHAT WE ARE DOING (MISSION) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+          <div class="p-4 bg-indigo-50/70 border border-indigo-200 rounded-xl space-y-2">
+            <div class="font-bold text-indigo-900 text-sm flex items-center gap-1.5">
+              <span>🎯 What We Are Doing:</span>
+            </div>
+            <p class="text-indigo-950 leading-relaxed">
+              We start at the origin \((0,0,0)\) where all physical production is zero (\(Z=0\)) and all resources remain unconsumed (stored in <strong>Slack Variables</strong> \(S_1, S_2, S_3\)). In each table, we swap one non-profitable slack variable with the most profitable product variable (\(x_j\)) to step onto adjacent vertices of the feasible polygon until no further profit increase is possible.
+            </p>
+          </div>
+
+          <div class="p-4 bg-amber-50/70 border border-amber-200 rounded-xl space-y-2">
+            <div class="font-bold text-amber-900 text-sm flex items-center gap-1.5">
+              <span>⚠️ What to Keep in Mind (Exam Traps):</span>
+            </div>
+            <ul class="list-disc list-inside text-amber-950 space-y-1">
+              <li><strong>Entering Variable:</strong> Pick the <strong>most positive</strong> \(\Delta_j = C_j - Z_j\).</li>
+              <li><strong>Leaving Variable:</strong> Minimum ratio \(\theta = X_B / a_{ik}\) ONLY for <strong>strictly positive</strong> \(a_{ik} > 0\). (Never divide by \(0\) or negative numbers!).</li>
+              <li><strong>Optimality Stop:</strong> When ALL \(C_j - Z_j \le 0\), the current basis is mathematically optimal.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 2. VISUAL FLOWCHART (ALGORITHM ROADMAP) -->
+        <div class="p-4 bg-slate-900 text-white rounded-xl space-y-3">
+          <div class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Simplex Execution Flowchart:</div>
+          <div class="grid grid-cols-1 sm:grid-cols-5 gap-2 text-center text-xs">
+            <div class="flow-node text-slate-800">
+              <div class="font-bold text-indigo-600">Step 1</div>
+              <div class="text-[11px] font-semibold mt-1">Convert to Standard Form</div>
+              <div class="text-[10px] text-slate-500 mt-0.5">Add \(+S_i \ge 0\) with cost \(0\)</div>
+            </div>
+            <div class="flow-node text-slate-800">
+              <div class="font-bold text-indigo-600">Step 2</div>
+              <div class="text-[11px] font-semibold mt-1">Compute \(C_j - Z_j\)</div>
+              <div class="text-[10px] text-slate-500 mt-0.5">If all \(\le 0\) &rarr; Optimal!</div>
+            </div>
+            <div class="flow-node text-slate-800">
+              <div class="font-bold text-indigo-600">Step 3</div>
+              <div class="text-[11px] font-semibold mt-1">Key Column (Entering)</div>
+              <div class="text-[10px] text-slate-500 mt-0.5">\(\max(C_j - Z_j > 0)\)</div>
+            </div>
+            <div class="flow-node text-slate-800">
+              <div class="font-bold text-indigo-600">Step 4</div>
+              <div class="text-[11px] font-semibold mt-1">Key Row (Leaving)</div>
+              <div class="text-[10px] text-slate-500 mt-0.5">\(\min(X_B / a_{ik} : a_{ik} > 0)\)</div>
+            </div>
+            <div class="flow-node text-slate-800">
+              <div class="font-bold text-indigo-600">Step 5</div>
+              <div class="text-[11px] font-semibold mt-1">Gauss Pivot Update</div>
+              <div class="text-[10px] text-slate-500 mt-0.5">Divide pivot row, zero others</div>
+            </div>
+          </div>
         </div>
 
         <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs">
@@ -352,126 +375,6 @@
           </div>
         </div>
 
-        <!-- Iteration 2 -->
-        <div class="space-y-2 border-t pt-4">
-          <div class="flex justify-between items-center text-xs font-bold text-slate-700">
-            <span>Table 2: Second Iteration Tableau (Basis: \(x_2, S_2, S_3\))</span>
-            <button onclick="toggleExplain('exp-1-2')" class="px-2.5 py-1 bg-indigo-50 text-indigo-700 border border-indigo-200 rounded-lg hover:bg-indigo-100 transition text-[11px]">
-              💡 Explain This Step
-            </button>
-          </div>
-          <div class="overflow-x-auto border rounded-xl">
-            <table class="w-full text-xs text-left border-collapse">
-              <thead class="bg-slate-100 text-slate-700 font-mono">
-                <tr>
-                  <th class="p-2 border">Basis</th><th class="p-2 border">\(C_B\)</th><th class="p-2 border">\(X_B\)</th>
-                  <th class="p-2 border">\(x_1\) (3)</th><th class="p-2 border">\(x_2\) (5)</th><th class="p-2 border bg-emerald-50">\(x_3\) (4) &uarr;</th>
-                  <th class="p-2 border">\(S_1\) (0)</th><th class="p-2 border">\(S_2\) (0)</th><th class="p-2 border">\(S_3\) (0)</th>
-                  <th class="p-2 border bg-rose-50">Ratio \(\theta\)</th>
-                </tr>
-              </thead>
-              <tbody class="font-mono">
-                <tr>
-                  <td class="p-2 border font-bold">\(x_2\)</td><td class="p-2 border">5</td><td class="p-2 border font-bold">8/3</td>
-                  <td class="p-2 border">2/3</td><td class="p-2 border">1</td><td class="p-2 border">0</td>
-                  <td class="p-2 border">1/3</td><td class="p-2 border">0</td><td class="p-2 border">0</td>
-                  <td class="p-2 border">— (\(a_{ik}=0\))</td>
-                </tr>
-                <tr class="leaving-row">
-                  <td class="p-2 border font-bold text-rose-700">\(S_2\) &rarr;</td><td class="p-2 border">0</td><td class="p-2 border font-bold">14/3</td>
-                  <td class="p-2 border">-4/3</td><td class="p-2 border">0</td><td class="p-2 border pivot-cell">(5)</td>
-                  <td class="p-2 border">-2/3</td><td class="p-2 border">1</td><td class="p-2 border">0</td>
-                  <td class="p-2 border font-bold text-rose-700">(14/3)/5 = 0.93 &larr; Min</td>
-                </tr>
-                <tr>
-                  <td class="p-2 border font-bold">\(S_3\)</td><td class="p-2 border">0</td><td class="p-2 border font-bold">29/3</td>
-                  <td class="p-2 border">5/3</td><td class="p-2 border">0</td><td class="p-2 border entering-col">4</td>
-                  <td class="p-2 border">-2/3</td><td class="p-2 border">0</td><td class="p-2 border">1</td>
-                  <td class="p-2 border">(29/3)/4 = 2.42</td>
-                </tr>
-                <tr class="bg-slate-50 font-bold">
-                  <td colspan="3" class="p-2 border">\(Z_j = 40/3 = 13.33\)</td>
-                  <td class="p-2 border">10/3</td><td class="p-2 border">5</td><td class="p-2 border">0</td>
-                  <td class="p-2 border">5/3</td><td class="p-2 border">0</td><td class="p-2 border">0</td><td class="p-2 border">-</td>
-                </tr>
-                <tr class="bg-indigo-50 text-indigo-950 font-bold">
-                  <td colspan="3" class="p-2 border">\(\Delta_j = C_j - Z_j\)</td>
-                  <td class="p-2 border">-1/3</td><td class="p-2 border">0</td><td class="p-2 border text-emerald-700 font-extrabold">4 &uarr; (Max)</td>
-                  <td class="p-2 border">-5/3</td><td class="p-2 border">0</td><td class="p-2 border">0</td><td class="p-2 border">-</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div id="exp-1-2" class="hidden p-3 bg-amber-50/70 border border-amber-200 rounded-xl text-xs space-y-1 text-amber-950">
-            <div class="font-bold text-amber-900">🔍 Step 2 Explanation:</div>
-            <div>• Profit increased from \(Z = 0\) to \(Z = 40/3 \approx 13.33\).</div>
-            <div>• Only \(x_3\) has a positive net evaluation (\(\Delta_3 = +4\)), so \(x_3\) enters.</div>
-            <div>• Minimum ratio rule: Row 1 is ignored because \(a_{13}=0\). Minimum ratio is \(0.93\) in Row 2, so \(S_2\) leaves. Pivot element is <strong>5</strong>.</div>
-            <div>• Row Formulas: \(R_2(new) = R_2(old) / 5\); \(R_1(new) = R_1(old)\); \(R_3(new) = R_3(old) - 4R_2(new)\).</div>
-          </div>
-        </div>
-
-        <!-- Iteration 3 -->
-        <div class="space-y-2 border-t pt-4">
-          <div class="flex justify-between items-center text-xs font-bold text-slate-700">
-            <span>Table 3: Third Iteration Tableau (Basis: \(x_2, x_3, S_3\))</span>
-            <button onclick="toggleExplain('exp-1-3')" class="px-2.5 py-1 bg-indigo-50 text-indigo-700 border border-indigo-200 rounded-lg hover:bg-indigo-100 transition text-[11px]">
-              💡 Explain This Step
-            </button>
-          </div>
-          <div class="overflow-x-auto border rounded-xl">
-            <table class="w-full text-xs text-left border-collapse">
-              <thead class="bg-slate-100 text-slate-700 font-mono">
-                <tr>
-                  <th class="p-2 border">Basis</th><th class="p-2 border">\(C_B\)</th><th class="p-2 border">\(X_B\)</th>
-                  <th class="p-2 border bg-emerald-50">\(x_1\) (3) &uarr;</th><th class="p-2 border">\(x_2\) (5)</th><th class="p-2 border">\(x_3\) (4)</th>
-                  <th class="p-2 border">\(S_1\) (0)</th><th class="p-2 border">\(S_2\) (0)</th><th class="p-2 border">\(S_3\) (0)</th>
-                  <th class="p-2 border bg-rose-50">Ratio \(\theta\)</th>
-                </tr>
-              </thead>
-              <tbody class="font-mono">
-                <tr>
-                  <td class="p-2 border font-bold">\(x_2\)</td><td class="p-2 border">5</td><td class="p-2 border font-bold">8/3</td>
-                  <td class="p-2 border entering-col">2/3</td><td class="p-2 border">1</td><td class="p-2 border">0</td>
-                  <td class="p-2 border">1/3</td><td class="p-2 border">0</td><td class="p-2 border">0</td>
-                  <td class="p-2 border">(8/3)/(2/3) = 4.00</td>
-                </tr>
-                <tr>
-                  <td class="p-2 border font-bold">\(x_3\)</td><td class="p-2 border">4</td><td class="p-2 border font-bold">14/15</td>
-                  <td class="p-2 border entering-col">-4/15</td><td class="p-2 border">0</td><td class="p-2 border">1</td>
-                  <td class="p-2 border">-2/15</td><td class="p-2 border">1/5</td><td class="p-2 border">0</td>
-                  <td class="p-2 border">— (\(a_{ik} < 0\))</td>
-                </tr>
-                <tr class="leaving-row">
-                  <td class="p-2 border font-bold text-rose-700">\(S_3\) &rarr;</td><td class="p-2 border">0</td><td class="p-2 border font-bold">89/15</td>
-                  <td class="p-2 border pivot-cell">(41/15)</td><td class="p-2 border">0</td><td class="p-2 border">0</td>
-                  <td class="p-2 border">-2/15</td><td class="p-2 border">-4/5</td><td class="p-2 border">1</td>
-                  <td class="p-2 border font-bold text-rose-700">(89/15)/(41/15) = 2.17 &larr; Min</td>
-                </tr>
-                <tr class="bg-slate-50 font-bold">
-                  <td colspan="3" class="p-2 border">\(Z_j = 256/15 = 17.07\)</td>
-                  <td class="p-2 border">34/15</td><td class="p-2 border">5</td><td class="p-2 border">4</td>
-                  <td class="p-2 border">17/15</td><td class="p-2 border">4/5</td><td class="p-2 border">0</td><td class="p-2 border">-</td>
-                </tr>
-                <tr class="bg-indigo-50 text-indigo-950 font-bold">
-                  <td colspan="3" class="p-2 border">\(\Delta_j = C_j - Z_j\)</td>
-                  <td class="p-2 border text-emerald-700 font-extrabold">11/15 &uarr; (Max)</td><td class="p-2 border">0</td><td class="p-2 border">0</td>
-                  <td class="p-2 border">-17/15</td><td class="p-2 border">-4/5</td><td class="p-2 border">0</td><td class="p-2 border">-</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div id="exp-1-3" class="hidden p-3 bg-amber-50/70 border border-amber-200 rounded-xl text-xs space-y-1 text-amber-950">
-            <div class="font-bold text-amber-900">🔍 Step 3 Explanation:</div>
-            <div>• Profit increased to \(Z = 256/15 \approx 17.07\).</div>
-            <div>• \(x_1\) has the only positive \(\Delta_1 = 11/15\), so \(x_1\) enters.</div>
-            <div>• Row 2 has a negative coefficient (\(-4/15\)), so it is ignored. Minimum ratio is \(2.17\) at Row 3 (\(S_3\)). Pivot element is <strong>41/15</strong>.</div>
-            <div>• Row Formulas: \(R_3(new) = R_3(old) \times \frac{15}{41}\); \(R_1(new) = R_1(old) - \frac{2}{3}R_3(new)\); \(R_2(new) = R_2(old) + \frac{4}{15}R_3(new)\).</div>
-          </div>
-        </div>
-
         <!-- Iteration 4 (Optimal) -->
         <div class="space-y-2 border-t pt-4">
           <div class="flex justify-between items-center text-xs font-bold text-emerald-800">
@@ -531,25 +434,64 @@
       </article>
 
       <!-- EXAMPLE 1.2: BIG-M MINIMIZATION -->
-      <article class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-5">
+      <article class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-6">
         <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-100 pb-3">
           <div>
-            <span class="text-xs font-bold px-2 py-0.5 bg-indigo-100 text-indigo-800 rounded">Example Set 1.2</span>
-            <h3 class="text-lg font-bold text-slate-900 mt-1">Big-M Minimization (\(\ge\) Constraints)</h3>
+            <span class="text-xs font-bold px-2 py-0.5 bg-indigo-100 text-indigo-800 rounded">Topic 1.4 Guide</span>
+            <h3 class="text-xl font-bold text-slate-900 mt-1">Big-M (Penalty Cost) Method (\(\ge\) & \(=\) Constraints)</h3>
           </div>
-          <span class="text-xs font-mono bg-slate-100 px-2.5 py-1 rounded text-slate-600">4 Full Iteration Tables</span>
+          <span class="text-xs font-mono bg-slate-100 px-2.5 py-1 rounded text-slate-600">Decision Roadmap + Tables</span>
         </div>
 
-        <div class="p-3.5 bg-indigo-50/60 rounded-xl border border-indigo-100 text-xs text-indigo-950 space-y-1">
-          <div class="font-bold text-indigo-900">💡 Concept in Brief:</div>
-          <p>
-            When constraints are \(\ge\), subtracting surplus \(-S_i\) does not provide a positive unit vector. We add artificial variables \(A_i \ge 0\) and attach an immense penalty cost \(+M\) in the minimization objective (\(\text{Min } Z = \dots + M A_1 + M A_2\)) to forcefully purge artificial variables from the basis during pivoting.
-          </p>
+        <!-- WHAT WE ARE DOING & KEEP IN MIND -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+          <div class="p-4 bg-indigo-50/70 border border-indigo-200 rounded-xl space-y-2">
+            <div class="font-bold text-indigo-900 text-sm">🎯 What We Are Doing:</div>
+            <p class="text-indigo-950 leading-relaxed">
+              When a constraint has \(\ge\), subtracting surplus gives \(-S_i\), which cannot serve as an identity basis vector. We introduce an <strong>Artificial Variable (\(A_i\))</strong> to start the basis, but penalize it with a massive penalty cost \(M \to +\infty\) so the simplex engine is forced to drive \(A_i = 0\) out of the basis.
+            </p>
+          </div>
+
+          <div class="p-4 bg-rose-50/70 border border-rose-200 rounded-xl space-y-2">
+            <div class="font-bold text-rose-900 text-sm">⚠️ Big-M Rules & Infeasibility Check:</div>
+            <ul class="list-disc list-inside text-rose-950 space-y-1">
+              <li><strong>Max Objective:</strong> Assign \(-M A_i\). <strong>Min Objective:</strong> Assign \(+M A_i\).</li>
+              <li><strong>Tie Breaker:</strong> If a regular variable and an artificial variable tie in minimum ratio, <strong>always leave the artificial variable first</strong>.</li>
+              <li><strong>Infeasible Trap:</strong> If all \(C_j - Z_j \le 0\) (Max) but an artificial variable remains in the basis with \(X_B > 0\), the problem is <strong>INFEASIBLE</strong>!</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- BIG-M FLOWCHART -->
+        <div class="p-4 bg-slate-900 text-white rounded-xl space-y-3">
+          <div class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Big-M Execution Flowchart:</div>
+          <div class="grid grid-cols-1 sm:grid-cols-4 gap-2 text-center text-xs">
+            <div class="flow-node text-slate-800">
+              <div class="font-bold text-indigo-600">Phase 1: Setup</div>
+              <div class="text-[11px] font-semibold mt-1">\(\ge \implies -S + A\)</div>
+              <div class="text-[10px] text-slate-500 mt-0.5">Penalty \(\pm M A_i\)</div>
+            </div>
+            <div class="flow-node text-slate-800">
+              <div class="font-bold text-indigo-600">Phase 2: Pivot</div>
+              <div class="text-[11px] font-semibold mt-1">Drive \(A_i\) to 0</div>
+              <div class="text-[10px] text-slate-500 mt-0.5">Most negative/positive \(\Delta_j\)</div>
+            </div>
+            <div class="flow-node text-slate-800">
+              <div class="font-bold text-indigo-600">Phase 3: Verify</div>
+              <div class="text-[11px] font-semibold mt-1">Check Basis for \(A_i\)</div>
+              <div class="text-[10px] text-slate-500 mt-0.5">If \(A_i > 0 \implies\) Infeasible</div>
+            </div>
+            <div class="flow-node text-slate-800">
+              <div class="font-bold text-indigo-600">Phase 4: Output</div>
+              <div class="text-[11px] font-semibold mt-1">Optimal Solution</div>
+              <div class="text-[10px] text-slate-500 mt-0.5">All \(C_j - Z_j\) satisfied</div>
+            </div>
+          </div>
         </div>
 
         <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs">
           <strong>Problem:</strong> Minimize \(Z = x_1 + x_2\) subject to \(2x_1 + 4x_2 \ge 4\), \(x_1 + 7x_2 \ge 7\), with \(x_1, x_2 \ge 0\).  
-          <div class="mt-1 text-slate-500 font-mono">Standard Form: \(\text{Min } Z = x_1 + x_2 + 0S_1 + 0S_2 + MA_1 + MA_2\) subject to \(2x_1 + 4x_2 - S_1 + A_1 = 4\) and \(x_1 + 7x_2 - S_2 + A_2 = 7\).</div>
+          <div class="mt-1 text-slate-500 font-mono">Standard Form: \(\text{Min } Z = x_1 + x_2 + 0S_1 + 0S_2 + MA_1 + MA_2\)</div>
         </div>
 
         <!-- Big-M Iteration 1 -->
@@ -604,179 +546,74 @@
             <div>• Pivot element is <strong>7</strong>.</div>
           </div>
         </div>
-
-        <!-- Big-M Iteration 4 (Optimal) -->
-        <div class="space-y-2 border-t pt-4">
-          <div class="flex justify-between items-center text-xs font-bold text-emerald-800">
-            <span>Table 4: Final Optimal Tableau (Minimization Reached)</span>
-            <button onclick="toggleExplain('exp-bm-4')" class="px-2.5 py-1 bg-emerald-100 text-emerald-800 border border-emerald-300 rounded-lg hover:bg-emerald-200 transition text-[11px]">
-              💡 Explain This Step
-            </button>
-          </div>
-          <div class="overflow-x-auto border border-emerald-300 rounded-xl bg-emerald-50/20">
-            <table class="w-full text-xs text-left border-collapse font-mono">
-              <thead class="bg-emerald-100 text-emerald-950">
-                <tr>
-                  <th class="p-2 border">Basis</th><th class="p-2 border">\(C_B\)</th><th class="p-2 border">\(X_B\)</th>
-                  <th class="p-2 border">\(x_1\) (1)</th><th class="p-2 border">\(x_2\) (1)</th>
-                  <th class="p-2 border">\(S_1\) (0)</th><th class="p-2 border">\(S_2\) (0)</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="p-2 border font-bold">\(S_2\)</td><td class="p-2 border">0</td><td class="p-2 border font-bold">0</td>
-                  <td class="p-2 border">5/2</td><td class="p-2 border">0</td>
-                  <td class="p-2 border">-7/4</td><td class="p-2 border">1</td>
-                </tr>
-                <tr>
-                  <td class="p-2 border font-bold">\(x_2\)</td><td class="p-2 border">1</td><td class="p-2 border font-bold text-indigo-700">1</td>
-                  <td class="p-2 border">1/2</td><td class="p-2 border">1</td>
-                  <td class="p-2 border">-1/4</td><td class="p-2 border">0</td>
-                </tr>
-                <tr class="bg-emerald-100/70 font-bold">
-                  <td colspan="3" class="p-2 border font-extrabold text-emerald-900">\(\text{Min } Z^* = 1\)</td>
-                  <td class="p-2 border">1/2</td><td class="p-2 border">1</td>
-                  <td class="p-2 border">-1/4</td><td class="p-2 border">0</td>
-                </tr>
-                <tr class="bg-emerald-200/50 text-emerald-950 font-bold">
-                  <td colspan="3" class="p-2 border">\(C_j - Z_j\)</td>
-                  <td class="p-2 border font-extrabold text-emerald-900">1/2 &ge; 0</td><td class="p-2 border">0</td>
-                  <td class="p-2 border font-extrabold text-emerald-900">1/4 &ge; 0</td><td class="p-2 border">0</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div id="exp-bm-4" class="hidden p-3 bg-emerald-100/80 border border-emerald-300 rounded-xl text-xs space-y-1 text-emerald-950 font-sans">
-            <div class="font-bold text-emerald-900">🎉 Optimal Minimization Result:</div>
-            <div>• All \(C_j - Z_j \ge 0\) for minimization (\([1/2, 0, 1/4, 0]\)). No artificial variables remain in the basis.</div>
-            <div>• <strong>Optimal Solution:</strong> \(x_1^* = 0, x_2^* = 1\) with <strong>\(\text{Min } Z^* = 1\)</strong>.</div>
-          </div>
-        </div>
-      </article>
-
-      <!-- EXAMPLE 1.3: BIG-M INFEASIBILITY PROOF -->
-      <article class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-5">
-        <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-100 pb-3">
-          <div>
-            <span class="text-xs font-bold px-2 py-0.5 bg-rose-100 text-rose-800 rounded">Example Set 1.3</span>
-            <h3 class="text-lg font-bold text-slate-900 mt-1">Big-M Infeasible Solution (Detection Proof)</h3>
-          </div>
-          <span class="text-xs font-mono bg-slate-100 px-2.5 py-1 rounded text-slate-600">2 Full Tables &bull; Artificial Remains</span>
-        </div>
-
-        <div class="p-3.5 bg-rose-50/60 rounded-xl border border-rose-100 text-xs text-rose-950 space-y-1">
-          <div class="font-bold text-rose-900">💡 Exam Recognition Trigger:</div>
-          <p>
-            An LPP is <strong>Infeasible</strong> if the final simplex tableau satisfies the optimality condition (\(C_j - Z_j \le 0\)), BUT at least one artificial variable (\(A_k\)) remains in the basis with a strictly positive value (\(X_{Bk} > 0\)). This mathematically proves the constraints are contradictory.
-          </p>
-        </div>
-
-        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs">
-          <strong>Problem Statement:</strong> Maximize \(Z = 6x_1 + 4x_2\) subject to \(x_1 + x_2 \le 5\), \(x_2 \ge 8\), \(x_1, x_2 \ge 0\).  
-          <div class="mt-1 text-slate-500 font-mono">Standard Form: \(\text{Max } Z = 6x_1 + 4x_2 + 0S_1 + 0S_2 - M A_1\) with \(x_1 + x_2 + S_1 = 5\), \(x_2 - S_2 + A_1 = 8\).</div>
-        </div>
-
-        <!-- Iteration 1 -->
-        <div class="overflow-x-auto border rounded-xl">
-          <table class="w-full text-xs text-left border-collapse font-mono">
-            <thead class="bg-slate-100 text-slate-700">
-              <tr>
-                <th class="p-2 border">Basis</th><th class="p-2 border">\(C_B\)</th><th class="p-2 border">\(X_B\)</th>
-                <th class="p-2 border">\(x_1\) (6)</th><th class="p-2 border bg-emerald-50">\(x_2\) (4) &uarr;</th>
-                <th class="p-2 border">\(S_1\) (0)</th><th class="p-2 border">\(S_2\) (0)</th><th class="p-2 border">\(A_1\) (-M)</th>
-                <th class="p-2 border bg-rose-50">Ratio \(\theta\)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="leaving-row">
-                <td class="p-2 border font-bold text-rose-700">\(S_1\) &rarr;</td><td class="p-2 border">0</td><td class="p-2 border font-bold">5</td>
-                <td class="p-2 border">1</td><td class="p-2 border pivot-cell">(1)</td>
-                <td class="p-2 border">1</td><td class="p-2 border">0</td><td class="p-2 border">0</td>
-                <td class="p-2 border font-bold text-rose-700">5/1 = 5 &larr; Min</td>
-              </tr>
-              <tr>
-                <td class="p-2 border font-bold">\(A_1\)</td><td class="p-2 border">-M</td><td class="p-2 border font-bold">8</td>
-                <td class="p-2 border">0</td><td class="p-2 border entering-col">1</td>
-                <td class="p-2 border">0</td><td class="p-2 border">-1</td><td class="p-2 border">1</td>
-                <td class="p-2 border">8/1 = 8</td>
-              </tr>
-              <tr class="bg-indigo-50 text-indigo-950 font-bold">
-                <td colspan="3" class="p-2 border">\(C_j - Z_j\)</td>
-                <td class="p-2 border">6</td><td class="p-2 border text-emerald-700 font-extrabold">M + 4 &uarr;</td>
-                <td class="p-2 border">0</td><td class="p-2 border">-M</td><td class="p-2 border">0</td><td class="p-2 border">-</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- Iteration 2 (Final Infeasible Table) -->
-        <div class="overflow-x-auto border border-rose-300 rounded-xl bg-rose-50/30">
-          <table class="w-full text-xs text-left border-collapse font-mono">
-            <thead class="bg-rose-100 text-rose-950">
-              <tr>
-                <th class="p-2 border">Basis</th><th class="p-2 border">\(C_B\)</th><th class="p-2 border">\(X_B\)</th>
-                <th class="p-2 border">\(x_1\)</th><th class="p-2 border">\(x_2\)</th>
-                <th class="p-2 border">\(S_1\)</th><th class="p-2 border">\(S_2\)</th><th class="p-2 border">\(A_1\)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="p-2 border font-bold">\(x_2\)</td><td class="p-2 border">4</td><td class="p-2 border font-bold">5</td>
-                <td class="p-2 border">1</td><td class="p-2 border">1</td>
-                <td class="p-2 border">1</td><td class="p-2 border">0</td><td class="p-2 border">0</td>
-              </tr>
-              <tr class="bg-rose-100/50">
-                <td class="p-2 border font-bold text-rose-700">\(A_1\) [ARTIFICIAL]</td><td class="p-2 border">-M</td><td class="p-2 border font-bold text-rose-700">3 &gt; 0</td>
-                <td class="p-2 border">-1</td><td class="p-2 border">0</td>
-                <td class="p-2 border">-1</td><td class="p-2 border">-1</td><td class="p-2 border">1</td>
-              </tr>
-              <tr class="bg-slate-100 font-bold text-slate-700">
-                <td colspan="3" class="p-2 border">\(Z = 20 - 3M\)</td>
-                <td class="p-2 border">M + 4</td><td class="p-2 border">4</td>
-                <td class="p-2 border">M + 4</td><td class="p-2 border">M</td><td class="p-2 border">-M</td>
-              </tr>
-              <tr class="bg-rose-200/50 text-rose-950 font-bold">
-                <td colspan="3" class="p-2 border">\(C_j - Z_j\)</td>
-                <td class="p-2 border font-extrabold text-rose-900">-M + 2 &le; 0</td><td class="p-2 border">0</td>
-                <td class="p-2 border font-extrabold text-rose-900">-M - 4 &le; 0</td><td class="p-2 border font-extrabold text-rose-900">-M &le; 0</td><td class="p-2 border">0</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="p-3 bg-rose-100 border border-rose-300 rounded-xl text-xs text-rose-900 font-bold">
-          🚨 INFEASIBILITY PROOF: All \(C_j - Z_j \le 0\) (optimality met), BUT artificial variable \(A_1\) remains in the basis with positive value \(X_B = 3\). The constraints \(x_1 + x_2 \le 5\) and \(x_2 \ge 8\) cannot be satisfied simultaneously!
-        </div>
       </article>
     </section>
 
     <!-- ========================================== -->
-    <!-- 3. MODULE 2 FULL ITERATION TABLES -->
+    <!-- 3. MODULE 2 FULL FLOWCHARTS & TABLES -->
     <!-- ========================================== -->
     <section id="view-mod2-examples" class="hidden space-y-8">
       <div class="border-b border-slate-200 pb-4">
-        <h2 class="text-2xl font-black text-slate-900">Module 2: Transportation, Assignment & Sequencing — Full Tables</h2>
-        <p class="text-sm text-slate-600">Complete multi-step VAM penalty tables, MODI closed \(\pm \theta\) loop tables, Hungarian 5-step reductions, and Johnson Gantt charts.</p>
+        <h2 class="text-2xl font-black text-slate-900">Module 2: Transportation, Assignment & Sequencing — Roadmaps & Tables</h2>
+        <p class="text-sm text-slate-600">Decision roadmaps, penalty derivations, MODI UV closed loops, and Hungarian 5-step lines.</p>
       </div>
 
       <!-- EXAMPLE 2.1: VOGEL'S APPROXIMATION METHOD (VAM) -->
-      <article class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+      <article class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-6">
         <div class="flex justify-between items-center border-b pb-2">
           <div>
-            <span class="text-xs font-bold px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded">Example Set 2.1</span>
-            <h3 class="text-lg font-bold text-slate-900 mt-1">VAM Multi-Step Penalty Calculation Table</h3>
+            <span class="text-xs font-bold px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded">Topic 2.1 Guide</span>
+            <h3 class="text-xl font-bold text-slate-900 mt-1">Vogel's Approximation Method (VAM) Decision Flow</h3>
           </div>
           <button onclick="toggleExplain('exp-vam')" class="px-2.5 py-1 bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-lg hover:bg-emerald-100 transition text-[11px] font-bold">
             💡 Explain VAM Steps
           </button>
         </div>
 
-        <div class="p-3.5 bg-emerald-50/60 rounded-xl border border-emerald-100 text-xs text-emerald-950 space-y-1">
-          <div class="font-bold text-emerald-900">💡 VAM Algorithm Rule:</div>
-          <p>
-            For every active row and column, calculate the <strong>Penalty = (Second Smallest Cost) - (Smallest Cost)</strong>. Identify the line with the maximum penalty, and allocate as much as possible (\(\min(\text{Supply}, \text{Demand})\)) to the lowest-cost cell in that line. Cross out satisfied lines and repeat.
-          </p>
+        <!-- WHAT WE ARE DOING & KEEP IN MIND -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+          <div class="p-4 bg-emerald-50/70 border border-emerald-200 rounded-xl space-y-2">
+            <div class="font-bold text-emerald-900 text-sm">🎯 What We Are Doing:</div>
+            <p class="text-emerald-950 leading-relaxed">
+              VAM is a penalty-based heuristic. The penalty of a row/column represents the <strong>opportunity cost</strong> you suffer if you fail to allocate to the absolute cheapest cell. By prioritizing lines with the highest penalty, VAM avoids severe cost penalties and produces near-optimal initial solutions.
+            </p>
+          </div>
+
+          <div class="p-4 bg-amber-50/70 border border-amber-200 rounded-xl space-y-2">
+            <div class="font-bold text-amber-900 text-sm">⚠️ VAM Rules to Keep in Mind:</div>
+            <ul class="list-disc list-inside text-amber-950 space-y-1">
+              <li><strong>Penalty Formula:</strong> \(\text{Penalty} = (\text{2nd Lowest Cost}) - (\text{Lowest Cost})\).</li>
+              <li><strong>Tie in Penalty:</strong> If two lines have the identical max penalty, pick the line containing the absolute minimum unit cost cell.</li>
+              <li><strong>Degeneracy Check:</strong> Ensure exactly \(m + n - 1\) allocations at the end before testing with MODI.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- VAM FLOWCHART -->
+        <div class="p-4 bg-slate-900 text-white rounded-xl space-y-3">
+          <div class="text-xs font-bold text-emerald-400 uppercase tracking-wider">VAM Algorithm Flowchart:</div>
+          <div class="grid grid-cols-1 sm:grid-cols-4 gap-2 text-center text-xs">
+            <div class="flow-node text-slate-800">
+              <div class="font-bold text-emerald-600">Step 1: Penalties</div>
+              <div class="text-[11px] font-semibold mt-1">Calculate Differences</div>
+              <div class="text-[10px] text-slate-500 mt-0.5">2nd lowest - lowest cost</div>
+            </div>
+            <div class="flow-node text-slate-800">
+              <div class="font-bold text-emerald-600">Step 2: Selection</div>
+              <div class="text-[11px] font-semibold mt-1">Pick Max Penalty</div>
+              <div class="text-[10px] text-slate-500 mt-0.5">Identify row or column</div>
+            </div>
+            <div class="flow-node text-slate-800">
+              <div class="font-bold text-emerald-600">Step 3: Allocate</div>
+              <div class="text-[11px] font-semibold mt-1">\(\min(\text{Supply}, \text{Demand})\)</div>
+              <div class="text-[10px] text-slate-500 mt-0.5">To lowest cost cell</div>
+            </div>
+            <div class="flow-node text-slate-800">
+              <div class="font-bold text-emerald-600">Step 4: Reduce</div>
+              <div class="text-[11px] font-semibold mt-1">Cross Out Line</div>
+              <div class="text-[10px] text-slate-500 mt-0.5">Recalculate penalties</div>
+            </div>
+          </div>
         </div>
 
         <div class="overflow-x-auto border rounded-xl p-4 bg-slate-50/50">
@@ -839,16 +676,68 @@
         </div>
       </article>
 
-      <!-- EXAMPLE 2.2: HUNGARIAN 5-STEP ASSIGNMENT REDUCTION -->
-      <article class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+      <!-- EXAMPLE 2.2: HUNGARIAN ASSIGNMENT -->
+      <article class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-6">
         <div class="flex justify-between items-center border-b pb-2">
           <div>
-            <span class="text-xs font-bold px-2 py-0.5 bg-blue-100 text-blue-800 rounded">Example Set 2.2</span>
-            <h3 class="text-lg font-bold text-slate-900 mt-1">Hungarian Algorithm Complete 5-Step Matrix Reductions</h3>
+            <span class="text-xs font-bold px-2 py-0.5 bg-blue-100 text-blue-800 rounded">Topic 2.2 Guide</span>
+            <h3 class="text-xl font-bold text-slate-900 mt-1">Hungarian Algorithm (Assignment Problem) 5-Step Flow</h3>
           </div>
           <button onclick="toggleExplain('exp-hungarian')" class="px-2.5 py-1 bg-blue-50 text-blue-800 border border-blue-200 rounded-lg hover:bg-blue-100 transition text-[11px] font-bold">
             💡 Explain Hungarian Rules
           </button>
+        </div>
+
+        <!-- WHAT WE ARE DOING & KEEP IN MIND -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+          <div class="p-4 bg-blue-50/70 border border-blue-200 rounded-xl space-y-2">
+            <div class="font-bold text-blue-900 text-sm">🎯 What We Are Doing:</div>
+            <p class="text-blue-950 leading-relaxed">
+              We create zero-cost opportunities in every row and column by subtracting minimum costs (Row/Col reduction). Then we test if we can assign each worker to a zero-cost job without conflicts. If lines \(L < n\), we modify the matrix to reveal new zeros until \(L = n\).
+            </p>
+          </div>
+
+          <div class="p-4 bg-amber-50/70 border border-amber-200 rounded-xl space-y-2">
+            <div class="font-bold text-amber-900 text-sm">⚠️ Hungarian Matrix Modification Rule:</div>
+            <ul class="list-disc list-inside text-amber-950 space-y-1">
+              <li>Find smallest uncovered element \(k = \min(\text{uncovered})\).</li>
+              <li><strong>Subtract \(k\)</strong> from all uncovered elements.</li>
+              <li><strong>Add \(k\)</strong> to all elements at line intersections.</li>
+              <li><strong>Leave unchanged</strong> elements covered by a single line.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- HUNGARIAN FLOWCHART -->
+        <div class="p-4 bg-slate-900 text-white rounded-xl space-y-3">
+          <div class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Hungarian Method Flowchart:</div>
+          <div class="grid grid-cols-1 sm:grid-cols-5 gap-2 text-center text-xs">
+            <div class="flow-node text-slate-800">
+              <div class="font-bold text-indigo-600">Step 1</div>
+              <div class="text-[11px] font-semibold mt-1">Row Reduction</div>
+              <div class="text-[10px] text-slate-500 mt-0.5">Subtract row min</div>
+            </div>
+            <div class="flow-node text-slate-800">
+              <div class="font-bold text-indigo-600">Step 2</div>
+              <div class="text-[11px] font-semibold mt-1">Col Reduction</div>
+              <div class="text-[10px] text-slate-500 mt-0.5">Subtract col min</div>
+            </div>
+            <div class="flow-node text-slate-800">
+              <div class="font-bold text-indigo-600">Step 3</div>
+              <div class="text-[11px] font-semibold mt-1">Line Covering</div>
+              <div class="text-[10px] text-slate-500 mt-0.5">Draw min lines \(L\)</div>
+            </div>
+            <div class="flow-node text-slate-800">
+              <div class="font-bold text-indigo-600">Step 4</div>
+              <div class="text-[11px] font-semibold mt-1">Test \(L = n\)</div>
+              <div class="text-[10px] text-slate-500 mt-0.5">If \(L < n \implies\) modify with \(k\)</div>
+            </div>
+            <div class="flow-node text-slate-800">
+              <div class="font-bold text-indigo-600">Step 5</div>
+              <div class="text-[11px] font-semibold mt-1">Box Zeros \([0]\)</div>
+              <div class="text-[10px] text-slate-500 mt-0.5">1-to-1 optimal match</div>
+            </div>
+          </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-mono">
@@ -888,24 +777,65 @@
             </div>
           </div>
         </div>
-
-        <div id="exp-hungarian" class="hidden p-3 bg-blue-50 border border-blue-200 rounded-xl text-xs space-y-1 text-blue-950 font-sans">
-          <div class="font-bold text-blue-900">🔍 Hungarian Line Covering Logic:</div>
-          <div>• If minimum lines \(L = n\), an optimal 1-to-1 matching is guaranteed without further matrix modification.</div>
-          <div>• We select rows/columns with a single zero, box that zero \([0]\), and cross out competing zeros in that row/column until all workers are paired.</div>
-        </div>
       </article>
 
-      <!-- EXAMPLE 2.3: JOHNSON'S 2-MACHINE SEQUENCING -->
-      <article class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+      <!-- EXAMPLE 2.3: JOHNSON'S SEQUENCING -->
+      <article class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-6">
         <div class="flex justify-between items-center border-b pb-2">
           <div>
-            <span class="text-xs font-bold px-2 py-0.5 bg-purple-100 text-purple-800 rounded">Example Set 2.3</span>
-            <h3 class="text-lg font-bold text-slate-900 mt-1">Johnson's 2-Machine Job Sequencing & In-Out Table</h3>
+            <span class="text-xs font-bold px-2 py-0.5 bg-purple-100 text-purple-800 rounded">Topic 2.3 Guide</span>
+            <h3 class="text-xl font-bold text-slate-900 mt-1">Johnson's Job Sequencing Algorithm Flow</h3>
           </div>
           <button onclick="toggleExplain('exp-johnson')" class="px-2.5 py-1 bg-purple-50 text-purple-800 border border-purple-200 rounded-lg hover:bg-purple-100 transition text-[11px] font-bold">
             💡 Explain Johnson Logic
           </button>
+        </div>
+
+        <!-- WHAT WE ARE DOING & KEEP IN MIND -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+          <div class="p-4 bg-purple-50/70 border border-purple-200 rounded-xl space-y-2">
+            <div class="font-bold text-purple-900 text-sm">🎯 What We Are Doing:</div>
+            <p class="text-purple-950 leading-relaxed">
+              We want to find a single job ordering that minimizes total makespan \(T\) (total completion time) across machines. Johnson's rule ensures Machine 2 starts as early as possible (by putting short Machine 1 jobs first) and stays busy until the very end (by putting short Machine 2 jobs last).
+            </p>
+          </div>
+
+          <div class="p-4 bg-indigo-50/70 border border-indigo-200 rounded-xl space-y-2">
+            <div class="font-bold text-indigo-900 text-sm">⚠️ Johnson Decision Rules:</div>
+            <ul class="list-disc list-inside text-indigo-950 space-y-1">
+              <li>Find smallest time in entire matrix.</li>
+              <li>If min time is on <strong>Machine 1</strong> &rarr; Place job <strong>FIRST (Left)</strong>.</li>
+              <li>If min time is on <strong>Machine 2</strong> &rarr; Place job <strong>LAST (Right)</strong>.</li>
+              <li>3-Machine Rule condition: \(\min(A) \ge \max(B)\) OR \(\min(C) \ge \max(B)\).</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- JOHNSON FLOWCHART -->
+        <div class="p-4 bg-slate-900 text-white rounded-xl space-y-3">
+          <div class="text-xs font-bold text-purple-400 uppercase tracking-wider">Johnson's Sequencing Flowchart:</div>
+          <div class="grid grid-cols-1 sm:grid-cols-4 gap-2 text-center text-xs">
+            <div class="flow-node text-slate-800">
+              <div class="font-bold text-purple-600">Step 1: Min Time</div>
+              <div class="text-[11px] font-semibold mt-1">Scan all \(A_i, B_i\)</div>
+              <div class="text-[10px] text-slate-500 mt-0.5">Find global minimum</div>
+            </div>
+            <div class="flow-node text-slate-800">
+              <div class="font-bold text-purple-600">Step 2: Position</div>
+              <div class="text-[11px] font-semibold mt-1">Assign Left or Right</div>
+              <div class="text-[10px] text-slate-500 mt-0.5">M1 &rarr; Left, M2 &rarr; Right</div>
+            </div>
+            <div class="flow-node text-slate-800">
+              <div class="font-bold text-purple-600">Step 3: Repeat</div>
+              <div class="text-[11px] font-semibold mt-1">Cross Out Job</div>
+              <div class="text-[10px] text-slate-500 mt-0.5">Until all jobs scheduled</div>
+            </div>
+            <div class="flow-node text-slate-800">
+              <div class="font-bold text-purple-600">Step 4: In-Out Table</div>
+              <div class="text-[11px] font-semibold mt-1">Calculate Makespan</div>
+              <div class="text-[10px] text-slate-500 mt-0.5">Total \(T\) and idle time</div>
+            </div>
+          </div>
         </div>
 
         <div class="overflow-x-auto border rounded-xl p-4 bg-slate-50/50">
@@ -963,13 +893,6 @@
               </tr>
             </tbody>
           </table>
-        </div>
-
-        <div id="exp-johnson" class="hidden p-3 bg-purple-50 border border-purple-200 rounded-xl text-xs space-y-1 text-purple-950 font-sans">
-          <div class="font-bold text-purple-900">🔍 Johnson's Placement Rule:</div>
-          <div>• <strong>Minimum Time on Machine 1:</strong> Schedule from the FRONT (Left).</div>
-          <div>• <strong>Minimum Time on Machine 2:</strong> Schedule from the BACK (Right).</div>
-          <div>• <strong>Sequence Obtained:</strong> \(J_1 \to J_4 \to J_5 \to J_3 \to J_2\). Total Elapsed Time \(T = 22\text{ hrs}\). Machine 2 idle time is 3 hrs initially + 2 hrs waiting for Job 3 = <strong>5 hrs total idle</strong>.</div>
         </div>
       </article>
     </section>
