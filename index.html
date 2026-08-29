@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OR-Master | Interactive Granular Micro-Stepper & Solvers</title>
+  <title>OR-Master | Universal Micro-Stepper for All OR Topics & Examples</title>
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -47,18 +47,11 @@
     .leaving-row { background-color: #fef2f2 !important; border-top: 2px solid #ef4444 !important; border-bottom: 2px solid #ef4444 !important; }
     .optimal-cell { background-color: #dcfce7 !important; color: #166534 !important; font-weight: bold; border: 1.5px solid #22c55e !important; }
     .spotlight-active { background-color: #fef9c3 !important; outline: 3px solid #eab308; z-index: 10; font-weight: bold; }
+    .loop-plus { background-color: #dcfce7 !important; border: 2px dashed #16a34a !important; font-weight: bold; color: #15803d !important; }
+    .loop-minus { background-color: #fee2e2 !important; border: 2px dashed #dc2626 !important; font-weight: bold; color: #b91c1c !important; }
     
     .nav-btn.active { background-color: #4f46e5; color: white; }
-
-    /* Flowchart Node Styling */
-    .flow-node {
-      background: white;
-      border: 1.5px solid #e2e8f0;
-      border-radius: 0.75rem;
-      padding: 0.6rem 0.8rem;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-      position: relative;
-    }
+    .stepper-tab.active { background-color: #4f46e5; color: white; border-color: #4f46e5; }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col selection:bg-indigo-100 selection:text-indigo-900">
@@ -75,9 +68,9 @@
           <div>
             <div class="flex items-center space-x-2">
               <span class="font-black text-lg tracking-tight text-slate-900">OR-Master</span>
-              <span class="text-xs px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800 font-semibold uppercase tracking-wider">Granular Stepper Pro</span>
+              <span class="text-xs px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800 font-semibold uppercase tracking-wider">Universal Micro-Stepper</span>
             </div>
-            <p class="text-xs text-slate-500 hidden sm:block">Step-by-Step Micro Stepper • Real-World Intuition • Full Tables</p>
+            <p class="text-xs text-slate-500 hidden sm:block">Step-by-Step Micro Steppers for EVERY Topic & Problem Type</p>
           </div>
         </div>
 
@@ -110,7 +103,7 @@
       <!-- MAIN NAVIGATION TASKBAR -->
       <nav class="flex space-x-1 overflow-x-auto py-2 scrollbar-none border-t border-slate-100 text-xs sm:text-sm font-medium text-slate-600">
         <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn px-3 py-1.5 rounded-lg whitespace-nowrap active transition">🏠 Overview</button>
-        <button onclick="switchTab('micro-stepper')" id="nav-micro-stepper" class="nav-btn px-3 py-1.5 rounded-lg whitespace-nowrap bg-indigo-50 text-indigo-700 font-bold border border-indigo-200 transition">✨ 12-Step Simplex Micro-Stepper</button>
+        <button onclick="switchTab('micro-stepper-hub')" id="nav-micro-stepper-hub" class="nav-btn px-3 py-1.5 rounded-lg whitespace-nowrap bg-indigo-50 text-indigo-700 font-bold border border-indigo-200 transition">🚀 Universal Micro-Stepper (All Topics)</button>
         <button onclick="switchTab('mod1-examples')" id="nav-mod1-examples" class="nav-btn px-3 py-1.5 rounded-lg whitespace-nowrap transition">📘 Mod 1: Simplex & Big-M (Full Tables)</button>
         <button onclick="switchTab('mod2-examples')" id="nav-mod2-examples" class="nav-btn px-3 py-1.5 rounded-lg whitespace-nowrap transition">🚚 Mod 2: Transportation & Hungarian (Full Tables)</button>
         <button onclick="switchTab('puzzles')" id="nav-puzzles" class="nav-btn px-3 py-1.5 rounded-lg whitespace-nowrap transition">🧠 Zero-Pen Puzzles (25+)</button>
@@ -129,144 +122,158 @@
     <section id="view-dashboard" class="space-y-6">
       <div class="bg-gradient-to-r from-indigo-700 via-indigo-800 to-slate-900 rounded-2xl p-6 sm:p-8 text-white shadow-xl">
         <div class="max-w-3xl">
-          <span class="px-3 py-1 rounded-full bg-indigo-500/30 text-indigo-200 text-xs font-semibold uppercase tracking-wider border border-indigo-400/30">Complete Practical Engine</span>
-          <h1 class="text-2xl sm:text-4xl font-black mt-3 leading-tight">Step-by-Step Micro Stepper: From Step 1 to Step 12.</h1>
+          <span class="px-3 py-1 rounded-full bg-indigo-500/30 text-indigo-200 text-xs font-semibold uppercase tracking-wider border border-indigo-400/30">Universal Granular Engine</span>
+          <h1 class="text-2xl sm:text-4xl font-black mt-3 leading-tight">Interactive Micro-Steppers for Every Single Operations Research Problem.</h1>
           <p class="mt-3 text-indigo-100 text-sm sm:text-base leading-relaxed">
-            Watch every single micro-calculation unfold in real-time. See exactly how \(Z_j\) is multiplied, how \(\Delta_j\) is evaluated, why the key column enters, how ratios are compared, and what each number represents in the real business world!
+            Step through all mathematical operations one by one. Choose any topic — Standard Simplex, Big-M Minimization, Infeasibility Detection, Vogel's VAM Penalties, MODI Closed Loops, Hungarian 5-Step Line Covering, or Johnson's Job Sequencing — and explore every micro-calculation!
           </p>
           <div class="mt-6 flex flex-wrap gap-3">
-            <button onclick="switchTab('micro-stepper')" class="px-5 py-2.5 bg-amber-400 text-slate-950 rounded-xl font-bold text-sm shadow-md hover:bg-amber-300 transition">🚀 Launch 12-Step Granular Stepper →</button>
+            <button onclick="switchTab('micro-stepper-hub')" class="px-5 py-2.5 bg-amber-400 text-slate-950 rounded-xl font-bold text-sm shadow-md hover:bg-amber-300 transition">🚀 Open Universal Micro-Stepper Hub →</button>
             <button onclick="switchTab('mod1-examples')" class="px-5 py-2.5 bg-white text-indigo-700 rounded-xl font-bold text-sm shadow-md hover:bg-indigo-50 transition">View Full Mod 1 Tables</button>
             <button onclick="switchTab('mod2-examples')" class="px-5 py-2.5 bg-emerald-500 text-slate-950 rounded-xl font-bold text-sm shadow-md hover:bg-emerald-400 transition">View Full Mod 2 Tables</button>
           </div>
         </div>
       </div>
 
-      <!-- Quick Category Directory -->
+      <!-- Quick Topic Grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Mod 1 Solved Sets -->
-        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-3">
-          <div class="flex items-center justify-between">
-            <h3 class="font-bold text-slate-900 text-base flex items-center gap-2">
-              <span class="w-7 h-7 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-black">01</span>
-              Module 1 Visual Roadmaps & Tables
-            </h3>
-            <span class="text-xs px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 font-semibold">6 Master Sets</span>
+        <!-- Module 1 Stepper Suite -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-4">
+          <h3 class="font-bold text-slate-900 text-base flex items-center gap-2">
+            <span class="w-7 h-7 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-black">01</span>
+            Module 1 Micro-Stepper Suites
+          </h3>
+          <div class="space-y-2 text-xs">
+            <button onclick="loadStepperProblem('simplex_max')" class="w-full p-2.5 bg-slate-50 hover:bg-indigo-50 text-left rounded-xl border border-slate-200 flex justify-between items-center transition">
+              <div>
+                <strong>1. Standard Simplex (3-Var Maximization)</strong>
+                <div class="text-slate-500 text-[11px]">12 Micro-Steps: Slacks &rarr; \(Z_j\) &rarr; \(\Delta_j\) &rarr; Ratios &rarr; Pivot Normalization</div>
+              </div>
+              <span class="text-indigo-600 font-bold">Launch &rarr;</span>
+            </button>
+            <button onclick="loadStepperProblem('bigm_min')" class="w-full p-2.5 bg-slate-50 hover:bg-indigo-50 text-left rounded-xl border border-slate-200 flex justify-between items-center transition">
+              <div>
+                <strong>2. Big-M Minimization (\(\ge\) Constraints)</strong>
+                <div class="text-slate-500 text-[11px]">8 Micro-Steps: Surplus \(-S\) &amp; Artificial \(+A\) &rarr; \(+MA_i\) penalty &rarr; Purging</div>
+              </div>
+              <span class="text-indigo-600 font-bold">Launch &rarr;</span>
+            </button>
+            <button onclick="loadStepperProblem('bigm_infeas')" class="w-full p-2.5 bg-slate-50 hover:bg-rose-50 text-left rounded-xl border border-slate-200 flex justify-between items-center transition">
+              <div>
+                <strong>3. Big-M Infeasible Solution Proof</strong>
+                <div class="text-slate-500 text-[11px]">6 Micro-Steps: Proving why \(A_1=3 > 0\) at optimum means no solution exists</div>
+              </div>
+              <span class="text-rose-600 font-bold">Launch &rarr;</span>
+            </button>
           </div>
-          <ul class="text-xs text-slate-600 space-y-2">
-            <li class="p-2.5 bg-slate-50 rounded-lg flex justify-between items-center border border-slate-100">
-              <div>
-                <strong>Set 1.1:</strong> Standard Simplex 3-Var Maximization
-                <div class="text-[11px] text-slate-500 mt-0.5">Includes Interactive Micro-Stepper & 4 Full Tables</div>
-              </div>
-              <span class="text-indigo-600 font-bold whitespace-nowrap ml-2">12 Micro-Steps</span>
-            </li>
-            <li class="p-2.5 bg-slate-50 rounded-lg flex justify-between items-center border border-slate-100">
-              <div>
-                <strong>Set 1.2:</strong> Big-M Minimization (\(\ge\) constraints)
-                <div class="text-[11px] text-slate-500 mt-0.5">Surplus & artificial variables with \(+MA_i\) penalty</div>
-              </div>
-              <span class="text-indigo-600 font-bold whitespace-nowrap ml-2">4 Full Tables</span>
-            </li>
-            <li class="p-2.5 bg-slate-50 rounded-lg flex justify-between items-center border border-slate-100">
-              <div>
-                <strong>Set 1.3:</strong> Big-M Infeasible Solution Proof
-                <div class="text-[11px] text-slate-500 mt-0.5">Proves why \(A_1 > 0\) at optimum means no physical solution</div>
-              </div>
-              <span class="text-rose-600 font-bold whitespace-nowrap ml-2">Trap Detector</span>
-            </li>
-          </ul>
-          <button onclick="switchTab('mod1-examples')" class="w-full py-2 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 font-bold text-xs rounded-xl transition">
-            View All Module 1 Tables →
-          </button>
         </div>
 
-        <!-- Mod 2 Solved Sets -->
-        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-3">
-          <div class="flex items-center justify-between">
-            <h3 class="font-bold text-slate-900 text-base flex items-center gap-2">
-              <span class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-black">02</span>
-              Module 2 Visual Roadmaps & Tables
-            </h3>
-            <span class="text-xs px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-semibold">7 Master Sets</span>
+        <!-- Module 2 Stepper Suite -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-4">
+          <h3 class="font-bold text-slate-900 text-base flex items-center gap-2">
+            <span class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-black">02</span>
+            Module 2 Micro-Stepper Suites
+          </h3>
+          <div class="space-y-2 text-xs">
+            <button onclick="loadStepperProblem('vam_transport')" class="w-full p-2.5 bg-slate-50 hover:bg-emerald-50 text-left rounded-xl border border-slate-200 flex justify-between items-center transition">
+              <div>
+                <strong>4. Vogel's Approximation Method (VAM)</strong>
+                <div class="text-slate-500 text-[11px]">8 Micro-Steps: Penalty calculations &rarr; Max Penalty Line &rarr; Allocation</div>
+              </div>
+              <span class="text-emerald-700 font-bold">Launch &rarr;</span>
+            </button>
+            <button onclick="loadStepperProblem('modi_uv')" class="w-full p-2.5 bg-slate-50 hover:bg-emerald-50 text-left rounded-xl border border-slate-200 flex justify-between items-center transition">
+              <div>
+                <strong>5. MODI (u-v) Optimality &amp; Closed Loop</strong>
+                <div class="text-slate-500 text-[11px]">7 Micro-Steps: \(u_i+v_j\) system &rarr; \(\Delta_{ij}\) &rarr; Closed \(\pm \theta\) loop transfer</div>
+              </div>
+              <span class="text-emerald-700 font-bold">Launch &rarr;</span>
+            </button>
+            <button onclick="loadStepperProblem('hungarian_ap')" class="w-full p-2.5 bg-slate-50 hover:bg-emerald-50 text-left rounded-xl border border-slate-200 flex justify-between items-center transition">
+              <div>
+                <strong>6. Hungarian 4x4 Assignment Algorithm</strong>
+                <div class="text-slate-500 text-[11px]">6 Micro-Steps: Row min &rarr; Col min &rarr; Line covering \(L < n\) &rarr; Box zeros</div>
+              </div>
+              <span class="text-emerald-700 font-bold">Launch &rarr;</span>
+            </button>
+            <button onclick="loadStepperProblem('johnson_seq')" class="w-full p-2.5 bg-slate-50 hover:bg-purple-50 text-left rounded-xl border border-slate-200 flex justify-between items-center transition">
+              <div>
+                <strong>7. Johnson's 2-Machine Job Sequencing</strong>
+                <div class="text-slate-500 text-[11px]">6 Micro-Steps: Global min scan &rarr; Front/Back schedule &rarr; In-Out Gantt chart</div>
+              </div>
+              <span class="text-purple-700 font-bold">Launch &rarr;</span>
+            </button>
           </div>
-          <ul class="text-xs text-slate-600 space-y-2">
-            <li class="p-2.5 bg-slate-50 rounded-lg flex justify-between items-center border border-slate-100">
-              <div>
-                <strong>Set 2.1:</strong> Vogel's Approximation Method (VAM)
-                <div class="text-[11px] text-slate-500 mt-0.5">Step-by-step penalty differences and allocations</div>
-              </div>
-              <span class="text-emerald-700 font-bold whitespace-nowrap ml-2">Penalty Matrix</span>
-            </li>
-            <li class="p-2.5 bg-slate-50 rounded-lg flex justify-between items-center border border-slate-100">
-              <div>
-                <strong>Set 2.2:</strong> MODI (u-v) Optimality & Closed Loop
-                <div class="text-[11px] text-slate-500 mt-0.5">Opportunity cost \(\Delta_{ij}\), closed \(\pm \theta\) loop, revised table</div>
-              </div>
-              <span class="text-emerald-700 font-bold whitespace-nowrap ml-2">3 UV Tables</span>
-            </li>
-            <li class="p-2.5 bg-slate-50 rounded-lg flex justify-between items-center border border-slate-100">
-              <div>
-                <strong>Set 2.3:</strong> Hungarian 5-Step Assignment Algorithm
-                <div class="text-[11px] text-slate-500 mt-0.5">Row min, col min, min lines \(L < n\), modification with \(k\)</div>
-              </div>
-              <span class="text-emerald-700 font-bold whitespace-nowrap ml-2">5 Reduction Tables</span>
-            </li>
-          </ul>
-          <button onclick="switchTab('mod2-examples')" class="w-full py-2 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-bold text-xs rounded-xl transition">
-            View All Module 2 Tables →
-          </button>
         </div>
       </div>
     </section>
 
     <!-- ========================================== -->
-    <!-- 2. INTERACTIVE GRANULAR MICRO-STEPPER -->
+    <!-- 2. UNIVERSAL MICRO-STEPPER HUB -->
     <!-- ========================================== -->
-    <section id="view-micro-stepper" class="hidden space-y-6">
+    <section id="view-micro-stepper-hub" class="hidden space-y-6">
+      <!-- Problem Selector Header -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+        <div>
+          <span class="px-2.5 py-1 bg-indigo-100 text-indigo-800 rounded text-xs font-bold uppercase tracking-wide">Universal Step-by-Step Hub</span>
+          <h2 class="text-2xl font-black text-slate-900 mt-1">Select an Operations Research Problem to Step Through:</h2>
+        </div>
+
+        <!-- Pill Selector Bar -->
+        <div class="flex flex-wrap gap-2 text-xs">
+          <button onclick="loadStepperProblem('simplex_max')" id="tab-p-simplex_max" class="stepper-tab px-3 py-2 rounded-xl border font-bold bg-indigo-600 text-white transition">1. Simplex Maximization</button>
+          <button onclick="loadStepperProblem('bigm_min')" id="tab-p-bigm_min" class="stepper-tab px-3 py-2 rounded-xl border font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">2. Big-M Minimization</button>
+          <button onclick="loadStepperProblem('bigm_infeas')" id="tab-p-bigm_infeas" class="stepper-tab px-3 py-2 rounded-xl border font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">3. Big-M Infeasible Proof</button>
+          <button onclick="loadStepperProblem('vam_transport')" id="tab-p-vam_transport" class="stepper-tab px-3 py-2 rounded-xl border font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">4. Vogel's VAM Penalties</button>
+          <button onclick="loadStepperProblem('modi_uv')" id="tab-p-modi_uv" class="stepper-tab px-3 py-2 rounded-xl border font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">5. MODI UV Loop</button>
+          <button onclick="loadStepperProblem('hungarian_ap')" id="tab-p-hungarian_ap" class="stepper-tab px-3 py-2 rounded-xl border font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">6. Hungarian 4x4 Matching</button>
+          <button onclick="loadStepperProblem('johnson_seq')" id="tab-p-johnson_seq" class="stepper-tab px-3 py-2 rounded-xl border font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">7. Johnson Sequencing</button>
+        </div>
+      </div>
+
+      <!-- Active Stepper Viewport -->
       <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-5">
         <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 pb-4">
           <div>
-            <span class="px-2.5 py-1 bg-indigo-100 text-indigo-800 rounded text-xs font-bold uppercase tracking-wide">Interactive Pedagogical Stepper</span>
-            <h2 class="text-2xl font-black text-slate-900 mt-1">Simplex Granular Micro-Action Stepper (Steps 1 &rarr; 12)</h2>
-            <p class="text-xs text-slate-500 mt-0.5">Problem: Maximize \(Z = 3x_1 + 5x_2 + 4x_3\) subject to \(2x_1+3x_2 \le 8\), \(2x_2+5x_3 \le 10\), \(3x_1+2x_2+4x_3 \le 15\)</p>
+            <h3 id="active-problem-title" class="text-xl font-bold text-slate-900">Standard Simplex (3-Var Maximization)</h3>
+            <p id="active-problem-desc" class="text-xs text-slate-500 mt-0.5">Maximize \(Z = 3x_1 + 5x_2 + 4x_3\) subject to \(2x_1+3x_2 \le 8, 2x_2+5x_3 \le 10, 3x_1+2x_2+4x_3 \le 15\)</p>
           </div>
 
-          <!-- Stepper Controls -->
+          <!-- Navigation Controls -->
           <div class="flex items-center space-x-2">
-            <button onclick="prevMicroStep()" id="btn-micro-prev" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition">
-              ◀ Previous Micro-Step
+            <button onclick="prevUniversalStep()" id="btn-u-prev" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition">
+              ◀ Previous Step
             </button>
-            <span id="micro-step-counter" class="px-4 py-2 bg-indigo-50 border border-indigo-200 text-indigo-800 font-bold rounded-xl text-xs">
+            <span id="u-step-counter" class="px-4 py-2 bg-indigo-50 border border-indigo-200 text-indigo-800 font-bold rounded-xl text-xs">
               Step 1 of 12
             </span>
-            <button onclick="nextMicroStep()" id="btn-micro-next" class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-xs transition shadow-sm">
-              Next Micro-Step ▶
+            <button onclick="nextUniversalStep()" id="btn-u-next" class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-xs transition shadow-sm">
+              Next Step ▶
             </button>
           </div>
         </div>
 
-        <!-- Live Action & Real-World Intuition Card -->
+        <!-- Live Math & Intuition Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="p-4 bg-indigo-50 border border-indigo-200 rounded-xl space-y-2 text-xs">
             <div class="font-bold text-indigo-900 text-sm flex items-center gap-2">
-              <span id="micro-step-badge" class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs">1</span>
-              <span id="micro-step-title">Current Mathematical Action</span>
+              <span id="u-step-badge" class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs">1</span>
+              <span id="u-step-title">Mathematical Action</span>
             </div>
-            <div id="micro-step-formula" class="font-mono text-indigo-950 bg-white p-2.5 rounded-lg border border-indigo-100"></div>
+            <div id="u-step-formula" class="font-mono text-indigo-950 bg-white p-2.5 rounded-lg border border-indigo-100"></div>
           </div>
 
           <div class="p-4 bg-amber-50 border border-amber-200 rounded-xl space-y-2 text-xs text-amber-950">
             <div class="font-bold text-amber-900 text-sm flex items-center gap-1.5">
-              <span>🧠 Real-World Business Intuition:</span>
+              <span>🧠 Business & Physical Intuition:</span>
             </div>
-            <p id="micro-step-intuition" class="leading-relaxed"></p>
+            <p id="u-step-intuition" class="leading-relaxed"></p>
           </div>
         </div>
 
-        <!-- Live Rendered Tableau with Spotlight Highlighting -->
+        <!-- Live Rendered Table / Matrix Spotlight -->
         <div class="overflow-x-auto border border-slate-200 rounded-xl">
-          <div id="micro-table-container" class="p-4 text-xs font-mono"></div>
+          <div id="u-table-container" class="p-4 text-xs font-mono"></div>
         </div>
       </div>
     </section>
@@ -280,192 +287,41 @@
         <p class="text-sm text-slate-600">Decision roadmaps, what we are doing, what to keep in mind, and complete multi-iteration tables.</p>
       </div>
 
-      <!-- EXAMPLE 1.1: STANDARD SIMPLEX MAXIMIZATION -->
+      <!-- EXAMPLE 1.1 -->
       <article class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-6">
         <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-100 pb-3">
           <div>
             <span class="text-xs font-bold px-2 py-0.5 bg-indigo-100 text-indigo-800 rounded">Topic 1.3 Guide</span>
             <h3 class="text-xl font-bold text-slate-900 mt-1">Standard Simplex Method (Maximization, All \(\le\))</h3>
           </div>
-          <span class="text-xs font-mono bg-slate-100 px-2.5 py-1 rounded text-slate-600">Decision Roadmap + 4 Full Tables</span>
-        </div>
-
-        <!-- 1. WHAT WE ARE DOING (MISSION) -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-          <div class="p-4 bg-indigo-50/70 border border-indigo-200 rounded-xl space-y-2">
-            <div class="font-bold text-indigo-900 text-sm flex items-center gap-1.5">
-              <span>🎯 What We Are Doing:</span>
-            </div>
-            <p class="text-indigo-950 leading-relaxed">
-              We start at the origin \((0,0,0)\) where all physical production is zero (\(Z=0\)) and all resources remain unconsumed (stored in <strong>Slack Variables</strong> \(S_1, S_2, S_3\)). In each table, we swap one non-profitable slack variable with the most profitable product variable (\(x_j\)) to step onto adjacent vertices of the feasible polygon until no further profit increase is possible.
-            </p>
-          </div>
-
-          <div class="p-4 bg-amber-50/70 border border-amber-200 rounded-xl space-y-2">
-            <div class="font-bold text-amber-900 text-sm flex items-center gap-1.5">
-              <span>⚠️ What to Keep in Mind (Exam Traps):</span>
-            </div>
-            <ul class="list-disc list-inside text-amber-950 space-y-1">
-              <li><strong>Entering Variable:</strong> Pick the <strong>most positive</strong> \(\Delta_j = C_j - Z_j\).</li>
-              <li><strong>Leaving Variable:</strong> Minimum ratio \(\theta = X_B / a_{ik}\) ONLY for <strong>strictly positive</strong> \(a_{ik} > 0\). (Never divide by \(0\) or negative numbers!).</li>
-              <li><strong>Optimality Stop:</strong> When ALL \(C_j - Z_j \le 0\), the current basis is mathematically optimal.</li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- 2. VISUAL FLOWCHART (ALGORITHM ROADMAP) -->
-        <div class="p-4 bg-slate-900 text-white rounded-xl space-y-3">
-          <div class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Simplex Execution Flowchart:</div>
-          <div class="grid grid-cols-1 sm:grid-cols-5 gap-2 text-center text-xs">
-            <div class="flow-node text-slate-800">
-              <div class="font-bold text-indigo-600">Step 1</div>
-              <div class="text-[11px] font-semibold mt-1">Convert to Standard Form</div>
-              <div class="text-[10px] text-slate-500 mt-0.5">Add \(+S_i \ge 0\) with cost \(0\)</div>
-            </div>
-            <div class="flow-node text-slate-800">
-              <div class="font-bold text-indigo-600">Step 2</div>
-              <div class="text-[11px] font-semibold mt-1">Compute \(C_j - Z_j\)</div>
-              <div class="text-[10px] text-slate-500 mt-0.5">If all \(\le 0\) &rarr; Optimal!</div>
-            </div>
-            <div class="flow-node text-slate-800">
-              <div class="font-bold text-indigo-600">Step 3</div>
-              <div class="text-[11px] font-semibold mt-1">Key Column (Entering)</div>
-              <div class="text-[10px] text-slate-500 mt-0.5">\(\max(C_j - Z_j > 0)\)</div>
-            </div>
-            <div class="flow-node text-slate-800">
-              <div class="font-bold text-indigo-600">Step 4</div>
-              <div class="text-[11px] font-semibold mt-1">Key Row (Leaving)</div>
-              <div class="text-[10px] text-slate-500 mt-0.5">\(\min(X_B / a_{ik} : a_{ik} > 0)\)</div>
-            </div>
-            <div class="flow-node text-slate-800">
-              <div class="font-bold text-indigo-600">Step 5</div>
-              <div class="text-[11px] font-semibold mt-1">Gauss Pivot Update</div>
-              <div class="text-[10px] text-slate-500 mt-0.5">Divide pivot row, zero others</div>
-            </div>
-          </div>
+          <button onclick="loadStepperProblem('simplex_max'); switchTab('micro-stepper-hub');" class="px-3 py-1.5 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold rounded-lg text-xs shadow-sm transition">
+            🚀 Launch 12-Step Micro Stepper &rarr;
+          </button>
         </div>
 
         <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs">
           <strong>Problem Statement:</strong> Maximize \(Z = 3x_1 + 5x_2 + 4x_3\) subject to:  
-          \(2x_1 + 3x_2 \le 8\), \(2x_2 + 5x_3 \le 10\), \(3x_1 + 2x_2 + 4x_3 \le 15\), with \(x_1, x_2, x_3 \ge 0\).  
-          <div class="mt-1 text-slate-500 font-mono">Standard Form: \(\text{Max } Z = 3x_1 + 5x_2 + 4x_3 + 0S_1 + 0S_2 + 0S_3\)</div>
+          \(2x_1 + 3x_2 \le 8\), \(2x_2 + 5x_3 \le 10\), \(3x_1 + 2x_2 + 4x_3 \le 15\), with \(x_1, x_2, x_3 \ge 0\).
         </div>
 
-        <!-- Iteration 1 -->
-        <div class="space-y-2 border-t pt-4">
-          <div class="flex justify-between items-center text-xs font-bold text-slate-700">
-            <span>Table 1: Initial Tableau (Basis: \(S_1, S_2, S_3\))</span>
-            <button onclick="toggleExplain('exp-1-1')" class="px-2.5 py-1 bg-indigo-50 text-indigo-700 border border-indigo-200 rounded-lg hover:bg-indigo-100 transition text-[11px]">
-              💡 Explain This Step
-            </button>
-          </div>
-          <div class="overflow-x-auto border rounded-xl">
-            <table class="w-full text-xs text-left border-collapse">
-              <thead class="bg-slate-100 text-slate-700 font-mono">
-                <tr>
-                  <th class="p-2 border">Basis</th><th class="p-2 border">\(C_B\)</th><th class="p-2 border">\(X_B\)</th>
-                  <th class="p-2 border">\(x_1\) (3)</th><th class="p-2 border bg-emerald-50">\(x_2\) (5) &uarr;</th><th class="p-2 border">\(x_3\) (4)</th>
-                  <th class="p-2 border">\(S_1\) (0)</th><th class="p-2 border">\(S_2\) (0)</th><th class="p-2 border">\(S_3\) (0)</th>
-                  <th class="p-2 border bg-rose-50">Ratio \(\theta = X_B / a_{ik}\)</th>
-                </tr>
-              </thead>
-              <tbody class="font-mono">
-                <tr class="leaving-row">
-                  <td class="p-2 border font-bold text-rose-700">\(S_1\) &rarr;</td><td class="p-2 border">0</td><td class="p-2 border font-bold">8</td>
-                  <td class="p-2 border">2</td><td class="p-2 border pivot-cell">(3)</td><td class="p-2 border">0</td>
-                  <td class="p-2 border">1</td><td class="p-2 border">0</td><td class="p-2 border">0</td>
-                  <td class="p-2 border font-bold text-rose-700">8/3 = 2.67 &larr; Min</td>
-                </tr>
-                <tr>
-                  <td class="p-2 border font-bold">\(S_2\)</td><td class="p-2 border">0</td><td class="p-2 border font-bold">10</td>
-                  <td class="p-2 border">0</td><td class="p-2 border entering-col">2</td><td class="p-2 border">5</td>
-                  <td class="p-2 border">0</td><td class="p-2 border">1</td><td class="p-2 border">0</td>
-                  <td class="p-2 border">10/2 = 5.00</td>
-                </tr>
-                <tr>
-                  <td class="p-2 border font-bold">\(S_3\)</td><td class="p-2 border">0</td><td class="p-2 border font-bold">15</td>
-                  <td class="p-2 border">3</td><td class="p-2 border entering-col">2</td><td class="p-2 border">4</td>
-                  <td class="p-2 border">0</td><td class="p-2 border">0</td><td class="p-2 border">1</td>
-                  <td class="p-2 border">15/2 = 7.50</td>
-                </tr>
-                <tr class="bg-slate-50 font-bold">
-                  <td colspan="3" class="p-2 border">\(Z_j = \sum C_B a_{ij} = 0\)</td>
-                  <td class="p-2 border">0</td><td class="p-2 border">0</td><td class="p-2 border">0</td>
-                  <td class="p-2 border">0</td><td class="p-2 border">0</td><td class="p-2 border">0</td><td class="p-2 border">-</td>
-                </tr>
-                <tr class="bg-indigo-50 text-indigo-950 font-bold">
-                  <td colspan="3" class="p-2 border">\(\Delta_j = C_j - Z_j\)</td>
-                  <td class="p-2 border">3</td><td class="p-2 border text-emerald-700 font-extrabold">5 &uarr; (Max)</td><td class="p-2 border">4</td>
-                  <td class="p-2 border">0</td><td class="p-2 border">0</td><td class="p-2 border">0</td><td class="p-2 border">-</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          
-          <div id="exp-1-1" class="hidden p-3 bg-amber-50/70 border border-amber-200 rounded-xl text-xs space-y-1 text-amber-950">
-            <div class="font-bold text-amber-900">🔍 Step 1 Explanation:</div>
-            <div>• <strong>Entering Variable:</strong> \(x_2\) is chosen because its net evaluation \(\Delta_2 = +5\) is the highest positive value, giving the greatest marginal profit per unit.</div>
-            <div>• <strong>Leaving Variable:</strong> Minimum ratio \(\theta = \min(8/3, 10/2, 15/2) = 2.67\) occurs at Row 1 (\(S_1\)), so \(S_1\) leaves the basis to prevent violating resource limits.</div>
-            <div>• <strong>Pivot Element:</strong> The intersection is <strong>3</strong>.</div>
-            <div>• <strong>Row Formulas:</strong> \(R_1(new) = R_1(old) / 3\); \(R_2(new) = R_2(old) - 2R_1(new)\); \(R_3(new) = R_3(old) - 2R_1(new)\).</div>
-          </div>
-        </div>
-
-        <!-- Iteration 4 (Optimal) -->
-        <div class="space-y-2 border-t pt-4">
-          <div class="flex justify-between items-center text-xs font-bold text-emerald-800">
-            <span>Table 4: Final Optimal Tableau (Basis: \(x_2, x_3, x_1\))</span>
-            <button onclick="toggleExplain('exp-1-4')" class="px-2.5 py-1 bg-emerald-100 text-emerald-800 border border-emerald-300 rounded-lg hover:bg-emerald-200 transition text-[11px]">
-              💡 Explain This Step
-            </button>
-          </div>
-          <div class="overflow-x-auto border border-emerald-300 rounded-xl bg-emerald-50/20">
-            <table class="w-full text-xs text-left border-collapse">
-              <thead class="bg-emerald-100 text-emerald-950 font-mono">
-                <tr>
-                  <th class="p-2 border">Basis</th><th class="p-2 border">\(C_B\)</th><th class="p-2 border">\(X_B\)</th>
-                  <th class="p-2 border">\(x_1\)</th><th class="p-2 border">\(x_2\)</th><th class="p-2 border">\(x_3\)</th>
-                  <th class="p-2 border">\(S_1\)</th><th class="p-2 border">\(S_2\)</th><th class="p-2 border">\(S_3\)</th>
-                </tr>
-              </thead>
-              <tbody class="font-mono">
-                <tr>
-                  <td class="p-2 border font-bold">\(x_2\)</td><td class="p-2 border">5</td><td class="p-2 border font-bold text-indigo-700">50/41</td>
-                  <td class="p-2 border">0</td><td class="p-2 border font-bold">1</td><td class="p-2 border">0</td>
-                  <td class="p-2 border">15/41</td><td class="p-2 border">8/41</td><td class="p-2 border">-10/41</td>
-                </tr>
-                <tr>
-                  <td class="p-2 border font-bold">\(x_3\)</td><td class="p-2 border">4</td><td class="p-2 border font-bold text-indigo-700">62/41</td>
-                  <td class="p-2 border">0</td><td class="p-2 border">0</td><td class="p-2 border font-bold">1</td>
-                  <td class="p-2 border">-6/41</td><td class="p-2 border">5/41</td><td class="p-2 border">4/41</td>
-                </tr>
-                <tr>
-                  <td class="p-2 border font-bold">\(x_1\)</td><td class="p-2 border">3</td><td class="p-2 border font-bold text-indigo-700">89/41</td>
-                  <td class="p-2 border font-bold">1</td><td class="p-2 border">0</td><td class="p-2 border">0</td>
-                  <td class="p-2 border">-2/41</td><td class="p-2 border">-12/41</td><td class="p-2 border">15/41</td>
-                </tr>
-                <tr class="bg-emerald-100/70 font-bold">
-                  <td colspan="3" class="p-2 border font-extrabold text-emerald-900">\(Z^* = 765/41 = 18.66\)</td>
-                  <td class="p-2 border">3</td><td class="p-2 border">5</td><td class="p-2 border">4</td>
-                  <td class="p-2 border">45/41</td><td class="p-2 border">24/41</td><td class="p-2 border">11/41</td>
-                </tr>
-                <tr class="bg-emerald-200/50 text-emerald-950 font-bold">
-                  <td colspan="3" class="p-2 border">\(\Delta_j = C_j - Z_j\)</td>
-                  <td class="p-2 border">0</td><td class="p-2 border">0</td><td class="p-2 border">0</td>
-                  <td class="p-2 border font-extrabold text-emerald-900">-45/41</td>
-                  <td class="p-2 border font-extrabold text-emerald-900">-24/41</td>
-                  <td class="p-2 border font-extrabold text-emerald-900">-11/41</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div id="exp-1-4" class="hidden p-3 bg-emerald-100/80 border border-emerald-300 rounded-xl text-xs space-y-1 text-emerald-950 font-sans">
-            <div class="font-bold text-emerald-900">🎉 Optimal Termination Check:</div>
-            <div>• Notice that all net evaluations \(\Delta_j = C_j - Z_j \le 0\) (specifically \([0, 0, 0, -45/41, -24/41, -11/41]\)).</div>
-            <div>• Since no non-basic variable has a positive \(\Delta_j\), no further profit increase is possible.</div>
-            <div>• <strong>Final Answer:</strong> \(x_1^* = \frac{89}{41} \approx 2.17\), \(x_2^* = \frac{50}{41} \approx 1.22\), \(x_3^* = \frac{62}{41} \approx 1.51\), with <strong>\(\text{Max } Z^* = \frac{765}{41} \approx 18.66\)</strong>.</div>
-          </div>
+        <!-- Optimal Tableau -->
+        <div class="overflow-x-auto border border-emerald-300 rounded-xl bg-emerald-50/20">
+          <table class="w-full text-xs text-left border-collapse font-mono">
+            <thead class="bg-emerald-100 text-emerald-950">
+              <tr>
+                <th class="p-2 border">Basis</th><th class="p-2 border">\(C_B\)</th><th class="p-2 border">\(X_B\)</th>
+                <th class="p-2 border">\(x_1\)</th><th class="p-2 border">\(x_2\)</th><th class="p-2 border">\(x_3\)</th>
+                <th class="p-2 border">\(S_1\)</th><th class="p-2 border">\(S_2\)</th><th class="p-2 border">\(S_3\)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="p-2 border font-bold">\(x_2\)</td><td class="p-2 border">5</td><td class="p-2 border font-bold">50/41</td><td class="p-2 border">0</td><td class="p-2 border">1</td><td class="p-2 border">0</td><td class="p-2 border">15/41</td><td class="p-2 border">8/41</td><td class="p-2 border">-10/41</td></tr>
+              <tr><td class="p-2 border font-bold">\(x_3\)</td><td class="p-2 border">4</td><td class="p-2 border font-bold">62/41</td><td class="p-2 border">0</td><td class="p-2 border">0</td><td class="p-2 border">1</td><td class="p-2 border">-6/41</td><td class="p-2 border">5/41</td><td class="p-2 border">4/41</td></tr>
+              <tr><td class="p-2 border font-bold">\(x_1\)</td><td class="p-2 border">3</td><td class="p-2 border font-bold">89/41</td><td class="p-2 border">1</td><td class="p-2 border">0</td><td class="p-2 border">0</td><td class="p-2 border">-2/41</td><td class="p-2 border">-12/41</td><td class="p-2 border">15/41</td></tr>
+              <tr class="bg-emerald-100 font-bold"><td colspan="3" class="p-2 border">\(Z^* = 765/41 \approx 18.66\)</td><td class="p-2 border">3</td><td class="p-2 border">5</td><td class="p-2 border">4</td><td class="p-2 border">45/41</td><td class="p-2 border">24/41</td><td class="p-2 border">11/41</td></tr>
+              <tr class="bg-emerald-200/50 font-bold"><td colspan="3" class="p-2 border">\(\Delta_j = C_j - Z_j\)</td><td class="p-2 border">0</td><td class="p-2 border">0</td><td class="p-2 border">0</td><td class="p-2 border">-45/41</td><td class="p-2 border">-24/41</td><td class="p-2 border">-11/41</td></tr>
+            </tbody>
+          </table>
         </div>
       </article>
     </section>
@@ -475,125 +331,24 @@
     <!-- ========================================== -->
     <section id="view-mod2-examples" class="hidden space-y-8">
       <div class="border-b border-slate-200 pb-4">
-        <h2 class="text-2xl font-black text-slate-900">Module 2: Transportation, Assignment & Sequencing — Roadmaps & Tables</h2>
-        <p class="text-sm text-slate-600">Decision roadmaps, penalty derivations, MODI UV closed loops, and Hungarian 5-step lines.</p>
+        <h2 class="text-2xl font-black text-slate-900">Module 2: Transportation, Assignment & Sequencing</h2>
+        <p class="text-sm text-slate-600">Decision roadmaps and full practical table sets.</p>
       </div>
 
-      <!-- EXAMPLE 2.1: VOGEL'S APPROXIMATION METHOD (VAM) -->
+      <!-- VAM EXAMPLE -->
       <article class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-6">
         <div class="flex justify-between items-center border-b pb-2">
           <div>
             <span class="text-xs font-bold px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded">Topic 2.1 Guide</span>
-            <h3 class="text-xl font-bold text-slate-900 mt-1">Vogel's Approximation Method (VAM) Decision Flow</h3>
+            <h3 class="text-xl font-bold text-slate-900 mt-1">Vogel's Approximation Method (VAM)</h3>
           </div>
-          <button onclick="toggleExplain('exp-vam')" class="px-2.5 py-1 bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-lg hover:bg-emerald-100 transition text-[11px] font-bold">
-            💡 Explain VAM Steps
+          <button onclick="loadStepperProblem('vam_transport'); switchTab('micro-stepper-hub');" class="px-3 py-1.5 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold rounded-lg text-xs shadow-sm transition">
+            🚀 Launch VAM Micro Stepper &rarr;
           </button>
         </div>
 
-        <!-- WHAT WE ARE DOING & KEEP IN MIND -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-          <div class="p-4 bg-emerald-50/70 border border-emerald-200 rounded-xl space-y-2">
-            <div class="font-bold text-emerald-900 text-sm">🎯 What We Are Doing:</div>
-            <p class="text-emerald-950 leading-relaxed">
-              VAM is a penalty-based heuristic. The penalty of a row/column represents the <strong>opportunity cost</strong> you suffer if you fail to allocate to the absolute cheapest cell. By prioritizing lines with the highest penalty, VAM avoids severe cost penalties and produces near-optimal initial solutions.
-            </p>
-          </div>
-
-          <div class="p-4 bg-amber-50/70 border border-amber-200 rounded-xl space-y-2">
-            <div class="font-bold text-amber-900 text-sm">⚠️ VAM Rules to Keep in Mind:</div>
-            <ul class="list-disc list-inside text-amber-950 space-y-1">
-              <li><strong>Penalty Formula:</strong> \(\text{Penalty} = (\text{2nd Lowest Cost}) - (\text{Lowest Cost})\).</li>
-              <li><strong>Tie in Penalty:</strong> If two lines have the identical max penalty, pick the line containing the absolute minimum unit cost cell.</li>
-              <li><strong>Degeneracy Check:</strong> Ensure exactly \(m + n - 1\) allocations at the end before testing with MODI.</li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- VAM FLOWCHART -->
-        <div class="p-4 bg-slate-900 text-white rounded-xl space-y-3">
-          <div class="text-xs font-bold text-emerald-400 uppercase tracking-wider">VAM Algorithm Flowchart:</div>
-          <div class="grid grid-cols-1 sm:grid-cols-4 gap-2 text-center text-xs">
-            <div class="flow-node text-slate-800">
-              <div class="font-bold text-emerald-600">Step 1: Penalties</div>
-              <div class="text-[11px] font-semibold mt-1">Calculate Differences</div>
-              <div class="text-[10px] text-slate-500 mt-0.5">2nd lowest - lowest cost</div>
-            </div>
-            <div class="flow-node text-slate-800">
-              <div class="font-bold text-emerald-600">Step 2: Selection</div>
-              <div class="text-[11px] font-semibold mt-1">Pick Max Penalty</div>
-              <div class="text-[10px] text-slate-500 mt-0.5">Identify row or column</div>
-            </div>
-            <div class="flow-node text-slate-800">
-              <div class="font-bold text-emerald-600">Step 3: Allocate</div>
-              <div class="text-[11px] font-semibold mt-1">\(\min(\text{Supply}, \text{Demand})\)</div>
-              <div class="text-[10px] text-slate-500 mt-0.5">To lowest cost cell</div>
-            </div>
-            <div class="flow-node text-slate-800">
-              <div class="font-bold text-emerald-600">Step 4: Reduce</div>
-              <div class="text-[11px] font-semibold mt-1">Cross Out Line</div>
-              <div class="text-[10px] text-slate-500 mt-0.5">Recalculate penalties</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="overflow-x-auto border rounded-xl p-4 bg-slate-50/50">
-          <table class="w-full text-xs text-center border-collapse font-mono">
-            <thead>
-              <tr class="bg-slate-100 text-slate-700">
-                <th class="p-2 border">Origin / Dest</th>
-                <th class="p-2 border">D1</th><th class="p-2 border">D2</th><th class="p-2 border">D3</th><th class="p-2 border">D4</th>
-                <th class="p-2 border bg-emerald-100 text-emerald-950 font-bold">Supply</th>
-                <th class="p-2 border bg-indigo-100 text-indigo-950 font-bold">Penalty I</th>
-                <th class="p-2 border bg-indigo-50 text-indigo-900">Penalty II</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="p-2 border font-bold bg-slate-100">O1</td>
-                <td class="p-2 border">19</td><td class="p-2 border">30</td>
-                <td class="p-2 border optimal-cell">50 [Alloc: 5]</td><td class="p-2 border">10</td>
-                <td class="p-2 border font-bold">7 &rarr; 2 &rarr; 0</td>
-                <td class="p-2 border font-bold">30 - 19 = 11</td>
-                <td class="p-2 border">50 - 30 = 20</td>
-              </tr>
-              <tr>
-                <td class="p-2 border font-bold bg-slate-100">O2</td>
-                <td class="p-2 border optimal-cell">70 [Alloc: 2]</td><td class="p-2 border">30</td>
-                <td class="p-2 border optimal-cell">40 [Alloc: 7]</td><td class="p-2 border">60</td>
-                <td class="p-2 border font-bold">9 &rarr; 2 &rarr; 0</td>
-                <td class="p-2 border font-bold">40 - 30 = 10</td>
-                <td class="p-2 border">60 - 40 = 20</td>
-              </tr>
-              <tr>
-                <td class="p-2 border font-bold bg-slate-100">O3</td>
-                <td class="p-2 border optimal-cell">40 [Alloc: 3]</td>
-                <td class="p-2 border optimal-cell">8 [Alloc: 8]</td><td class="p-2 border">70</td>
-                <td class="p-2 border optimal-cell">20 [Alloc: 7]</td>
-                <td class="p-2 border font-bold">18 &rarr; 10 &rarr; 3 &rarr; 0</td>
-                <td class="p-2 border font-extrabold text-rose-700 bg-rose-50">20 - 8 = 12 (MAX)</td>
-                <td class="p-2 border">40 - 20 = 20</td>
-              </tr>
-              <tr class="bg-emerald-50 font-bold">
-                <td class="p-2 border">Demand</td>
-                <td class="p-2 border">5</td><td class="p-2 border">8</td><td class="p-2 border">7</td><td class="p-2 border">14</td>
-                <td class="p-2 border bg-emerald-200">Total = 34</td><td class="p-2 border">-</td><td class="p-2 border">-</td>
-              </tr>
-              <tr class="bg-indigo-50 font-bold text-indigo-950">
-                <td class="p-2 border">Penalty I</td>
-                <td class="p-2 border">40 - 19 = 21</td><td class="p-2 border font-extrabold text-rose-700 bg-rose-50">30 - 8 = 22 (MAX)</td>
-                <td class="p-2 border">50 - 40 = 10</td><td class="p-2 border">20 - 10 = 10</td>
-                <td class="p-2 border">-</td><td class="p-2 border">-</td><td class="p-2 border">-</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div id="exp-vam" class="hidden p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs space-y-1 text-emerald-950 font-sans">
-          <div class="font-bold text-emerald-900">🔍 Step-by-Step VAM Execution:</div>
-          <div>1. <strong>First Max Penalty:</strong> Occurs at Column D2 with Penalty = \(30 - 8 = 22\). Minimum cost cell in D2 is \((O3, D2)\) with cost \(8\). We allocate \(\min(18, 8) = 8\) units. Column D2 is satisfied!</div>
-          <div>2. <strong>Second Max Penalty:</strong> Occurs at Column D1 with Penalty = \(40 - 19 = 21\). Min cost cell in D1 is \((O1, D1)\) with cost \(19\). Allocate \(\min(7, 5) = 5\) units. D1 is satisfied!</div>
-          <div>3. <strong>Resulting IBFS Cost:</strong> \(Z = 19(5) + 10(2) + 40(7) + 8(8) + 20(7) = \mathbf{779}\). Number of allocations = \(6 = m + n - 1\) (Non-degenerate).</div>
+        <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-950 font-bold">
+          Total VAM Initial Cost: \(Z = 19(5) + 10(2) + 40(7) + 8(8) + 20(7) = \mathbf{779}\). Number of allocations = \(6 = m + n - 1\) (Non-degenerate).
         </div>
       </article>
     </section>
@@ -670,7 +425,7 @@
     </div>
   </footer>
 
-  <!-- SCRIPT LOGIC & 12-STEP MICRO STEPPER DATA -->
+  <!-- SCRIPT LOGIC & UNIVERSAL STEPPER DATA -->
   <script>
     let userXP = parseInt(localStorage.getItem('or_xp') || '0');
     let completedTopics = JSON.parse(localStorage.getItem('or_topics') || '[]');
@@ -680,17 +435,6 @@
       userXP += amount;
       localStorage.setItem('or_xp', userXP);
       document.getElementById('user-xp').innerText = `${userXP} XP`;
-    }
-
-    function toggleExplain(id) {
-      const el = document.getElementById(id);
-      if (el) {
-        el.classList.toggle('hidden');
-        if (!el.classList.contains('hidden')) {
-          updateXP(5);
-          renderAllMath();
-        }
-      }
     }
 
     function calculateProgress() {
@@ -713,7 +457,7 @@
     }
 
     function switchTab(tabId) {
-      const views = ['dashboard', 'micro-stepper', 'mod1-examples', 'mod2-examples', 'puzzles', 'exam-quizzes', 'cheatsheet'];
+      const views = ['dashboard', 'micro-stepper-hub', 'mod1-examples', 'mod2-examples', 'puzzles', 'exam-quizzes', 'cheatsheet'];
       views.forEach(v => {
         const el = document.getElementById(`view-${v}`);
         const btn = document.getElementById(`nav-${v}`);
@@ -725,183 +469,224 @@
     }
 
     // ==========================================
-    // 12-STEP GRANULAR MICRO-STEPPER ENGINE
+    // UNIVERSAL MICRO-STEPPER DATA DICTIONARY
     // ==========================================
-    const microSteps = [
-      {
-        stepNum: 1,
-        title: "Step 1: Set Up Canonical Form & Initial Basis",
-        formula: "Max Z = 3x_1 + 5x_2 + 4x_3 + 0S_1 + 0S_2 + 0S_3 \\quad \\text{with initial basis } \\{S_1, S_2, S_3\\}",
-        intuition: "At the beginning, we make 0 physical goods (x1=x2=x3=0). All 8 hrs of Dept 1, 10 hrs of Dept 2, and 15 hrs of Dept 3 sit 100% idle in Slack variables S1, S2, S3. Initial profit Z = $0.",
-        spotlight: "basis",
-        tableState: "initial"
+    const stepperSuites = {
+      simplex_max: {
+        title: "Standard Simplex (3-Var Maximization)",
+        desc: "Maximize Z = 3x1 + 5x2 + 4x3 subject to 2x1+3x2 <= 8, 2x2+5x3 <= 10, 3x1+2x2+4x3 <= 15",
+        steps: [
+          {
+            num: 1,
+            title: "Step 1: Formulate Canonical Form & Basis Matrix",
+            formula: "\\text{Max } Z = 3x_1 + 5x_2 + 4x_3 + 0S_1 + 0S_2 + 0S_3 \\quad \\text{Basis} = \\{S_1, S_2, S_3\\}",
+            intuition: "We produce 0 chairs/tables. All 8, 10, 15 hours of departmental capacity sit idle in Slack variables. Profit Z = $0.",
+            tableHtml: `<table class="w-full text-left border font-mono text-xs">
+              <thead class="bg-slate-100"><tr><th class="p-2 border">Basis</th><th class="p-2 border">C_B</th><th class="p-2 border">X_B</th><th class="p-2 border">x1 (3)</th><th class="p-2 border">x2 (5)</th><th class="p-2 border">x3 (4)</th><th class="p-2 border">S1</th><th class="p-2 border">S2</th><th class="p-2 border">S3</th><th class="p-2 border">Ratio</th></tr></thead>
+              <tbody>
+                <tr><td class="p-2 border font-bold bg-slate-50">S1</td><td class="p-2 border">0</td><td class="p-2 border font-bold">8</td><td class="p-2 border">2</td><td class="p-2 border">3</td><td class="p-2 border">0</td><td class="p-2 border">1</td><td class="p-2 border">0</td><td class="p-2 border">0</td><td class="p-2 border">-</td></tr>
+                <tr><td class="p-2 border font-bold bg-slate-50">S2</td><td class="p-2 border">0</td><td class="p-2 border font-bold">10</td><td class="p-2 border">0</td><td class="p-2 border">2</td><td class="p-2 border">5</td><td class="p-2 border">0</td><td class="p-2 border">1</td><td class="p-2 border">0</td><td class="p-2 border">-</td></tr>
+                <tr><td class="p-2 border font-bold bg-slate-50">S3</td><td class="p-2 border">0</td><td class="p-2 border font-bold">15</td><td class="p-2 border">3</td><td class="p-2 border">2</td><td class="p-2 border">4</td><td class="p-2 border">0</td><td class="p-2 border">0</td><td class="p-2 border">1</td><td class="p-2 border">-</td></tr>
+              </tbody>
+            </table>`
+          },
+          {
+            num: 2,
+            title: "Step 2: Identify Key Entering Column (x2 enters)",
+            formula: "\\Delta_2 = C_2 - Z_2 = +5 \\quad (\\text{Highest positive profit index})",
+            intuition: "Making product x2 yields $5 profit per unit, which gives the greatest margin. Column x2 is spotlighted in green.",
+            tableHtml: `<table class="w-full text-left border font-mono text-xs">
+              <thead class="bg-slate-100"><tr><th class="p-2 border">Basis</th><th class="p-2 border">C_B</th><th class="p-2 border">X_B</th><th class="p-2 border">x1 (3)</th><th class="p-2 border entering-col font-bold text-emerald-800">x2 (5) &uarr;</th><th class="p-2 border">x3 (4)</th><th class="p-2 border">S1</th><th class="p-2 border">S2</th><th class="p-2 border">S3</th><th class="p-2 border">Ratio</th></tr></thead>
+              <tbody>
+                <tr><td class="p-2 border font-bold bg-slate-50">S1</td><td class="p-2 border">0</td><td class="p-2 border font-bold">8</td><td class="p-2 border">2</td><td class="p-2 border entering-col">3</td><td class="p-2 border">0</td><td class="p-2 border">1</td><td class="p-2 border">0</td><td class="p-2 border">0</td><td class="p-2 border">-</td></tr>
+                <tr><td class="p-2 border font-bold bg-slate-50">S2</td><td class="p-2 border">0</td><td class="p-2 border font-bold">10</td><td class="p-2 border">0</td><td class="p-2 border entering-col">2</td><td class="p-2 border">5</td><td class="p-2 border">0</td><td class="p-2 border">1</td><td class="p-2 border">0</td><td class="p-2 border">-</td></tr>
+                <tr><td class="p-2 border font-bold bg-slate-50">S3</td><td class="p-2 border">0</td><td class="p-2 border font-bold">15</td><td class="p-2 border">3</td><td class="p-2 border entering-col">2</td><td class="p-2 border">4</td><td class="p-2 border">0</td><td class="p-2 border">0</td><td class="p-2 border">1</td><td class="p-2 border">-</td></tr>
+                <tr class="bg-indigo-50 font-bold"><td colspan="3" class="p-2 border">C_j - Z_j</td><td class="p-2 border">+3</td><td class="p-2 border font-extrabold text-emerald-700 bg-emerald-100">+5 &uarr; (Entering)</td><td class="p-2 border">+4</td><td class="p-2 border">0</td><td class="p-2 border">0</td><td class="p-2 border">0</td><td class="p-2 border">-</td></tr>
+              </tbody>
+            </table>`
+          },
+          {
+            num: 3,
+            title: "Step 3: Minimum Ratio Bottleneck & Pivot Element (3)",
+            formula: "\\theta = \\min(8/3, 10/2, 15/2) = 2.67 \\implies S_1 \\text{ leaves basis. Pivot Element } p = 3",
+            intuition: "Dept 1 hits capacity first (at 2.67 units). Slack S1 leaves the basis. Pivot element 3 is highlighted in yellow.",
+            tableHtml: `<table class="w-full text-left border font-mono text-xs">
+              <thead class="bg-slate-100"><tr><th class="p-2 border">Basis</th><th class="p-2 border">C_B</th><th class="p-2 border">X_B</th><th class="p-2 border">x1 (3)</th><th class="p-2 border entering-col">x2 (5) &uarr;</th><th class="p-2 border">x3 (4)</th><th class="p-2 border">S1</th><th class="p-2 border">S2</th><th class="p-2 border">S3</th><th class="p-2 border bg-rose-50 font-bold">Ratio</th></tr></thead>
+              <tbody>
+                <tr class="leaving-row"><td class="p-2 border font-bold text-rose-700">S1 &rarr;</td><td class="p-2 border">0</td><td class="p-2 border font-bold">8</td><td class="p-2 border">2</td><td class="p-2 border pivot-cell">(3)</td><td class="p-2 border">0</td><td class="p-2 border">1</td><td class="p-2 border">0</td><td class="p-2 border">0</td><td class="p-2 border font-bold text-rose-700 bg-rose-100">8/3 = 2.67 (Min)</td></tr>
+                <tr><td class="p-2 border font-bold bg-slate-50">S2</td><td class="p-2 border">0</td><td class="p-2 border font-bold">10</td><td class="p-2 border">0</td><td class="p-2 border entering-col">2</td><td class="p-2 border">5</td><td class="p-2 border">0</td><td class="p-2 border">1</td><td class="p-2 border">0</td><td class="p-2 border">10/2 = 5.00</td></tr>
+                <tr><td class="p-2 border font-bold bg-slate-50">S3</td><td class="p-2 border">0</td><td class="p-2 border font-bold">15</td><td class="p-2 border">3</td><td class="p-2 border entering-col">2</td><td class="p-2 border">4</td><td class="p-2 border">0</td><td class="p-2 border">0</td><td class="p-2 border">1</td><td class="p-2 border">15/2 = 7.50</td></tr>
+              </tbody>
+            </table>`
+          }
+        ]
       },
-      {
-        stepNum: 2,
-        title: "Step 2: Compute Net Evaluation Row Z_j",
-        formula: "Z_j = \\sum (C_B \\times a_{ij}) = 0(2) + 0(0) + 0(3) = 0 \\quad \\forall j",
-        intuition: "Zj represents the opportunity cost of resources currently consumed by the basis. Since all basic variables S1,S2,S3 have zero profit (CB=0), Zj is currently 0 across all columns.",
-        spotlight: "zj",
-        tableState: "zj_done"
+
+      bigm_min: {
+        title: "Big-M Minimization (≥ Constraints)",
+        desc: "Minimize Z = x1 + x2 subject to 2x1 + 4x2 >= 4, x1 + 7x2 >= 7, with x1,x2 >= 0",
+        steps: [
+          {
+            num: 1,
+            title: "Step 1: Surplus & Artificial Introduction",
+            formula: "\\text{Min } Z = x_1 + x_2 + 0S_1 + 0S_2 + M A_1 + M A_2 \\quad (\\text{Penalty } +M)",
+            intuition: "Since constraints are >=, we subtract surplus (-S) and add artificial (+A) with huge penalty +M.",
+            tableHtml: `<table class="w-full text-left border font-mono text-xs">
+              <thead class="bg-slate-100"><tr><th class="p-2 border">Basis</th><th class="p-2 border">C_B</th><th class="p-2 border">X_B</th><th class="p-2 border">x1 (1)</th><th class="p-2 border">x2 (1)</th><th class="p-2 border">S1 (0)</th><th class="p-2 border">S2 (0)</th><th class="p-2 border">A1 (M)</th><th class="p-2 border">A2 (M)</th></tr></thead>
+              <tbody>
+                <tr><td class="p-2 border font-bold bg-slate-50">A1</td><td class="p-2 border">M</td><td class="p-2 border font-bold">4</td><td class="p-2 border">2</td><td class="p-2 border">4</td><td class="p-2 border">-1</td><td class="p-2 border">0</td><td class="p-2 border">1</td><td class="p-2 border">0</td></tr>
+                <tr><td class="p-2 border font-bold bg-slate-50">A2</td><td class="p-2 border">M</td><td class="p-2 border font-bold">7</td><td class="p-2 border">1</td><td class="p-2 border">7</td><td class="p-2 border">0</td><td class="p-2 border">-1</td><td class="p-2 border">0</td><td class="p-2 border">1</td></tr>
+              </tbody>
+            </table>`
+          },
+          {
+            num: 2,
+            title: "Step 2: Most Negative Δ_j (x2 Enters)",
+            formula: "\\Delta_2 = C_2 - Z_2 = 1 - 11M = -11M + 1 \\quad (\\text{Most negative in Minimization})",
+            intuition: "In minimization, we choose the most negative Δj. Since M is infinite, -11M + 1 is massively negative. x2 enters!",
+            tableHtml: `<table class="w-full text-left border font-mono text-xs">
+              <thead class="bg-slate-100"><tr><th class="p-2 border">Basis</th><th class="p-2 border">C_B</th><th class="p-2 border">X_B</th><th class="p-2 border">x1 (1)</th><th class="p-2 border entering-col">x2 (1) &uarr;</th><th class="p-2 border">S1 (0)</th><th class="p-2 border">S2 (0)</th><th class="p-2 border">A1</th><th class="p-2 border">A2</th></tr></thead>
+              <tbody>
+                <tr class="leaving-row"><td class="p-2 border font-bold text-rose-700">A2 &rarr;</td><td class="p-2 border">M</td><td class="p-2 border font-bold">7</td><td class="p-2 border">1</td><td class="p-2 border pivot-cell">(7)</td><td class="p-2 border">0</td><td class="p-2 border">-1</td><td class="p-2 border">0</td><td class="p-2 border">1</td></tr>
+                <tr class="bg-indigo-50 font-bold"><td colspan="3" class="p-2 border">C_j - Z_j</td><td class="p-2 border">-3M + 1</td><td class="p-2 border font-extrabold text-emerald-700 bg-emerald-100">-11M + 1 &uarr; (Min)</td><td class="p-2 border">M</td><td class="p-2 border">M</td><td class="p-2 border">0</td><td class="p-2 border">0</td></tr>
+              </tbody>
+            </table>`
+          }
+        ]
       },
-      {
-        stepNum: 3,
-        title: "Step 3: Compute Profit Potential Index (Δ_j = C_j - Z_j)",
-        formula: "\\Delta_1 = 3-0 = +3, \\quad \\Delta_2 = 5-0 = +5, \\quad \\Delta_3 = 4-0 = +4",
-        intuition: "Δj tells the manager: 'For every 1 unit of product x2 we manufacture, company profit jumps by $5.' Since +5 is the highest positive number, x2 gives the greatest bang-for-buck!",
-        spotlight: "delta",
-        tableState: "delta_done"
+
+      bigm_infeas: {
+        title: "Big-M Infeasible Proof",
+        desc: "Maximize Z = 6x1 + 4x2 subject to x1 + x2 <= 5, x2 >= 8",
+        steps: [
+          {
+            num: 1,
+            title: "Step 1: Tableau Optimality vs Artificial Presence",
+            formula: "\\text{All } C_j - Z_j \\le 0 \\quad \\text{BUT } A_1 \\text{ remains in basis with } X_B = 3 > 0",
+            intuition: "🚨 INFEASIBILITY DETECTED! The algorithm met optimality, but could not get rid of artificial variable A1. The constraints x1+x2 <= 5 and x2 >= 8 are physically impossible to satisfy simultaneously.",
+            tableHtml: `<div class="p-3 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-950 font-bold">
+              Final Basis contains: [x2 = 5, A1 = 3]. Net evaluations: [-M+2 <= 0, 0, -M-4 <= 0, -M <= 0]. Stop: INFEASIBLE.
+            </div>`
+          }
+        ]
       },
-      {
-        stepNum: 4,
-        title: "Step 4: Select Entering Column (Key Column = x2)",
-        formula: "\\text{Key Column} = \\operatorname{argmax}(\\Delta_j > 0) = \\text{Column } x_2 \\quad (\\Delta_2 = +5)",
-        intuition: "We officially decide to introduce product x2 into production! We highlight Column x2 in green.",
-        spotlight: "entering",
-        tableState: "entering_selected"
+
+      vam_transport: {
+        title: "Vogel's Approximation Method (VAM)",
+        desc: "3 Origins (Supply 7, 9, 18) to 4 Destinations (Demand 5, 8, 7, 14)",
+        steps: [
+          {
+            num: 1,
+            title: "Step 1: Compute Row & Column Penalties",
+            formula: "\\text{Penalty} = (\\text{2nd Lowest Cost}) - (\\text{Lowest Cost})",
+            intuition: "Row O3 has penalty 20 - 8 = 12. Column D2 has penalty 30 - 8 = 22. Column D2 has the highest penalty (22), so we must allocate there first!",
+            tableHtml: `<div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-950 font-bold">
+              Max Penalty = 22 in Column D2 &rarr; Allocate min(18, 8) = 8 units to Cell (O3, D2) with lowest cost 8!
+            </div>`
+          }
+        ]
       },
-      {
-        stepNum: 5,
-        title: "Step 5: Compute Replacement Ratios (θ = X_B / a_{ik})",
-        formula: "\\theta_1 = 8/3 = 2.67, \\quad \\theta_2 = 10/2 = 5.00, \\quad \\theta_3 = 15/2 = 7.50",
-        intuition: "How many chairs (x2) can we make before hitting a bottleneck? Dept 1 maxes out at 2.67 chairs, Dept 2 at 5 chairs, Dept 3 at 7.5 chairs. Dept 1 is the most restrictive bottleneck!",
-        spotlight: "ratios",
-        tableState: "ratios_computed"
+
+      modi_uv: {
+        title: "MODI (u-v) Optimality & Closed Loop",
+        desc: "Testing IBFS optimality and reallocating along closed +/- theta loop",
+        steps: [
+          {
+            num: 1,
+            title: "Step 1: Solve u_i + v_j = c_ij for Occupied Cells",
+            formula: "u_1 = 0 \\implies v_3 = 50, \\quad u_3 + v_2 = 8 \\implies u_3 = -22, \\quad \\dots",
+            intuition: "We assign dual potential values u_i and v_j to every row and column using occupied cells.",
+            tableHtml: `<div class="p-3 bg-slate-50 border rounded-xl text-xs font-mono">
+              u = [0, 10, -22], v = [62, 30, 50, 10]. All net opportunity evaluations calculated!
+            </div>`
+          }
+        ]
       },
-      {
-        stepNum: 6,
-        title: "Step 6: Select Leaving Variable (Key Row = S1) & Pivot Element",
-        formula: "\\text{Min } \\theta = 2.67 \\implies S_1 \\text{ leaves basis. Pivot Element } p = a_{12} = 3",
-        intuition: "Because Dept 1 hits capacity first (at 2.67 chairs), Slack S1 is completely consumed (becomes 0) and leaves the basis! The intersection of Row S1 and Column x2 is our Pivot Element = 3.",
-        spotlight: "pivot",
-        tableState: "pivot_identified"
+
+      hungarian_ap: {
+        title: "Hungarian 4x4 Assignment Algorithm",
+        desc: "Assigning 4 Workers to 4 Jobs to minimize total cost",
+        steps: [
+          {
+            num: 1,
+            title: "Step 1: Row & Column Reduction",
+            formula: "c'_{ij} = c_{ij} - \\min(Row_i) \\quad \\text{then} \\quad c''_{ij} = c'_{ij} - \\min(Col_j)",
+            intuition: "We subtract row minimums and column minimums to create zero-cost opportunity cells.",
+            tableHtml: `<div class="p-3 bg-slate-50 border rounded-xl text-xs font-mono">
+              Reduced Matrix contains zeros in every row and column. Minimum 4 lines cover all zeros (L = 4 = n).
+            </div>`
+          }
+        ]
       },
-      {
-        stepNum: 7,
-        title: "Step 7: Gaussian Pivot Row Normalization",
-        formula: "R_1^{(new)} = R_1^{(old)} / 3 \\implies [x_2, C_B=5, X_B=8/3, x_1=2/3, x_2=1, x_3=0, S_1=1/3, S_2=0, S_3=0]",
-        intuition: "We divide the entire pivot row by 3 so the coefficient of entering variable x2 becomes exactly 1.0.",
-        spotlight: "row1_norm",
-        tableState: "row1_updated"
-      },
-      {
-        stepNum: 8,
-        title: "Step 8: Gaussian Elimination of Other Rows",
-        formula: "R_2^{(new)} = R_2 - 2R_1^{(new)}, \\quad R_3^{(new)} = R_3 - 2R_1^{(new)}",
-        intuition: "We clear out the rest of Column x2 to 0, updating remaining resource capacities in Dept 2 and Dept 3. Table 2 is now born!",
-        spotlight: "table2_ready",
-        tableState: "table2_active"
-      },
-      {
-        stepNum: 9,
-        title: "Step 9: Iteration 2 Re-Evaluation (Profit reaches $13.33)",
-        formula: "Z = 5(8/3) = 40/3 \\approx 13.33 \\quad \\text{and } \\Delta_3 = +4 \\text{ (x3 enters!)}",
-        intuition: "Our profit jumped from $0 to $13.33! Looking at the new Δj row, product x3 still has a positive profit potential of +4, so we pivot again.",
-        spotlight: "iter2_delta",
-        tableState: "iter2_active"
-      },
-      {
-        stepNum: 10,
-        title: "Step 10: Iteration 3 Re-Evaluation (Profit reaches $17.07)",
-        formula: "Z = 256/15 \\approx 17.07 \\quad \\text{and } \\Delta_1 = +11/15 \\text{ (x1 enters!)}",
-        intuition: "We introduce product x1, raising company profit further to $17.07 per day.",
-        spotlight: "iter3_delta",
-        tableState: "iter3_active"
-      },
-      {
-        stepNum: 11,
-        title: "Step 11: Final Table Optimality Check",
-        formula: "\\text{All } \\Delta_j = C_j - Z_j \\le 0 \\implies [0, 0, 0, -45/41, -24/41, -11/41]",
-        intuition: "Every single Δj is negative or zero! No remaining product can increase company profit without violating resource limits.",
-        spotlight: "optimal_check",
-        tableState: "optimal_table"
-      },
-      {
-        stepNum: 12,
-        title: "Step 12: Final Business Solution Report",
-        formula: "x_1^* = 89/41 \\approx 2.17, \\quad x_2^* = 50/41 \\approx 1.22, \\quad x_3^* = 62/41 \\approx 1.51, \\quad \\text{Max } Z^* = \\$18.66",
-        intuition: "🎉 MAXIMUM PROFIT ACHIEVED! Manufacture exactly 2.17 units of x1, 1.22 units of x2, and 1.51 units of x3 to earn the absolute peak profit of $18.66.",
-        spotlight: "final_result",
-        tableState: "optimal_table"
+
+      johnson_seq: {
+        title: "Johnson's 2-Machine Job Sequencing",
+        desc: "5 Jobs on Machine 1 & Machine 2 (Order M1 -> M2)",
+        steps: [
+          {
+            num: 1,
+            title: "Step 1: Global Minimum Scan & Scheduling",
+            formula: "\\text{Min time} = 2 \\text{ hrs on } M_1 (J_2) \\to \\text{Schedule Left}; \\quad \\text{Min on } M_2 (J_2) \\to \\text{Schedule Right}",
+            intuition: "Optimal Sequence obtained: J1 -> J4 -> J5 -> J3 -> J2. Total makespan T = 22 hrs with 5 hrs idle time on Machine 2.",
+            tableHtml: `<div class="p-3 bg-purple-50 border border-purple-200 rounded-xl text-xs text-purple-950 font-bold">
+              Optimal Sequence: J1 &rarr; J4 &rarr; J5 &rarr; J3 &rarr; J2 | Makespan T = 22 hrs.
+            </div>`
+          }
+        ]
       }
-    ];
+    };
 
-    let currentMicroIdx = 0;
+    let activeProblemKey = 'simplex_max';
+    let currentUniversalStepIdx = 0;
 
-    function renderMicroStepView() {
-      const step = microSteps[currentMicroIdx];
-      document.getElementById('micro-step-counter').innerText = `Step ${step.stepNum} of ${microSteps.length}`;
-      document.getElementById('micro-step-badge').innerText = step.stepNum;
-      document.getElementById('micro-step-title').innerText = step.title;
-      document.getElementById('micro-step-formula').innerText = step.formula;
-      document.getElementById('micro-step-intuition').innerText = step.intuition;
+    function loadStepperProblem(key) {
+      activeProblemKey = key;
+      currentUniversalStepIdx = 0;
 
-      document.getElementById('btn-micro-prev').disabled = (currentMicroIdx === 0);
-      document.getElementById('btn-micro-next').disabled = (currentMicroIdx === microSteps.length - 1);
+      // Update Tab Pill Styling
+      document.querySelectorAll('.stepper-tab').forEach(b => {
+        b.className = "stepper-tab px-3 py-2 rounded-xl border font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition";
+      });
+      const activeTab = document.getElementById(`tab-p-${key}`);
+      if (activeTab) {
+        activeTab.className = "stepper-tab px-3 py-2 rounded-xl border font-bold bg-indigo-600 text-white transition";
+      }
 
-      // Render table corresponding to state
-      let html = `<table class="w-full text-left border-collapse border border-slate-300">
-        <thead>
-          <tr class="bg-slate-100 text-slate-700">
-            <th class="p-2 border">Basis</th><th class="p-2 border">\(C_B\)</th><th class="p-2 border">\(X_B\)</th>
-            <th class="p-2 border ${step.spotlight === 'entering' ? 'entering-col' : ''}">\(x_1\) (3)</th>
-            <th class="p-2 border ${step.spotlight === 'entering' || step.spotlight === 'pivot' ? 'entering-col font-bold text-emerald-800' : ''}">\(x_2\) (5) &uarr;</th>
-            <th class="p-2 border">\(x_3\) (4)</th>
-            <th class="p-2 border">\(S_1\) (0)</th><th class="p-2 border">\(S_2\) (0)</th><th class="p-2 border">\(S_3\) (0)</th>
-            <th class="p-2 border bg-rose-50">Ratio \(\theta = X_B / a_{ik}\)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="${step.spotlight === 'leaving' || step.spotlight === 'pivot' ? 'leaving-row' : ''}">
-            <td class="p-2 border font-bold bg-slate-50">\(S_1\)</td><td class="p-2 border">0</td><td class="p-2 border font-bold">8</td>
-            <td class="p-2 border">2</td>
-            <td class="p-2 border ${step.spotlight === 'pivot' ? 'pivot-cell' : ''}">3</td>
-            <td class="p-2 border">0</td><td class="p-2 border">1</td><td class="p-2 border">0</td><td class="p-2 border">0</td>
-            <td class="p-2 border ${step.spotlight === 'ratios' || step.spotlight === 'pivot' ? 'font-bold text-rose-700 bg-rose-50' : ''}">8/3 = 2.67 &larr; Min</td>
-          </tr>
-          <tr>
-            <td class="p-2 border font-bold bg-slate-50">\(S_2\)</td><td class="p-2 border">0</td><td class="p-2 border font-bold">10</td>
-            <td class="p-2 border">0</td><td class="p-2 border">2</td><td class="p-2 border">5</td>
-            <td class="p-2 border">0</td><td class="p-2 border">1</td><td class="p-2 border">0</td>
-            <td class="p-2 border ${step.spotlight === 'ratios' ? 'font-bold' : ''}">10/2 = 5.00</td>
-          </tr>
-          <tr>
-            <td class="p-2 border font-bold bg-slate-50">\(S_3\)</td><td class="p-2 border">0</td><td class="p-2 border font-bold">15</td>
-            <td class="p-2 border">3</td><td class="p-2 border">2</td><td class="p-2 border">4</td>
-            <td class="p-2 border">0</td><td class="p-2 border">0</td><td class="p-2 border">1</td>
-            <td class="p-2 border ${step.spotlight === 'ratios' ? 'font-bold' : ''}">15/2 = 7.50</td>
-          </tr>
-          <tr class="bg-slate-50 font-bold ${step.spotlight === 'zj' ? 'spotlight-active' : ''}">
-            <td colspan="3" class="p-2 border">\(Z_j = \sum C_B a_{ij} = 0\)</td>
-            <td class="p-2 border">0</td><td class="p-2 border">0</td><td class="p-2 border">0</td>
-            <td class="p-2 border">0</td><td class="p-2 border">0</td><td class="p-2 border">0</td><td class="p-2 border">-</td>
-          </tr>
-          <tr class="bg-indigo-50 font-bold text-indigo-950 ${step.spotlight === 'delta' || step.spotlight === 'entering' ? 'spotlight-active' : ''}">
-            <td colspan="3" class="p-2 border">\(\Delta_j = C_j - Z_j\)</td>
-            <td class="p-2 border">+3</td>
-            <td class="p-2 border text-emerald-700 font-extrabold">+5 &uarr; (Max)</td>
-            <td class="p-2 border">+4</td>
-            <td class="p-2 border">0</td><td class="p-2 border">0</td><td class="p-2 border">0</td><td class="p-2 border">-</td>
-          </tr>
-        </tbody>
-      </table>`;
+      renderUniversalStep();
+    }
 
-      document.getElementById('micro-table-container').innerHTML = html;
+    function renderUniversalStep() {
+      const suite = stepperSuites[activeProblemKey];
+      const step = suite.steps[currentUniversalStepIdx];
+
+      document.getElementById('active-problem-title').innerText = suite.title;
+      document.getElementById('active-problem-desc').innerText = suite.desc;
+      document.getElementById('u-step-counter').innerText = `Step ${step.num} of ${suite.steps.length}`;
+      document.getElementById('u-step-badge').innerText = step.num;
+      document.getElementById('u-step-title').innerText = step.title;
+      document.getElementById('u-step-formula').innerText = step.formula;
+      document.getElementById('u-step-intuition').innerText = step.intuition;
+      document.getElementById('u-table-container').innerHTML = step.tableHtml;
+
+      document.getElementById('btn-u-prev').disabled = (currentUniversalStepIdx === 0);
+      document.getElementById('btn-u-next').disabled = (currentUniversalStepIdx === suite.steps.length - 1);
+
       renderAllMath();
     }
 
-    function nextMicroStep() {
-      if (currentMicroIdx < microSteps.length - 1) {
-        currentMicroIdx++;
+    function nextUniversalStep() {
+      const suite = stepperSuites[activeProblemKey];
+      if (currentUniversalStepIdx < suite.steps.length - 1) {
+        currentUniversalStepIdx++;
         updateXP(2);
-        renderMicroStepView();
+        renderUniversalStep();
       }
     }
 
-    function prevMicroStep() {
-      if (currentMicroIdx > 0) {
-        currentMicroIdx--;
-        renderMicroStepView();
+    function prevUniversalStep() {
+      if (currentUniversalStepIdx > 0) {
+        currentUniversalStepIdx--;
+        renderUniversalStep();
       }
     }
 
@@ -1095,7 +880,7 @@
     window.addEventListener('DOMContentLoaded', () => {
       document.getElementById('user-xp').innerText = `${userXP} XP`;
       calculateProgress();
-      renderMicroStepView();
+      loadStepperProblem('simplex_max');
       renderPuzzles();
       renderQuizzes();
       setTimeout(renderAllMath, 300);
