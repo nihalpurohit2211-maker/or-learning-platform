@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OR-Master | Universal Micro-Stepper for All OR Topics & Examples</title>
+  <title>OR-Master | Interactive Steppers, Solvers & PPT Lecture Slides</title>
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -47,11 +47,19 @@
     .leaving-row { background-color: #fef2f2 !important; border-top: 2px solid #ef4444 !important; border-bottom: 2px solid #ef4444 !important; }
     .optimal-cell { background-color: #dcfce7 !important; color: #166534 !important; font-weight: bold; border: 1.5px solid #22c55e !important; }
     .spotlight-active { background-color: #fef9c3 !important; outline: 3px solid #eab308; z-index: 10; font-weight: bold; }
-    .loop-plus { background-color: #dcfce7 !important; border: 2px dashed #16a34a !important; font-weight: bold; color: #15803d !important; }
-    .loop-minus { background-color: #fee2e2 !important; border: 2px dashed #dc2626 !important; font-weight: bold; color: #b91c1c !important; }
     
     .nav-btn.active { background-color: #4f46e5; color: white; }
     .stepper-tab.active { background-color: #4f46e5; color: white; border-color: #4f46e5; }
+    .slide-pill.active { background-color: #312e81; color: white; }
+
+    /* PPT Slide Card Styling */
+    .ppt-slide {
+      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+      border: 1px solid #e2e8f0;
+      border-top: 4px solid #4f46e5;
+      border-radius: 1rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col selection:bg-indigo-100 selection:text-indigo-900">
@@ -68,9 +76,9 @@
           <div>
             <div class="flex items-center space-x-2">
               <span class="font-black text-lg tracking-tight text-slate-900">OR-Master</span>
-              <span class="text-xs px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800 font-semibold uppercase tracking-wider">Universal Micro-Stepper</span>
+              <span class="text-xs px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800 font-semibold uppercase tracking-wider">PPT Slides + Solvers</span>
             </div>
-            <p class="text-xs text-slate-500 hidden sm:block">Step-by-Step Micro Steppers for EVERY Topic & Problem Type</p>
+            <p class="text-xs text-slate-500 hidden sm:block">Lecture Slides • Granular Micro-Steppers • Full Tables</p>
           </div>
         </div>
 
@@ -103,12 +111,12 @@
       <!-- MAIN NAVIGATION TASKBAR -->
       <nav class="flex space-x-1 overflow-x-auto py-2 scrollbar-none border-t border-slate-100 text-xs sm:text-sm font-medium text-slate-600">
         <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn px-3 py-1.5 rounded-lg whitespace-nowrap active transition">🏠 Overview</button>
-        <button onclick="switchTab('micro-stepper-hub')" id="nav-micro-stepper-hub" class="nav-btn px-3 py-1.5 rounded-lg whitespace-nowrap bg-indigo-50 text-indigo-700 font-bold border border-indigo-200 transition">🚀 Universal Micro-Stepper (All Topics)</button>
-        <button onclick="switchTab('mod1-examples')" id="nav-mod1-examples" class="nav-btn px-3 py-1.5 rounded-lg whitespace-nowrap transition">📘 Mod 1: Simplex & Big-M (Full Tables)</button>
-        <button onclick="switchTab('mod2-examples')" id="nav-mod2-examples" class="nav-btn px-3 py-1.5 rounded-lg whitespace-nowrap transition">🚚 Mod 2: Transportation & Hungarian (Full Tables)</button>
+        <button onclick="switchTab('slides-hub')" id="nav-slides-hub" class="nav-btn px-3 py-1.5 rounded-lg whitespace-nowrap bg-indigo-50 text-indigo-700 font-bold border border-indigo-200 transition">📑 Theory PPT Slides</button>
+        <button onclick="switchTab('micro-stepper-hub')" id="nav-micro-stepper-hub" class="nav-btn px-3 py-1.5 rounded-lg whitespace-nowrap transition">🚀 Universal Micro-Stepper</button>
+        <button onclick="switchTab('mod1-examples')" id="nav-mod1-examples" class="nav-btn px-3 py-1.5 rounded-lg whitespace-nowrap transition">📘 Mod 1: Simplex (Tables)</button>
+        <button onclick="switchTab('mod2-examples')" id="nav-mod2-examples" class="nav-btn px-3 py-1.5 rounded-lg whitespace-nowrap transition">🚚 Mod 2: Transportation & AP</button>
         <button onclick="switchTab('puzzles')" id="nav-puzzles" class="nav-btn px-3 py-1.5 rounded-lg whitespace-nowrap transition">🧠 Zero-Pen Puzzles (25+)</button>
         <button onclick="switchTab('exam-quizzes')" id="nav-exam-quizzes" class="nav-btn px-3 py-1.5 rounded-lg whitespace-nowrap transition">🎯 Exam Assessment</button>
-        <button onclick="switchTab('cheatsheet')" id="nav-cheatsheet" class="nav-btn px-3 py-1.5 rounded-lg whitespace-nowrap transition">📑 Formula Cheat-Sheet</button>
       </nav>
     </div>
   </header>
@@ -122,86 +130,85 @@
     <section id="view-dashboard" class="space-y-6">
       <div class="bg-gradient-to-r from-indigo-700 via-indigo-800 to-slate-900 rounded-2xl p-6 sm:p-8 text-white shadow-xl">
         <div class="max-w-3xl">
-          <span class="px-3 py-1 rounded-full bg-indigo-500/30 text-indigo-200 text-xs font-semibold uppercase tracking-wider border border-indigo-400/30">Universal Granular Engine</span>
-          <h1 class="text-2xl sm:text-4xl font-black mt-3 leading-tight">Interactive Micro-Steppers for Every Single Operations Research Problem.</h1>
+          <span class="px-3 py-1 rounded-full bg-indigo-500/30 text-indigo-200 text-xs font-semibold uppercase tracking-wider border border-indigo-400/30">Complete Engineering Courseware</span>
+          <h1 class="text-2xl sm:text-4xl font-black mt-3 leading-tight">Theory PPT Slides + Interactive Micro-Steppers + Solved Tables.</h1>
           <p class="mt-3 text-indigo-100 text-sm sm:text-base leading-relaxed">
-            Step through all mathematical operations one by one. Choose any topic — Standard Simplex, Big-M Minimization, Infeasibility Detection, Vogel's VAM Penalties, MODI Closed Loops, Hungarian 5-Step Line Covering, or Johnson's Job Sequencing — and explore every micro-calculation!
+            Review textbook PPT slides alongside every topic, understand what we are doing, and step through calculations with live mathematical spotlights!
           </p>
           <div class="mt-6 flex flex-wrap gap-3">
-            <button onclick="switchTab('micro-stepper-hub')" class="px-5 py-2.5 bg-amber-400 text-slate-950 rounded-xl font-bold text-sm shadow-md hover:bg-amber-300 transition">🚀 Open Universal Micro-Stepper Hub →</button>
-            <button onclick="switchTab('mod1-examples')" class="px-5 py-2.5 bg-white text-indigo-700 rounded-xl font-bold text-sm shadow-md hover:bg-indigo-50 transition">View Full Mod 1 Tables</button>
-            <button onclick="switchTab('mod2-examples')" class="px-5 py-2.5 bg-emerald-500 text-slate-950 rounded-xl font-bold text-sm shadow-md hover:bg-emerald-400 transition">View Full Mod 2 Tables</button>
+            <button onclick="switchTab('slides-hub')" class="px-5 py-2.5 bg-amber-400 text-slate-950 rounded-xl font-bold text-sm shadow-md hover:bg-amber-300 transition">📑 Open Theory PPT Slide Decks →</button>
+            <button onclick="switchTab('micro-stepper-hub')" class="px-5 py-2.5 bg-white text-indigo-700 rounded-xl font-bold text-sm shadow-md hover:bg-indigo-50 transition">🚀 Launch Universal Micro-Stepper</button>
+            <button onclick="switchTab('puzzles')" class="px-5 py-2.5 bg-emerald-500 text-slate-950 rounded-xl font-bold text-sm shadow-md hover:bg-emerald-400 transition">⚡ Zero-Pen Puzzles (25+)</button>
           </div>
         </div>
       </div>
 
       <!-- Quick Topic Grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Module 1 Stepper Suite -->
+        <!-- Module 1 PPT Slides & Steppers -->
         <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-4">
-          <h3 class="font-bold text-slate-900 text-base flex items-center gap-2">
-            <span class="w-7 h-7 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-black">01</span>
-            Module 1 Micro-Stepper Suites
-          </h3>
+          <div class="flex items-center justify-between">
+            <h3 class="font-bold text-slate-900 text-base flex items-center gap-2">
+              <span class="w-7 h-7 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-black">01</span>
+              Module 1 PPT Slide Decks & Solvers
+            </h3>
+            <span class="text-xs px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 font-semibold">Unit 1 Complete</span>
+          </div>
           <div class="space-y-2 text-xs">
-            <button onclick="loadStepperProblem('simplex_max')" class="w-full p-2.5 bg-slate-50 hover:bg-indigo-50 text-left rounded-xl border border-slate-200 flex justify-between items-center transition">
+            <button onclick="openSlideDeck('intro_or')" class="w-full p-2.5 bg-slate-50 hover:bg-indigo-50 text-left rounded-xl border border-slate-200 flex justify-between items-center transition">
               <div>
-                <strong>1. Standard Simplex (3-Var Maximization)</strong>
-                <div class="text-slate-500 text-[11px]">12 Micro-Steps: Slacks &rarr; \(Z_j\) &rarr; \(\Delta_j\) &rarr; Ratios &rarr; Pivot Normalization</div>
+                <strong>Slide Deck 1.1: Nature, Scope & History of OR</strong>
+                <div class="text-slate-500 text-[11px]">Blackett's Circus &bull; WWII Radar &bull; 6 Phases of OR &bull; Limitations</div>
               </div>
-              <span class="text-indigo-600 font-bold">Launch &rarr;</span>
+              <span class="text-indigo-600 font-bold">View Slides &rarr;</span>
             </button>
-            <button onclick="loadStepperProblem('bigm_min')" class="w-full p-2.5 bg-slate-50 hover:bg-indigo-50 text-left rounded-xl border border-slate-200 flex justify-between items-center transition">
+            <button onclick="openSlideDeck('lpp_formulation')" class="w-full p-2.5 bg-slate-50 hover:bg-indigo-50 text-left rounded-xl border border-slate-200 flex justify-between items-center transition">
               <div>
-                <strong>2. Big-M Minimization (\(\ge\) Constraints)</strong>
-                <div class="text-slate-500 text-[11px]">8 Micro-Steps: Surplus \(-S\) &amp; Artificial \(+A\) &rarr; \(+MA_i\) penalty &rarr; Purging</div>
+                <strong>Slide Deck 1.2: LPP Formulation & Assumptions</strong>
+                <div class="text-slate-500 text-[11px]">Proportionality &bull; Additivity &bull; Divisibility &bull; Certainty &bull; Mathematical Model</div>
               </div>
-              <span class="text-indigo-600 font-bold">Launch &rarr;</span>
+              <span class="text-indigo-600 font-bold">View Slides &rarr;</span>
             </button>
-            <button onclick="loadStepperProblem('bigm_infeas')" class="w-full p-2.5 bg-slate-50 hover:bg-rose-50 text-left rounded-xl border border-slate-200 flex justify-between items-center transition">
+            <button onclick="openSlideDeck('simplex_theory')" class="w-full p-2.5 bg-slate-50 hover:bg-indigo-50 text-left rounded-xl border border-slate-200 flex justify-between items-center transition">
               <div>
-                <strong>3. Big-M Infeasible Solution Proof</strong>
-                <div class="text-slate-500 text-[11px]">6 Micro-Steps: Proving why \(A_1=3 > 0\) at optimum means no solution exists</div>
+                <strong>Slide Deck 1.3: Simplex & Big-M Theory</strong>
+                <div class="text-slate-500 text-[11px]">Canonical Form &bull; Slack/Surplus/Artificial &bull; Infeasible &amp; Degeneracy Proofs</div>
               </div>
-              <span class="text-rose-600 font-bold">Launch &rarr;</span>
+              <span class="text-indigo-600 font-bold">View Slides &rarr;</span>
             </button>
           </div>
         </div>
 
-        <!-- Module 2 Stepper Suite -->
+        <!-- Module 2 PPT Slides & Steppers -->
         <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-4">
-          <h3 class="font-bold text-slate-900 text-base flex items-center gap-2">
-            <span class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-black">02</span>
-            Module 2 Micro-Stepper Suites
-          </h3>
+          <div class="flex items-center justify-between">
+            <h3 class="font-bold text-slate-900 text-base flex items-center gap-2">
+              <span class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-black">02</span>
+              Module 2 PPT Slide Decks & Solvers
+            </h3>
+            <span class="text-xs px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-semibold">Unit 2 Complete</span>
+          </div>
           <div class="space-y-2 text-xs">
-            <button onclick="loadStepperProblem('vam_transport')" class="w-full p-2.5 bg-slate-50 hover:bg-emerald-50 text-left rounded-xl border border-slate-200 flex justify-between items-center transition">
+            <button onclick="openSlideDeck('transport_theory')" class="w-full p-2.5 bg-slate-50 hover:bg-emerald-50 text-left rounded-xl border border-slate-200 flex justify-between items-center transition">
               <div>
-                <strong>4. Vogel's Approximation Method (VAM)</strong>
-                <div class="text-slate-500 text-[11px]">8 Micro-Steps: Penalty calculations &rarr; Max Penalty Line &rarr; Allocation</div>
+                <strong>Slide Deck 2.1: Transportation Model & VAM</strong>
+                <div class="text-slate-500 text-[11px]">Balance condition &bull; NWCR vs LCM vs VAM Penalties &bull; Degeneracy \(\epsilon\)</div>
               </div>
-              <span class="text-emerald-700 font-bold">Launch &rarr;</span>
+              <span class="text-emerald-700 font-bold">View Slides &rarr;</span>
             </button>
-            <button onclick="loadStepperProblem('modi_uv')" class="w-full p-2.5 bg-slate-50 hover:bg-emerald-50 text-left rounded-xl border border-slate-200 flex justify-between items-center transition">
+            <button onclick="openSlideDeck('hungarian_theory')" class="w-full p-2.5 bg-slate-50 hover:bg-emerald-50 text-left rounded-xl border border-slate-200 flex justify-between items-center transition">
               <div>
-                <strong>5. MODI (u-v) Optimality &amp; Closed Loop</strong>
-                <div class="text-slate-500 text-[11px]">7 Micro-Steps: \(u_i+v_j\) system &rarr; \(\Delta_{ij}\) &rarr; Closed \(\pm \theta\) loop transfer</div>
+                <strong>Slide Deck 2.2: Hungarian Assignment & TSP</strong>
+                <div class="text-slate-500 text-[11px]">König's Theorem &bull; 5-Step Matrix Mod &bull; Prohibited Pairs &bull; Sub-tour Branching</div>
               </div>
-              <span class="text-emerald-700 font-bold">Launch &rarr;</span>
+              <span class="text-emerald-700 font-bold">View Slides &rarr;</span>
             </button>
-            <button onclick="loadStepperProblem('hungarian_ap')" class="w-full p-2.5 bg-slate-50 hover:bg-emerald-50 text-left rounded-xl border border-slate-200 flex justify-between items-center transition">
+            <button onclick="openSlideDeck('sequencing_theory')" class="w-full p-2.5 bg-slate-50 hover:bg-purple-50 text-left rounded-xl border border-slate-200 flex justify-between items-center transition">
               <div>
-                <strong>6. Hungarian 4x4 Assignment Algorithm</strong>
-                <div class="text-slate-500 text-[11px]">6 Micro-Steps: Row min &rarr; Col min &rarr; Line covering \(L < n\) &rarr; Box zeros</div>
+                <strong>Slide Deck 2.3: Job Sequencing & Johnson's Rule</strong>
+                <div class="text-slate-500 text-[11px]">2-Machines &bull; 3-Machine G,H condition &bull; 2-Job m-Machine Graphical Method</div>
               </div>
-              <span class="text-emerald-700 font-bold">Launch &rarr;</span>
-            </button>
-            <button onclick="loadStepperProblem('johnson_seq')" class="w-full p-2.5 bg-slate-50 hover:bg-purple-50 text-left rounded-xl border border-slate-200 flex justify-between items-center transition">
-              <div>
-                <strong>7. Johnson's 2-Machine Job Sequencing</strong>
-                <div class="text-slate-500 text-[11px]">6 Micro-Steps: Global min scan &rarr; Front/Back schedule &rarr; In-Out Gantt chart</div>
-              </div>
-              <span class="text-purple-700 font-bold">Launch &rarr;</span>
+              <span class="text-purple-700 font-bold">View Slides &rarr;</span>
             </button>
           </div>
         </div>
@@ -209,7 +216,86 @@
     </section>
 
     <!-- ========================================== -->
-    <!-- 2. UNIVERSAL MICRO-STEPPER HUB -->
+    <!-- 2. THEORY PPT SLIDES VIEWER -->
+    <!-- ========================================== -->
+    <section id="view-slides-hub" class="hidden space-y-6">
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+        <div class="flex flex-wrap justify-between items-center gap-2 border-b pb-4">
+          <div>
+            <span class="px-2.5 py-1 bg-indigo-100 text-indigo-800 rounded text-xs font-bold uppercase tracking-wide">University Lecture Slide Decks</span>
+            <h2 class="text-2xl font-black text-slate-900 mt-1">Topic-Wise Lecture Slides & Theory Notes</h2>
+          </div>
+
+          <!-- Slide Deck Topic Pills -->
+          <div class="flex flex-wrap gap-2 text-xs">
+            <button onclick="openSlideDeck('intro_or')" id="slide-tab-intro_or" class="slide-pill px-3 py-1.5 rounded-xl border font-bold bg-indigo-600 text-white transition">1. Intro & Origin of OR</button>
+            <button onclick="openSlideDeck('lpp_formulation')" id="slide-tab-lpp_formulation" class="slide-pill px-3 py-1.5 rounded-xl border font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">2. LPP Formulation</button>
+            <button onclick="openSlideDeck('simplex_theory')" id="slide-tab-simplex_theory" class="slide-pill px-3 py-1.5 rounded-xl border font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">3. Simplex Mechanics</button>
+            <button onclick="openSlideDeck('transport_theory')" id="slide-tab-transport_theory" class="slide-pill px-3 py-1.5 rounded-xl border font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">4. Transportation & VAM</button>
+            <button onclick="openSlideDeck('hungarian_theory')" id="slide-tab-hungarian_theory" class="slide-pill px-3 py-1.5 rounded-xl border font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">5. Hungarian Method</button>
+            <button onclick="openSlideDeck('sequencing_theory')" id="slide-tab-sequencing_theory" class="slide-pill px-3 py-1.5 rounded-xl border font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">6. Job Sequencing</button>
+          </div>
+        </div>
+
+        <!-- Slide Presentation Viewport -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- Main Slide Presentation Card -->
+          <div class="lg:col-span-2 ppt-slide p-6 sm:p-8 space-y-6 flex flex-col justify-between min-h-[420px]">
+            <div>
+              <div class="flex justify-between items-center border-b border-slate-200 pb-3">
+                <div class="flex items-center space-x-2">
+                  <span class="w-3 h-3 rounded-full bg-rose-500 inline-block"></span>
+                  <span class="w-3 h-3 rounded-full bg-amber-500 inline-block"></span>
+                  <span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span>
+                  <span id="slide-course-badge" class="text-xs font-mono text-slate-400 ml-2">OPERATIONS RESEARCH &bull; UNIT 1</span>
+                </div>
+                <span id="slide-number-indicator" class="text-xs font-bold px-2.5 py-1 bg-indigo-50 text-indigo-700 rounded-lg">Slide 1 of 4</span>
+              </div>
+
+              <!-- Slide Title & Body -->
+              <div class="mt-4 space-y-4">
+                <h3 id="slide-title" class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight leading-snug">Slide Title</h3>
+                <div id="slide-content" class="text-sm text-slate-700 space-y-3 leading-relaxed"></div>
+              </div>
+            </div>
+
+            <!-- Slide Navigation Buttons -->
+            <div class="flex justify-between items-center border-t border-slate-200 pt-4 mt-auto">
+              <button onclick="prevSlide()" id="btn-slide-prev" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition">
+                ◀ Previous Slide
+              </button>
+              <button onclick="nextSlide()" id="btn-slide-next" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-xs transition shadow-md">
+                Next Slide ▶
+              </button>
+            </div>
+          </div>
+
+          <!-- Professor's Slide Key Takeaways & Exam Tips -->
+          <div class="space-y-4">
+            <div class="p-5 bg-amber-50 border border-amber-200 rounded-2xl space-y-2 text-xs text-amber-950">
+              <div class="font-bold text-amber-900 text-sm flex items-center gap-1.5">
+                <span>🎓 Professor's Key Exam Takeaway:</span>
+              </div>
+              <div id="slide-exam-tip" class="leading-relaxed"></div>
+            </div>
+
+            <div class="p-5 bg-indigo-50 border border-indigo-200 rounded-2xl space-y-2 text-xs text-indigo-950">
+              <div class="font-bold text-indigo-900 text-sm flex items-center gap-1.5">
+                <span>📐 Mathematical Rule / Definition:</span>
+              </div>
+              <div id="slide-math-rule" class="leading-relaxed font-mono"></div>
+            </div>
+
+            <button onclick="switchTab('micro-stepper-hub')" class="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl shadow-sm transition">
+              🚀 Solve Related Example in Micro-Stepper →
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 3. UNIVERSAL MICRO-STEPPER HUB -->
     <!-- ========================================== -->
     <section id="view-micro-stepper-hub" class="hidden space-y-6">
       <!-- Problem Selector Header -->
@@ -279,7 +365,7 @@
     </section>
 
     <!-- ========================================== -->
-    <!-- 3. MODULE 1 FULL FLOWCHARTS & ITERATION TABLES -->
+    <!-- 4. MODULE 1 FULL FLOWCHARTS & TABLES -->
     <!-- ========================================== -->
     <section id="view-mod1-examples" class="hidden space-y-8">
       <div class="border-b border-slate-200 pb-4">
@@ -294,9 +380,14 @@
             <span class="text-xs font-bold px-2 py-0.5 bg-indigo-100 text-indigo-800 rounded">Topic 1.3 Guide</span>
             <h3 class="text-xl font-bold text-slate-900 mt-1">Standard Simplex Method (Maximization, All \(\le\))</h3>
           </div>
-          <button onclick="loadStepperProblem('simplex_max'); switchTab('micro-stepper-hub');" class="px-3 py-1.5 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold rounded-lg text-xs shadow-sm transition">
-            🚀 Launch 12-Step Micro Stepper &rarr;
-          </button>
+          <div class="flex gap-2">
+            <button onclick="openSlideDeck('simplex_theory'); switchTab('slides-hub');" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-lg text-xs transition">
+              📑 View Simplex Slides
+            </button>
+            <button onclick="loadStepperProblem('simplex_max'); switchTab('micro-stepper-hub');" class="px-3 py-1.5 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold rounded-lg text-xs shadow-sm transition">
+              🚀 Launch 12-Step Stepper &rarr;
+            </button>
+          </div>
         </div>
 
         <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs">
@@ -327,7 +418,7 @@
     </section>
 
     <!-- ========================================== -->
-    <!-- 4. MODULE 2 FULL FLOWCHARTS & TABLES -->
+    <!-- 5. MODULE 2 FULL FLOWCHARTS & TABLES -->
     <!-- ========================================== -->
     <section id="view-mod2-examples" class="hidden space-y-8">
       <div class="border-b border-slate-200 pb-4">
@@ -342,9 +433,14 @@
             <span class="text-xs font-bold px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded">Topic 2.1 Guide</span>
             <h3 class="text-xl font-bold text-slate-900 mt-1">Vogel's Approximation Method (VAM)</h3>
           </div>
-          <button onclick="loadStepperProblem('vam_transport'); switchTab('micro-stepper-hub');" class="px-3 py-1.5 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold rounded-lg text-xs shadow-sm transition">
-            🚀 Launch VAM Micro Stepper &rarr;
-          </button>
+          <div class="flex gap-2">
+            <button onclick="openSlideDeck('transport_theory'); switchTab('slides-hub');" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-lg text-xs transition">
+              📑 View VAM Slides
+            </button>
+            <button onclick="loadStepperProblem('vam_transport'); switchTab('micro-stepper-hub');" class="px-3 py-1.5 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold rounded-lg text-xs shadow-sm transition">
+              🚀 Launch VAM Stepper &rarr;
+            </button>
+          </div>
         </div>
 
         <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-950 font-bold">
@@ -354,7 +450,7 @@
     </section>
 
     <!-- ========================================== -->
-    <!-- 5. ZERO-PEN ORAL PUZZLE ARENA -->
+    <!-- 6. ZERO-PEN ORAL PUZZLE ARENA -->
     <!-- ========================================== -->
     <section id="view-puzzles" class="hidden space-y-6">
       <div class="flex justify-between items-center border-b border-slate-200 pb-4">
@@ -368,7 +464,7 @@
     </section>
 
     <!-- ========================================== -->
-    <!-- 6. EXAM ASSESSMENT QUIZZES -->
+    <!-- 7. EXAM ASSESSMENT QUIZZES -->
     <!-- ========================================== -->
     <section id="view-exam-quizzes" class="hidden space-y-6">
       <div class="flex justify-between items-center border-b border-slate-200 pb-4">
@@ -383,38 +479,6 @@
       <div class="space-y-4" id="quiz-container"></div>
     </section>
 
-    <!-- ========================================== -->
-    <!-- 7. EXAM CHEAT-SHEET -->
-    <!-- ========================================== -->
-    <section id="view-cheatsheet" class="hidden space-y-6">
-      <div class="border-b border-slate-200 pb-4">
-        <h2 class="text-2xl font-black text-slate-900">📑 Operations Research Exam Master Cheat-Sheet</h2>
-        <p class="text-sm text-slate-600">Printable 1-page quick formula reference and trap detector.</p>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
-        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
-          <h3 class="font-bold text-slate-900 text-sm border-b pb-2 text-indigo-700">Simplex Special Cases Cheat-Sheet</h3>
-          <ul class="space-y-2 text-slate-600">
-            <li><strong>Optimal Solution:</strong> All \(C_j - Z_j \le 0\) (for Max) or \(\ge 0\) (for Min).</li>
-            <li><strong>Infeasible Solution:</strong> Optimality condition satisfied, BUT artificial variable \(A_k\) is still in basis with \(X_B > 0\).</li>
-            <li><strong>Unbounded Solution:</strong> In key column, all entries \(a_{ik} \le 0\). (No valid \(\theta = X_B / a_{ik}\)).</li>
-            <li><strong>Alternative Optima:</strong> A non-basic variable has \(C_j - Z_j = 0\) at the optimal table.</li>
-            <li><strong>Degeneracy:</strong> Tie in minimum ratio rule \(\theta\). Basic variable becomes \(0\) in next iteration.</li>
-          </ul>
-        </div>
-        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
-          <h3 class="font-bold text-slate-900 text-sm border-b pb-2 text-emerald-700">Transportation & Assignment Cheat-Sheet</h3>
-          <ul class="space-y-2 text-slate-600">
-            <li><strong>Non-degeneracy in TP:</strong> Must have exactly \(m + n - 1\) allocations. If less, add \(\epsilon \approx 0\).</li>
-            <li><strong>MODI Optimality:</strong> For empty cells \(\Delta_{ij} = c_{ij} - (u_i + v_j) \ge 0\).</li>
-            <li><strong>Maximization TP/AP:</strong> Subtract all values from matrix maximum \(c'_{ij} = \max(C) - c_{ij}\).</li>
-            <li><strong>Hungarian Line Rule:</strong> If lines \(L < n\), subtract min uncovered \(k\) from uncovered cells and add to intersections.</li>
-            <li><strong>Johnson 3-Machine Rule:</strong> Valid if \(\min(A) \ge \max(B)\) OR \(\min(C) \ge \max(B)\).</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
   </main>
 
   <!-- FOOTER -->
@@ -425,7 +489,7 @@
     </div>
   </footer>
 
-  <!-- SCRIPT LOGIC & UNIVERSAL STEPPER DATA -->
+  <!-- SCRIPT LOGIC, SLIDE DECKS & UNIVERSAL STEPPERS -->
   <script>
     let userXP = parseInt(localStorage.getItem('or_xp') || '0');
     let completedTopics = JSON.parse(localStorage.getItem('or_topics') || '[]');
@@ -457,7 +521,7 @@
     }
 
     function switchTab(tabId) {
-      const views = ['dashboard', 'micro-stepper-hub', 'mod1-examples', 'mod2-examples', 'puzzles', 'exam-quizzes', 'cheatsheet'];
+      const views = ['dashboard', 'slides-hub', 'micro-stepper-hub', 'mod1-examples', 'mod2-examples', 'puzzles', 'exam-quizzes'];
       views.forEach(v => {
         const el = document.getElementById(`view-${v}`);
         const btn = document.getElementById(`nav-${v}`);
@@ -466,6 +530,190 @@
       });
       window.scrollTo({ top: 0, behavior: 'smooth' });
       renderAllMath();
+    }
+
+    // ==========================================
+    // LECTURE PPT SLIDE DECKS DATA
+    // ==========================================
+    const slideDecks = {
+      intro_or: {
+        badge: "UNIT 1 &bull; INTRODUCTION TO OR",
+        slides: [
+          {
+            title: "Origin & Evolution of Operations Research (WWII)",
+            content: `
+              <ul class="list-disc list-inside space-y-2">
+                <li><strong>Military Birth (1939-1940):</strong> British military scientists formed <em>'Blackett's Circus'</em> (led by Nobel laureate P.M.S. Blackett) to optimize early warning radar stations and anti-aircraft gun deployments.</li>
+                <li><strong>Core Objective:</strong> Allocate scarce military resources (radar, fighter planes, depth charges) to maximize strategic effectiveness.</li>
+                <li><strong>Post-War Expansion:</strong> After 1945, these scientific modeling techniques transitioned to industrial management, logistics, and oil refineries.</li>
+              </ul>`,
+            examTip: "Blackett's Circus and WWII radar deployment are frequently asked in 2-mark university exam questions!",
+            mathRule: "\\text{Effectiveness} = f(\\text{Controllable Variables}, \\text{Uncontrollable Variables})"
+          },
+          {
+            title: "6 Systematic Phases of an OR Study",
+            content: `
+              <ol class="list-decimal list-inside space-y-2">
+                <li><strong>1. Formulating the Problem:</strong> Define objectives, constraints, and interacting decision parameters.</li>
+                <li><strong>2. Constructing a Mathematical Model:</strong> Translate verbal descriptions into algebraic objective functions and inequalities.</li>
+                <li><strong>3. Deriving a Solution:</strong> Execute algorithms (Simplex, Hungarian, MODI).</li>
+                <li><strong>4. Model Testing & Validation:</strong> Check model behavior under extreme parameters.</li>
+                <li><strong>5. Establishing Controls:</strong> Set up warning triggers if parameters drift.</li>
+                <li><strong>6. Implementation:</strong> Deploy the decision schedule in production.</li>
+              </ol>`,
+            examTip: "Always list all 6 phases sequentially. Step 2 (Mathematical Modeling) carries the highest marks.",
+            mathRule: "\\text{Phase Flow: Problem Definition } \\to \\text{ Math Model } \\to \\text{ Algorithm } \\to \\text{ Implementation}"
+          }
+        ]
+      },
+
+      lpp_formulation: {
+        badge: "UNIT 1 &bull; LINEAR PROGRAMMING",
+        slides: [
+          {
+            title: "4 Fundamental Assumptions of Linear Programming",
+            content: `
+              <ul class="list-disc list-inside space-y-2">
+                <li><strong>1. Proportionality:</strong> The contribution of each decision variable to the objective function and constraints is directly proportional to its value (no economies of scale).</li>
+                <li><strong>2. Additivity:</strong> Total resource consumption is the simple algebraic sum of individual variable consumptions (no synergy / interaction).</li>
+                <li><strong>3. Divisibility:</strong> Decision variables are continuous and can take fractional values (e.g. 2.67 hours).</li>
+                <li><strong>4. Certainty (Deterministic):</strong> All parameters (costs \(c_j\), capacities \(b_i\), technological coefficients \(a_{ij}\)) are known with 100% certainty.</li>
+              </ul>`,
+            examTip: "Proportionality + Additivity ensure mathematical LINEARITY of the entire system.",
+            mathRule: "f(x_1 + x_2) = f(x_1) + f(x_2) \\quad \\text{and} \\quad f(kx) = k f(x)"
+          },
+          {
+            title: "General Mathematical Structure of an LPP",
+            content: `
+              <div class="space-y-2">
+                <p>An LPP consists of three distinct components:</p>
+                <ol class="list-decimal list-inside space-y-1">
+                  <li><strong>Objective Function:</strong> \(\\text{Maximize or Minimize } Z = \\sum_{j=1}^n c_j x_j\)</li>
+                  <li><strong>Structural Constraints:</strong> \(\\sum_{j=1}^n a_{ij} x_j \\le (=, \\ge) b_i \\quad (i = 1, \\dots, m)\)</li>
+                  <li><strong>Non-negativity Restrictions:</strong> \(x_j \\ge 0 \\quad (j = 1, \\dots, n)\)</li>
+                </ol>
+              </div>`,
+            examTip: "Never forget non-negativity \(x_j \ge 0\). Omitting it invalidates the formulation in exams!",
+            mathRule: "\\text{Opt } Z = \\mathbf{c}^T \\mathbf{x} \\quad \\text{s.t.} \\quad \\mathbf{Ax} \\le \\mathbf{b}, \\; \\mathbf{x} \\ge \\mathbf{0}"
+          }
+        ]
+      },
+
+      simplex_theory: {
+        badge: "UNIT 1 &bull; SIMPLEX ALGORITHM",
+        slides: [
+          {
+            title: "Standard Canonical Form & Auxiliary Variables",
+            content: `
+              <ul class="list-disc list-inside space-y-2">
+                <li><strong>Slack Variable (\(+S_i\)):</strong> Added to \(\\le\) constraints to absorb unused resource capacity. Cost in objective = \(0\).</li>
+                <li><strong>Surplus Variable (\(-S_i\)):</strong> Subtracted from \(\\ge\) constraints to represent excess over minimum quota. Cost = \(0\).</li>
+                <li><strong>Artificial Variable (\(+A_i\)):</strong> Introduced to \(\\ge\) and \(=\) constraints to serve as initial basis identity vector. Penalized heavily with \(-M\) (Max) or \(+M\) (Min).</li>
+              </ul>`,
+            examTip: "Surplus variables cannot start the basis because their column is \(-1\). That is why Artificial \(+A_i\) is mandatory.",
+            mathRule: "\\le \\implies +S; \\quad \\ge \\implies -S + A; \\quad = \\implies +A"
+          }
+        ]
+      },
+
+      transport_theory: {
+        badge: "UNIT 2 &bull; TRANSPORTATION MODEL",
+        slides: [
+          {
+            title: "Transportation Model & Vogel's Approximation (VAM)",
+            content: `
+              <ul class="list-disc list-inside space-y-2">
+                <li><strong>Balanced Condition:</strong> Mandatory requirement \(\\sum a_i = \\sum b_j\). If unbalanced, create dummy row/col with cost 0.</li>
+                <li><strong>VAM Opportunity Penalty:</strong> Difference between the two lowest costs in each row/column.</li>
+                <li><strong>Non-degeneracy Condition:</strong> Exactly \(m + n - 1\) allocations with no closed loops.</li>
+              </ul>`,
+            examTip: "VAM yields the best initial solution because it penalizes the failure to take the lowest cost route.",
+            mathRule: "\\text{Penalty} = c_{\\text{2nd lowest}} - c_{\\text{lowest}}; \\quad \\text{Allocations} = m + n - 1"
+          }
+        ]
+      },
+
+      hungarian_theory: {
+        badge: "UNIT 2 &bull; ASSIGNMENT & HUNGARIAN",
+        slides: [
+          {
+            title: "Hungarian Method & König's Theorem",
+            content: `
+              <ul class="list-disc list-inside space-y-2">
+                <li><strong>Assignment Problem:</strong> 1-to-1 bijection between \(n\) facilities and \(n\) jobs.</li>
+                <li><strong>König's Theorem:</strong> The maximum number of independent zeros in a matrix equals the minimum number of lines required to cover all zeros (\(L\)).</li>
+                <li><strong>Optimality Condition:</strong> When \(L = n\), a complete zero assignment is guaranteed.</li>
+              </ul>`,
+            examTip: "If \(L < n\), subtract minimum uncovered \(k\) from uncovered cells and add \(k\) to intersection cells.",
+            mathRule: "L = n \\implies \\text{Optimal Match}; \\quad L < n \\implies \\text{Matrix Modification with } k"
+          }
+        ]
+      },
+
+      sequencing_theory: {
+        badge: "UNIT 2 &bull; JOB SEQUENCING",
+        slides: [
+          {
+            title: "Johnson's Algorithm for n-Jobs on 2 & 3 Machines",
+            content: `
+              <ul class="list-disc list-inside space-y-2">
+                <li><strong>2-Machine Rule:</strong> Find smallest processing time in matrix. If on Machine 1 &rarr; Place job FIRST; If on Machine 2 &rarr; Place job LAST.</li>
+                <li><strong>3-Machine Reduction Condition:</strong> Valid if \(\\min(A_i) \\ge \\max(B_i)\) OR \(\\min(C_i) \\ge \\max(B_i)\). Form fictitious machines \(G_i = A_i + B_i\) and \(H_i = B_i + C_i\).</li>
+              </ul>`,
+            examTip: "Always test the 3-machine condition before adding G and H. If neither condition holds, Johnson's rule cannot be applied.",
+            mathRule: "G_i = A_i + B_i, \\quad H_i = B_i + C_i \\quad \\text{if } \\min(A) \\ge \\max(B) \\text{ or } \\min(C) \\ge \\max(B)"
+          }
+        ]
+      }
+    };
+
+    let activeDeckKey = 'intro_or';
+    let currentSlideIdx = 0;
+
+    function openSlideDeck(deckKey) {
+      activeDeckKey = deckKey;
+      currentSlideIdx = 0;
+
+      document.querySelectorAll('.slide-pill').forEach(b => {
+        b.className = "slide-pill px-3 py-1.5 rounded-xl border font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition";
+      });
+      const tab = document.getElementById(`slide-tab-${deckKey}`);
+      if (tab) tab.className = "slide-pill px-3 py-1.5 rounded-xl border font-bold bg-indigo-600 text-white transition";
+
+      renderSlideView();
+    }
+
+    function renderSlideView() {
+      const deck = slideDecks[activeDeckKey];
+      const slide = deck.slides[currentSlideIdx];
+
+      document.getElementById('slide-course-badge').innerHTML = deck.badge;
+      document.getElementById('slide-number-indicator').innerText = `Slide ${currentSlideIdx + 1} of ${deck.slides.length}`;
+      document.getElementById('slide-title').innerText = slide.title;
+      document.getElementById('slide-content').innerHTML = slide.content;
+      document.getElementById('slide-exam-tip').innerText = slide.examTip;
+      document.getElementById('slide-math-rule').innerText = slide.mathRule;
+
+      document.getElementById('btn-slide-prev').disabled = (currentSlideIdx === 0);
+      document.getElementById('btn-slide-next').disabled = (currentSlideIdx === deck.slides.length - 1);
+
+      renderAllMath();
+    }
+
+    function nextSlide() {
+      const deck = slideDecks[activeDeckKey];
+      if (currentSlideIdx < deck.slides.length - 1) {
+        currentSlideIdx++;
+        updateXP(2);
+        renderSlideView();
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlideIdx > 0) {
+        currentSlideIdx--;
+        renderSlideView();
+      }
     }
 
     // ==========================================
@@ -536,19 +784,6 @@
               <tbody>
                 <tr><td class="p-2 border font-bold bg-slate-50">A1</td><td class="p-2 border">M</td><td class="p-2 border font-bold">4</td><td class="p-2 border">2</td><td class="p-2 border">4</td><td class="p-2 border">-1</td><td class="p-2 border">0</td><td class="p-2 border">1</td><td class="p-2 border">0</td></tr>
                 <tr><td class="p-2 border font-bold bg-slate-50">A2</td><td class="p-2 border">M</td><td class="p-2 border font-bold">7</td><td class="p-2 border">1</td><td class="p-2 border">7</td><td class="p-2 border">0</td><td class="p-2 border">-1</td><td class="p-2 border">0</td><td class="p-2 border">1</td></tr>
-              </tbody>
-            </table>`
-          },
-          {
-            num: 2,
-            title: "Step 2: Most Negative Δ_j (x2 Enters)",
-            formula: "\\Delta_2 = C_2 - Z_2 = 1 - 11M = -11M + 1 \\quad (\\text{Most negative in Minimization})",
-            intuition: "In minimization, we choose the most negative Δj. Since M is infinite, -11M + 1 is massively negative. x2 enters!",
-            tableHtml: `<table class="w-full text-left border font-mono text-xs">
-              <thead class="bg-slate-100"><tr><th class="p-2 border">Basis</th><th class="p-2 border">C_B</th><th class="p-2 border">X_B</th><th class="p-2 border">x1 (1)</th><th class="p-2 border entering-col">x2 (1) &uarr;</th><th class="p-2 border">S1 (0)</th><th class="p-2 border">S2 (0)</th><th class="p-2 border">A1</th><th class="p-2 border">A2</th></tr></thead>
-              <tbody>
-                <tr class="leaving-row"><td class="p-2 border font-bold text-rose-700">A2 &rarr;</td><td class="p-2 border">M</td><td class="p-2 border font-bold">7</td><td class="p-2 border">1</td><td class="p-2 border pivot-cell">(7)</td><td class="p-2 border">0</td><td class="p-2 border">-1</td><td class="p-2 border">0</td><td class="p-2 border">1</td></tr>
-                <tr class="bg-indigo-50 font-bold"><td colspan="3" class="p-2 border">C_j - Z_j</td><td class="p-2 border">-3M + 1</td><td class="p-2 border font-extrabold text-emerald-700 bg-emerald-100">-11M + 1 &uarr; (Min)</td><td class="p-2 border">M</td><td class="p-2 border">M</td><td class="p-2 border">0</td><td class="p-2 border">0</td></tr>
               </tbody>
             </table>`
           }
@@ -643,7 +878,6 @@
       activeProblemKey = key;
       currentUniversalStepIdx = 0;
 
-      // Update Tab Pill Styling
       document.querySelectorAll('.stepper-tab').forEach(b => {
         b.className = "stepper-tab px-3 py-2 rounded-xl border font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition";
       });
@@ -880,6 +1114,7 @@
     window.addEventListener('DOMContentLoaded', () => {
       document.getElementById('user-xp').innerText = `${userXP} XP`;
       calculateProgress();
+      openSlideDeck('intro_or');
       loadStepperProblem('simplex_max');
       renderPuzzles();
       renderQuizzes();
